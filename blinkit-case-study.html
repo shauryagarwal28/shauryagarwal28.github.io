@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blinkit: Recipe-to-Cart — Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--ink-soft:#4a4a4a;--ink-muted:#888;--surface:#f7f6f2;--white:#fff;--ac:#ff4f1f;--ac-light:#fff4f0;--border:rgba(12,12,12,0.10);--border-strong:rgba(12,12,12,0.20);--font-display:'DM Serif Display',Georgia,serif;--font-body:'Sora',sans-serif;--font-mono:'JetBrains Mono',monospace;--r:10px;--rlg:16px;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--surface);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,246,242,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--ink-soft);text-decoration:none;letter-spacing:0.04em;}
+.nav-back{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:85vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#1a0800;position:relative;overflow:hidden;}
+.cover-glow{position:absolute;inset:0;background:radial-gradient(circle at 25% 60%,rgba(255,79,31,0.18) 0%,transparent 55%),radial-gradient(circle at 75% 30%,rgba(255,140,60,0.1) 0%,transparent 50%);pointer-events:none;}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#ff8c3c;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#ff8c3c;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--font-display);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#ff8c3c;}
+.cover-sub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cover-meta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cover-meta .label{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono);font-weight:500;}
+.cover-meta .value{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4.5rem 0;border-bottom:0.5px solid var(--border);}
+section:last-child{border-bottom:none;}
+.sec-num{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#ff6a35;margin-bottom:0.5rem;}
+.sec-title{font-family:var(--font-display);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.sec-intro{font-size:15px;color:var(--ink-soft);margin-bottom:2rem;max-width:640px;}
+.snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.snap .num{font-family:var(--font-display);font-size:1.9rem;line-height:1;margin-bottom:6px;color:#ff6a35;}
+.snap .lbl{font-size:11px;color:var(--ink-muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);}
+.prose p{font-size:15px;color:var(--ink-soft);margin-bottom:1rem;line-height:1.8;}
+.prose h3{font-family:var(--font-display);font-size:1.25rem;color:var(--ink);margin:2rem 0 0.75rem;font-weight:400;}
+.prose strong{color:var(--ink);font-weight:600;}
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--r);border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-muted);font-family:var(--font-mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--ink-soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);font-weight:600;}
+.cards{display:grid;gap:1rem;margin:1.5rem 0;}
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:1.5rem;display:grid;grid-template-columns:48px 1fr;gap:1rem;align-items:start;}
+.card-icon{width:48px;height:48px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.card h4{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.card p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;margin-bottom:6px;}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;}
+.badge-red{background:#fef2f2;color:#b91c1c;}
+.badge-amber{background:#fef3e2;color:#b86c10;}
+.badge-green{background:#e8f5ee;color:#1a7a4a;}
+.badge-orange{background:#fff4f0;color:#c44010;}
+.flow-steps{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;}
+.flow-step{display:grid;grid-template-columns:44px 1fr;gap:1rem;align-items:start;position:relative;padding-bottom:1.5rem;}
+.flow-step:last-child{padding-bottom:0;}
+.flow-step::before{content:'';position:absolute;left:21px;top:44px;bottom:0;width:1px;background:var(--border);}
+.flow-step:last-child::before{display:none;}
+.step-num{width:44px;height:44px;border-radius:50%;background:#fff4f0;border:1.5px solid #ffb89a;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#c44010;flex-shrink:0;font-family:var(--font-mono);}
+.step-content{padding-top:10px;}
+.step-content h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.step-content p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;}
+.subgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;}
+@media(max-width:600px){.subgrid{grid-template-columns:1fr;}}
+.subcards{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.subcards .icon{font-size:1.5rem;margin-bottom:8px;}
+.subcards h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.subcards p{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:1.5rem 0;}
+.metric{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.metric .mlabel{font-size:11px;color:var(--ink-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+.metric .vals{display:flex;align-items:center;gap:8px;}
+.metric .vfrom{font-size:1.25rem;font-family:var(--font-display);color:var(--ink-muted);}
+.metric .arr{font-size:1rem;color:#ff6a35;}
+.metric .vto{font-size:1.25rem;font-family:var(--font-display);font-weight:400;color:#ff6a35;}
+.metric .mdesc{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4;}
+.pullquote{border-left:3px solid #ff6a35;padding:1.25rem 1.5rem;background:#fff4f0;border-radius:0 var(--r) var(--r) 0;margin:2rem 0;font-size:14.5px;color:#c44010;font-style:italic;line-height:1.7;}
+.pullquote cite{display:block;margin-top:8px;font-size:12px;color:#c44010;font-style:normal;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;}
+@media(max-width:600px){.roadmap{grid-template-columns:1fr;}}
+.rm{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:1.5rem;}
+.rm .rmlabel{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);margin-bottom:4px;}
+.rm .rmtitle{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:0.75rem;}
+.rm ul{list-style:none;}
+.rm ul li{font-size:13px;color:var(--ink-soft);padding:4px 0 4px 18px;position:relative;line-height:1.5;}
+.rm ul li::before{content:'→';position:absolute;left:0;color:#ff6a35;font-size:11px;top:6px;}
+footer{background:#1a0800;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--font-mono);color:rgba(255,255,255,0.3);}
+footer a{color:#ff8c3c;text-decoration:none;}
+.rice-p0 td:first-child{border-left:3px solid #ff6a35;}
+.rice-p1 td:first-child{border-left:3px solid #b86c10;}
+.rice-p2 td:first-child{border-left:3px solid #888;}
+.rs{font-family:var(--font-mono);font-weight:500;color:var(--ink);}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">SA.pm — Product Teardowns</a>
+  <a href="#" class="nav-back">← Portfolio</a>
+</nav>
+
+<div class="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-grid"></div>
+  <div class="ctag">0-to-1 Feature Design</div>
+  <h1>Blinkit:<br><em>Recipe-to-Cart</em></h1>
+  <p class="cover-sub">Bridging content and commerce in quick grocery — converting planned cooking intent into impulse-style ease, one tap at a time.</p>
+  <div class="cover-meta">
+    <div><div class="label">Author</div><div class="value">Shaurya Agarwal</div></div>
+    <div><div class="label">Product</div><div class="value">Blinkit (Zomato)</div></div>
+    <div><div class="label">Type</div><div class="value">Feature Addition · 0-to-1</div></div>
+    <div><div class="label">Frameworks</div><div class="value">JTBD · RICE · North Star · GTM</div></div>
+    <div><div class="label">Year</div><div class="value">2026</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+<section>
+  <div class="sec-num">01 — Product Overview</div>
+  <h2 class="sec-title">What Blinkit does today</h2>
+  <p class="sec-intro">Blinkit (formerly Grofers, acquired by Zomato in 2022) is India's leading quick-commerce platform, promising 10-minute grocery delivery through a dense network of dark stores across 30+ Indian cities.</p>
+  <div class="snap-grid">
+    <div class="snap"><div class="num">30+</div><div class="lbl">Cities served</div></div>
+    <div class="snap"><div class="num">5–7</div><div class="lbl">Avg items/order</div></div>
+    <div class="snap"><div class="num">10 min</div><div class="lbl">Delivery promise</div></div>
+    <div class="snap"><div class="num">2B+</div><div class="lbl">Food views/mo on YT India</div></div>
+  </div>
+  <div class="prose">
+    <p>Blinkit's core use case is <strong>"forgot an ingredient for dinner"</strong> — impulse, last-minute restocking. The platform has mastered this transactional moment. But an adjacent, high-intent segment goes entirely unserved: the planned-cooking user who watches a recipe on Instagram Reels or YouTube, then manually translates it into 8–12 individual Blinkit searches.</p>
+    <p>This creates three friction points: <strong>context-switching</strong> between apps, <strong>ingredient guesswork</strong> (quantities, brands, substitutes), and <strong>8–12 taps per ingredient</strong> — when the entire job should be one tap.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">02 — Problem Discovery</div>
+  <h2 class="sec-title">The insight behind the feature</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon" style="background:#fff4f0;">📱</div>
+      <div>
+        <h4>Content-to-commerce gap</h4>
+        <p>YouTube India food content drives over 2 billion monthly views. Zero native integration exists between any recipe content platform and any Indian grocery app. Users bridge this manually — a painful, lossy process.</p>
+        <span class="badge badge-red">Core problem</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fff4f0;">🛒</div>
+      <div>
+        <h4>Untapped AOV opportunity</h4>
+        <p>Blinkit's average order contains 5–7 items. A recipe typically requires 12–18 ingredients. A single recipe-to-cart conversion can more than double the order value with zero increase in delivery cost — a pure margin play.</p>
+        <span class="badge badge-amber">Revenue lever</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fff4f0;">👤</div>
+      <div>
+        <h4>Planned-cooking segment untouched</h4>
+        <p>70% of Gen Z shoppers in India make impulse purchases on q-commerce (Bain 2025). But planned cooking is a separate intent with much higher basket sizes. Recipe-to-Cart converts structured intent into impulse-style ease.</p>
+        <span class="badge badge-orange">Market opportunity</span>
+      </div>
+    </div>
+  </div>
+  <div class="pullquote">
+    "I just want to tap a recipe and have everything in my cart."
+    <cite>— Priya, 27, Bangalore · Software engineer, cooks 3–4x/week · Target persona</cite>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">03 — User Persona</div>
+  <h2 class="sec-title">Who we're designing for</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Dimension</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Name & profile</strong></td><td>Priya, 27 — Software Engineer, Bangalore</td></tr>
+        <tr><td><strong>Cooking frequency</strong></td><td>3–4 times/week, primarily weeknight dinners and weekend specials</td></tr>
+        <tr><td><strong>Content consumption</strong></td><td>Follows 10+ food creators on Instagram Reels and YouTube; saves recipes weekly</td></tr>
+        <tr><td><strong>Pain point</strong></td><td>Spends 15+ minutes translating a recipe into a Blinkit cart — cross-app switching, ingredient guessing, quantity math</td></tr>
+        <tr><td><strong>Desire</strong></td><td>One-tap recipe-to-cart. Doesn't want to think about brands or quantities.</td></tr>
+        <tr><td><strong>Price sensitivity</strong></td><td>Willing to pay slight premium for convenience; compares total recipe cost before checkout</td></tr>
+        <tr><td><strong>Tech behaviour</strong></td><td>Power user, UPI-native, shares recipes in WhatsApp groups</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">04 — Feature Design</div>
+  <h2 class="sec-title">Recipe-to-Cart: Core Flow</h2>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h5>Recipe Discovery Tab (New, on Blinkit home)</h5>
+        <p>A "Recipes" section on the home screen shows curated recipe cards with dish photo, name, cook time, serving size, and difficulty. Categories: Quick Meals (&lt;20 min), Weekend Specials, Regional (South Indian, Punjabi, etc.), Trending on Reels. Search returns recipe cards alongside product results.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h5>Recipe Detail Page</h5>
+        <p>Full step-by-step instructions with ingredient list showing exact quantities (e.g. "200g paneer, 2 tomatoes, 1 tsp garam masala"). Each ingredient is auto-mapped to the nearest matching Blinkit SKU from the user's local dark store. Real-time stock status shown: green (in stock), yellow (low stock), red (unavailable + substitution suggested). User can tap to swap any ingredient brand.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h5>One-Tap "Add All to Cart"</h5>
+        <p>Single button adds all mapped ingredients to cart. Smart deduplication: if user already has "1 kg onions," recipe needing "2 onions" doesn't add more. Price summary shown before adding: "12 ingredients, approx. ₹340." Items already at home can be unchecked ("I already have salt, oil").</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h5>Paste-a-Recipe (Power User Feature)</h5>
+        <p>User pastes any recipe URL (YouTube, food blog, Instagram) into Blinkit. AI parses the recipe, extracts ingredients, maps to Blinkit SKUs. User reviews mapping and adds to cart. Bypasses need for Blinkit to host all recipes. Extracts only ingredient lists (factually non-copyrightable), links back to original source.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h5>Checkout + Post-delivery Reference</h5>
+        <p>Standard Blinkit checkout with 10-minute delivery promise. Post-delivery: recipe instructions available in "My Orders" for easy reference while cooking — a natural re-engagement touchpoint.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">05 — Content Strategy</div>
+  <h2 class="sec-title">How Blinkit builds the recipe library</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>Approach</th><th>Volume</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td><strong>In-house editorial</strong></td><td>Curate 200 starter recipes across 8 regional Indian cuisines</td><td>200 recipes</td><td>Launch</td></tr>
+        <tr><td><strong>Creator partnerships</strong></td><td>Partner with 50 food creators on Instagram/YouTube to contribute recipes; deep link from creator post to recipe page</td><td>500+ recipes</td><td>Month 2</td></tr>
+        <tr><td><strong>AI-generated</strong></td><td>Use LLM to convert any recipe URL into structured ingredient list mapped to Blinkit SKUs (Paste-a-Recipe)</td><td>Unlimited</td><td>Month 3</td></tr>
+        <tr><td><strong>User-generated</strong></td><td>Allow users to submit recipes (moderated); gamify with "Blinkit Chef" badges</td><td>Variable</td><td>Month 4</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">06 — Technical Architecture</div>
+  <h2 class="sec-title">What needs to be built</h2>
+  <div class="subgrid">
+    <div class="subcards"><div class="icon">🗄️</div><h5>Recipe Service</h5><p>Stores recipe metadata, instructions, ingredient lists with quantities. Serves the Recipe Discovery tab and Detail page.</p></div>
+    <div class="subcards"><div class="icon">🔗</div><h5>Ingredient-to-SKU Mapper</h5><p>NLP model that maps ingredient text ("200g paneer") to best-matching Blinkit SKU, factoring in local dark store inventory and user brand preferences.</p></div>
+    <div class="subcards"><div class="icon">🤖</div><h5>Recipe Parser API</h5><p>Accepts a URL, scrapes recipe content, extracts structured ingredient data using LLM. Powers the Paste-a-Recipe feature.</p></div>
+    <div class="subcards"><div class="icon">🧹</div><h5>Pantry Dedup Logic</h5><p>Cross-references recipe ingredients with items already in cart to avoid duplicate additions. Uses quantity estimation from existing cart state.</p></div>
+  </div>
+  <div class="prose">
+    <p><strong>Integration points:</strong> Existing Blinkit cart and checkout flow (no changes needed) · Dark store inventory API (real-time stock check per ingredient) · User preference engine (brand preferences, dietary restrictions already captured at onboarding).</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">07 — Prioritisation (RICE)</div>
+  <h2 class="sec-title">What to build first</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr class="rice-p0"><td><strong>One-tap "Add All to Cart"</strong></td><td>100% of recipe viewers</td><td>3 (High)</td><td>90%</td><td>2 weeks</td><td class="rs">135</td><td><span class="badge badge-green">P0</span></td></tr>
+        <tr class="rice-p0"><td><strong>Recipe tab + 200 curated recipes</strong></td><td>30% of DAU</td><td>3 (High)</td><td>80%</td><td>4 weeks</td><td class="rs">18</td><td><span class="badge badge-green">P0</span></td></tr>
+        <tr class="rice-p1"><td><strong>Creator partnership program</strong></td><td>20% of DAU</td><td>2 (Med)</td><td>70%</td><td>3 weeks</td><td class="rs">9.3</td><td><span class="badge badge-amber">P1</span></td></tr>
+        <tr class="rice-p1"><td><strong>Paste-a-Recipe (URL parser)</strong></td><td>15% of DAU</td><td>3 (High)</td><td>60%</td><td>6 weeks</td><td class="rs">4.5</td><td><span class="badge badge-amber">P1</span></td></tr>
+        <tr class="rice-p2"><td><strong>User-generated recipes</strong></td><td>10% of DAU</td><td>1 (Low)</td><td>50%</td><td>4 weeks</td><td class="rs">1.25</td><td><span class="badge" style="background:#f0eeea;color:#888;">P2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose"><p><strong>Build sequence:</strong> Add All to Cart button (fastest win, highest RICE) → Recipe tab with curated content → Creator partnership program → Paste-a-Recipe → UGC recipes.</p></div>
+</section>
+
+<section>
+  <div class="sec-num">08 — Success Metrics</div>
+  <h2 class="sec-title">North Star & supporting KPIs</h2>
+  <p class="sec-intro">North Star: <strong>Recipe-originated orders as % of total orders.</strong> Target: 5% within 3 months post-launch.</p>
+  <div class="metrics-grid">
+    <div class="metric"><div class="mlabel">Recipe-originated orders</div><div class="vals"><span class="vfrom">0%</span><span class="arr">→</span><span class="vto">5%</span></div><div class="mdesc">Of total orders, attributed via tracking</div></div>
+    <div class="metric"><div class="mlabel">Avg items / recipe order</div><div class="vals"><span class="vfrom">5–7</span><span class="arr">→</span><span class="vto">12+</span></div><div class="mdesc">Cart analytics; measures AOV impact</div></div>
+    <div class="metric"><div class="mlabel">Recipe-to-cart conversion</div><div class="vals"><span class="vfrom">—</span><span class="arr">→</span><span class="vto">40%+</span></div><div class="mdesc">Viewed recipe → added to cart</div></div>
+    <div class="metric"><div class="mlabel">AOV from recipe orders</div><div class="vals"><span class="vfrom">1x</span><span class="arr">→</span><span class="vto">1.8x</span></div><div class="mdesc">vs. regular orders</div></div>
+    <div class="metric"><div class="mlabel">Repeat recipe usage</div><div class="vals"><span class="vfrom">—</span><span class="arr">→</span><span class="vto">30%</span></div><div class="mdesc">Reorder within 14 days</div></div>
+    <div class="metric"><div class="mlabel">Creator-contributed recipes</div><div class="vals"><span class="vfrom">0</span><span class="arr">→</span><span class="vto">500+</span></div><div class="mdesc">By Month 6</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">09 — Risks & Mitigations</div>
+  <h2 class="sec-title">What could go wrong</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ingredient-to-SKU mapping errors</strong><br><span style="font-size:12px;color:var(--ink-muted);">Wrong item added silently</span></td><td>Show clear mapping preview before "Add All"; allow per-item swap; collect correction feedback to retrain the model</td></tr>
+        <tr><td><strong>Low recipe content at launch</strong><br><span style="font-size:12px;color:var(--ink-muted);">Thin library feels like a beta</span></td><td>Launch with 200 high-quality curated recipes in top 8 cuisines; supplement with creator content from Month 2</td></tr>
+        <tr><td><strong>Content tourism (browse, no convert)</strong><br><span style="font-size:12px;color:var(--ink-muted);">Users browse recipes but don't buy</span></td><td>Keep flow shallow (2 taps to cart); show price estimate upfront to reduce checkout surprise; 10% discount on first recipe order</td></tr>
+        <tr><td><strong>Dark store doesn't stock niche ingredients</strong></td><td>Flag unavailable items clearly; suggest simplified recipe variant ("Skip saffron, use turmeric instead")</td></tr>
+        <tr><td><strong>Copyright issues with scraped recipes</strong></td><td>Paste-a-Recipe extracts only ingredient list (factual, non-copyrightable), not instructions; always links back to original source</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">10 — Go-to-Market</div>
+  <h2 class="sec-title">How we'd launch it</h2>
+  <div class="roadmap">
+    <div class="rm">
+      <div class="rmlabel">Phase 1 · Launch Week</div>
+      <div class="rmtitle">Awareness & First Orders</div>
+      <ul>
+        <li>Feature banner on Blinkit home screen</li>
+        <li>Push to top 20% users by order frequency</li>
+        <li>10% discount on first recipe-originated order</li>
+        <li>PR: "Blinkit now has recipes"</li>
+      </ul>
+    </div>
+    <div class="rm">
+      <div class="rmlabel">Phase 2 · Month 1–2</div>
+      <div class="rmtitle">Creator Distribution</div>
+      <ul>
+        <li>Partner with 10 food creators for branded content</li>
+        <li>Deep link from creator post → recipe page</li>
+        <li>"Get all ingredients on Blinkit in 1 tap" CTA</li>
+        <li>Creator revenue share on recipe-driven orders</li>
+      </ul>
+    </div>
+    <div class="rm">
+      <div class="rmlabel">Phase 3 · Month 3+</div>
+      <div class="rmtitle">Habit Formation</div>
+      <ul>
+        <li>"Weekend Recipe" push notification every Friday</li>
+        <li>A/B test: home screen tab vs. search integration</li>
+        <li>Launch Paste-a-Recipe for power users</li>
+        <li>UGC recipe submissions with "Blinkit Chef" badge</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">11 — PM Takeaways</div>
+  <h2 class="sec-title">What this teaches about product</h2>
+  <div class="prose">
+    <h3>Content and commerce are converging — the first mover wins</h3>
+    <p>Every major Indian food creator is building an audience that has cooking intent. No q-commerce platform has bridged this. Blinkit's 10-minute promise is the perfect fulfillment layer for that intent — it just needs to show up in the moment of inspiration, not the moment of need.</p>
+    <h3>The best product insight is in the gap between two apps</h3>
+    <p>Priya switches from Instagram Reels to Blinkit manually. That gap — that friction — is the product. Whenever a user is doing something manually between two products, there's a feature waiting to be built.</p>
+    <h3>AOV is a more powerful lever than conversion rate</h3>
+    <p>Doubling the number of items per order (5–7 → 12+) has more GMV impact than doubling order frequency, and it's achievable with a single feature. Recipe-to-Cart is fundamentally an AOV play disguised as a UX improvement.</p>
+  </div>
+</section>
+
+</div>
+<footer>
+  <p>Prepared by <a href="#">Shaurya Agarwal</a> · PM Portfolio · 2026 · shauryagarwal28@gmail.com</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inshorts: Quality-First Feed — Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--ink-soft:#4a4a4a;--ink-muted:#888;--surface:#f7f6f2;--white:#fff;--ac:#1a4aff;--ac-light:#eef1ff;--border:rgba(12,12,12,0.10);--font-display:'DM Serif Display',Georgia,serif;--font-body:'Sora',sans-serif;--font-mono:'JetBrains Mono',monospace;--r:10px;--rlg:16px;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--surface);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,246,242,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--ink-soft);text-decoration:none;letter-spacing:0.04em;}
+.nav-back{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:85vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#050d2e;position:relative;overflow:hidden;}
+.cover-glow{position:absolute;inset:0;background:radial-gradient(circle at 30% 55%,rgba(26,74,255,0.2) 0%,transparent 55%),radial-gradient(circle at 75% 25%,rgba(80,130,255,0.1) 0%,transparent 50%);pointer-events:none;}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6d9eff;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#6d9eff;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--font-display);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#6d9eff;}
+.cover-sub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cover-meta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cover-meta .label{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono);font-weight:500;}
+.cover-meta .value{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4.5rem 0;border-bottom:0.5px solid var(--border);}
+section:last-child{border-bottom:none;}
+.sec-num{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#4466ee;margin-bottom:0.5rem;}
+.sec-title{font-family:var(--font-display);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.sec-intro{font-size:15px;color:var(--ink-soft);margin-bottom:2rem;max-width:640px;}
+.snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.snap .num{font-family:var(--font-display);font-size:1.9rem;line-height:1;margin-bottom:6px;color:#4466ee;}
+.snap .lbl{font-size:11px;color:var(--ink-muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);}
+.prose p{font-size:15px;color:var(--ink-soft);margin-bottom:1rem;line-height:1.8;}
+.prose h3{font-family:var(--font-display);font-size:1.25rem;color:var(--ink);margin:2rem 0 0.75rem;font-weight:400;}
+.prose strong{color:var(--ink);font-weight:600;}
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--r);border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-muted);font-family:var(--font-mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--ink-soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);font-weight:600;}
+.cards{display:grid;gap:1rem;margin:1.5rem 0;}
+.card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:1.5rem;display:grid;grid-template-columns:48px 1fr;gap:1rem;align-items:start;}
+.card-icon{width:48px;height:48px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.card h4{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.card p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;margin-bottom:6px;}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;}
+.badge-red{background:#fef2f2;color:#b91c1c;}
+.badge-amber{background:#fef3e2;color:#b86c10;}
+.badge-blue{background:#eef1ff;color:#1a4aff;}
+.nqs-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:1.5rem 0;}
+.nqs-card{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.nqs-card .weight{font-family:var(--font-display);font-size:1.8rem;color:#4466ee;line-height:1;margin-bottom:4px;}
+.nqs-card .dim{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.nqs-card .how{font-size:12px;color:var(--ink-muted);line-height:1.5;}
+.tier-cards{display:grid;gap:1rem;margin:1.5rem 0;}
+.tier{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:1.5rem;border-left:3px solid;}
+.tier h4{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.tier p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:1.5rem 0;}
+.metric{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.metric .mlabel{font-size:11px;color:var(--ink-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+.metric .vals{display:flex;align-items:center;gap:8px;}
+.metric .vfrom{font-size:1.25rem;font-family:var(--font-display);color:var(--ink-muted);}
+.metric .arr{font-size:1rem;color:#4466ee;}
+.metric .vto{font-size:1.25rem;font-family:var(--font-display);font-weight:400;color:#4466ee;}
+.metric .mdesc{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4;}
+.roadmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0;}
+.rm{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rlg);padding:1.5rem;}
+.rm .rmlabel{font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);margin-bottom:4px;}
+.rm .rmtitle{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:0.75rem;}
+.rm ul{list-style:none;}
+.rm ul li{font-size:13px;color:var(--ink-soft);padding:4px 0 4px 18px;position:relative;line-height:1.5;}
+.rm ul li::before{content:'→';position:absolute;left:0;color:#4466ee;font-size:11px;top:6px;}
+.pullquote{border-left:3px solid #4466ee;padding:1.25rem 1.5rem;background:#eef1ff;border-radius:0 var(--r) var(--r) 0;margin:2rem 0;font-size:14.5px;color:#1a4aff;font-style:italic;line-height:1.7;}
+.pullquote cite{display:block;margin-top:8px;font-size:12px;color:#1a4aff;font-style:normal;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+footer{background:#050d2e;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--font-mono);color:rgba(255,255,255,0.3);}
+footer a{color:#6d9eff;text-decoration:none;}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="nav-logo">SA.pm — Product Teardowns</a>
+  <a href="#" class="nav-back">← Portfolio</a>
+</nav>
+
+<div class="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-grid"></div>
+  <div class="ctag">Recommendation System Design</div>
+  <h1>Inshorts:<br><em>Quality-First</em> Feed</h1>
+  <p class="cover-sub">Replacing engagement-based ranking with a multi-dimensional News Quality Score — prioritising information value over sensationalism, and rebuilding notification trust.</p>
+  <div class="cover-meta">
+    <div><div class="label">Author</div><div class="value">Shaurya Agarwal</div></div>
+    <div><div class="label">Product</div><div class="value">Inshorts</div></div>
+    <div><div class="label">Type</div><div class="value">Product Teardown · Recommendation System</div></div>
+    <div><div class="label">Frameworks</div><div class="value">RICE · North Star · A/B Testing · Notification Strategy</div></div>
+    <div><div class="label">Year</div><div class="value">2026</div></div>
+  </div>
+</div>
+
+<div class="page">
+
+<section>
+  <div class="sec-num">01 — Product Overview</div>
+  <h2 class="sec-title">What Inshorts does today</h2>
+  <p class="sec-intro">Inshorts is India's highest-rated news app, delivering news summarized in 60 words or less. It produces approximately 1,000 shorts per day, with the average user consuming 86 shorts in roughly 12 minutes daily — a remarkable engagement density.</p>
+  <div class="snap-grid">
+    <div class="snap"><div class="num">42%</div><div class="lbl">DAU/MAU ratio</div></div>
+    <div class="snap"><div class="num">1,000</div><div class="lbl">Shorts produced/day</div></div>
+    <div class="snap"><div class="num">86</div><div class="lbl">Shorts/user/session</div></div>
+    <div class="snap"><div class="num">12 min</div><div class="lbl">Avg daily session time</div></div>
+  </div>
+  <div class="prose">
+    <h3>How the current system works</h3>
+    <p>Inshorts uses a hybrid editorial + AI approach. Its <strong>Rapid60 Algorithm</strong> uses AI-powered summarisation trained on 500K+ editor-written summaries, producing 100K+ summaries per month. Each story gets a rating from 0–1000; editor-rated 1000 stories are pushed to all users regardless of preferences. Lower-rated stories are matched to user interests via behavioural signals: time spent, swipe behaviour, category preferences, and implicit interest detection.</p>
+    <p>The content mix is approximately <strong>20% editorially curated</strong> (drives highest CTR) and <strong>80% AI-driven personalisation</strong>. This ratio is the core of the problem.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">02 — Problem Analysis</div>
+  <h2 class="sec-title">Where the current system breaks down</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon" style="background:#fef2f2;">📈</div>
+      <div><h4>Engagement-optimised ranking amplifies sensationalism</h4><p>The feed optimises for time-spent and swipe count, not information value. Sensational or clickbait content gets amplified over substantive news because it generates more engagement signals — even if users don't find it valuable.</p><span class="badge badge-red">High impact · Trust risk</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fef2f2;">🔄</div>
+      <div><h4>No quality signal in engagement metrics</h4><p>The system cannot distinguish between a user quickly swiping past a card (no interest) and genuinely reading it (interest). Low-quality stories that get swiped rapidly inflate engagement metrics just as much as good stories that get read.</p><span class="badge badge-red">High impact · Data quality</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fef3e2;">🫧</div>
+      <div><h4>Echo chambers narrow over time</h4><p>Swipe-based personalisation progressively narrows content diversity. Users who engage with tech news get more tech news until they miss important stories from other categories entirely. Pure personalisation without a diversity floor creates filter bubbles.</p><span class="badge badge-amber">Medium impact · Long-term retention</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#fef3e2;">🔔</div>
+      <div><h4>Notification strategy erodes trust</h4><p>Users report notifications feeling constant, non-personalised, and disruptive. Critically, notification stories are used as an advertising format — branded content as the first story — blurring editorial and commercial lines and reducing trust in all notifications.</p><span class="badge badge-red">High impact · Retention risk</span></div>
+    </div>
+  </div>
+  <div class="pullquote">
+    "Irrelevant news keeps popping up even after dismissing as not interested."
+    <cite>— Play Store review · 2024</cite>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">03 — Proposed Solution: News Quality Score</div>
+  <h2 class="sec-title">Replacing the single ranking signal</h2>
+  <p class="sec-intro">Replace the current 0–1000 editorial score with a multi-dimensional News Quality Score (NQS) that rewards information value, not just editorial endorsement.</p>
+  <div class="prose"><p style="font-family:var(--font-mono);font-size:13px;background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1rem;color:var(--ink);">NQS = w₁(Source Credibility) + w₂(Editorial Rating) + w₃(Factual Density) + w₄(Uniqueness) + w₅(Timeliness)</p></div>
+  <div class="nqs-row">
+    <div class="nqs-card"><div class="weight">25%</div><div class="dim">Source Credibility</div><div class="how">Historical accuracy, editorial standards, domain authority of the source</div></div>
+    <div class="nqs-card"><div class="weight">25%</div><div class="dim">Editorial Rating</div><div class="how">Existing 0–1000 editor assessment of newsworthiness — retained and weighted</div></div>
+    <div class="nqs-card"><div class="weight">20%</div><div class="dim">Factual Density</div><div class="how">Ratio of facts/claims to opinions in the 60-word summary</div></div>
+    <div class="nqs-card"><div class="weight">15%</div><div class="dim">Uniqueness</div><div class="how">How differentiated the story is from others already in the user's feed</div></div>
+    <div class="nqs-card"><div class="weight">15%</div><div class="dim">Timeliness</div><div class="how">Recency and relevance decay curve relative to story category</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">04 — New Engagement Metrics</div>
+  <h2 class="sec-title">Measuring quality, not quantity</h2>
+  <div class="prose"><p>Current metric: <strong>screens swiped per session (volume)</strong>. This must be replaced with metrics that distinguish genuine engagement from passive scrolling.</p></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>New Metric</th><th>Definition</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dwell Time Ratio</strong></td><td>Time spent on card relative to card length — indicates genuine reading vs. quick scroll</td><td>Distinguishes quality reads from swipe-throughs; ungameable by sensational titles</td></tr>
+        <tr><td><strong>Read-through Rate</strong></td><td>% of users who tap "Read More" to see full source article</td><td>Signals depth of interest; high-quality stories drive deeper exploration</td></tr>
+        <tr><td><strong>Share-to-Swipe Ratio</strong></td><td>Stories shared vs. stories swiped past</td><td>High-quality, important content gets shared more — a strong quality signal</td></tr>
+        <tr><td><strong>Return Rate</strong></td><td>Does the user return within 4 hours of a session?</td><td>Quality feeds drive habitual short-burst usage — the core retention loop</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">05 — Feed Composition Rules</div>
+  <h2 class="sec-title">Enforcing a quality floor</h2>
+  <p class="sec-intro">Instead of pure personalisation, enforce a feed composition that guarantees quality and diversity alongside personal relevance.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Slot</th><th>%</th><th>Rule</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Must-Know News</strong></td><td>40%</td><td>Editor-curated, NQS &gt; 800, pushed to all users (up from current 20%)</td><td>Ensures every user gets high-quality important news regardless of preferences</td></tr>
+        <tr><td><strong>Personalised Quality</strong></td><td>35%</td><td>AI-matched to user interests, but only from stories with NQS &gt; 500</td><td>Personalisation within a quality floor — no clickbait in the personalised slot</td></tr>
+        <tr><td><strong>Serendipity Slot</strong></td><td>15%</td><td>High-NQS stories outside the user's usual categories</td><td>Breaks echo chambers; exposes users to important news they wouldn't seek out</td></tr>
+        <tr><td><strong>Hyperlocal</strong></td><td>10%</td><td>Geo-targeted stories relevant to user's city/state</td><td>Drives local relevance; supports regional content partnerships</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <h3>Fixing the negative feedback loop</h3>
+    <p>The current "Not Interested" signal has weak processing. The fix: weight "Not Interested" 3x more than a passive swipe-past. Add a granular "Why not interested?" quick-select: <em>Irrelevant topic / Already knew this / Low quality / Clickbait.</em> This feeds directly into NQS calibration — a user reporting clickbait on a source lowers that source's credibility score.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">06 — 3-Tier Notification System</div>
+  <h2 class="sec-title">From disruptive to trusted</h2>
+  <div class="tier-cards">
+    <div class="tier" style="border-color:#b91c1c;">
+      <h4>Tier 1 — Breaking (Immediate push, max 2/day)</h4>
+      <p><strong>Criteria:</strong> NQS &gt; 950 AND editor-flagged as breaking. <strong>Format:</strong> Rich notification with headline + 1-line summary. Delivered immediately, regardless of time. <strong>Never used for advertising.</strong> This tier must be sacred — the moment it carries a brand message, users lose trust in all breaking news alerts.</p>
+    </div>
+    <div class="tier" style="border-color:#b86c10;">
+      <h4>Tier 2 — Daily Digest (Scheduled, 2–3x/day)</h4>
+      <p><strong>Criteria:</strong> Top 5 stories by NQS from user's preferred categories. <strong>Format:</strong> Bundled notification ("5 stories you should know today"). Delivered at user's historically optimal engagement windows — typically morning commute (7–9 AM), lunch (12–1 PM), evening (7–9 PM). User can customise digest frequency (1x, 2x, or 3x daily).</p>
+    </div>
+    <div class="tier" style="border-color:#4466ee;">
+      <h4>Tier 3 — Weekly Roundup (Low-priority, 1x/week)</h4>
+      <p><strong>Criteria:</strong> Top stories the user missed from the Serendipity slot — "This week in [category you don't usually read]." Delivered Sunday morning. Goal: re-engage dormant users and expand content discovery. Category is auto-selected based on what the user engaged with least that week.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">07 — Success Metrics</div>
+  <h2 class="sec-title">How we'll measure the shift to quality</h2>
+  <div class="metrics-grid">
+    <div class="metric"><div class="mlabel">DAU/MAU</div><div class="vals"><span class="vfrom">42%</span><span class="arr">→</span><span class="vto">48%+</span></div><div class="mdesc">Quality feed drives habitual usage</div></div>
+    <div class="metric"><div class="mlabel">Notif opt-in rate</div><div class="vals"><span class="vfrom">~60%</span><span class="arr">→</span><span class="vto">75%+</span></div><div class="mdesc">Tiered system reduces permanent disables</div></div>
+    <div class="metric"><div class="mlabel">Notif open rate</div><div class="vals"><span class="vfrom">8–12%</span><span class="arr">→</span><span class="vto">18%+</span></div><div class="mdesc">Relevance + timing optimisation</div></div>
+    <div class="metric"><div class="mlabel">Avg dwell time / card</div><div class="vals"><span class="vfrom">~8s</span><span class="arr">→</span><span class="vto">12s+</span></div><div class="mdesc">Quality content encourages deeper reading</div></div>
+    <div class="metric"><div class="mlabel">Share rate</div><div class="vals"><span class="vfrom">~2%</span><span class="arr">→</span><span class="vto">5%+</span></div><div class="mdesc">High-quality stories get shared more</div></div>
+    <div class="metric"><div class="mlabel">30-day retention</div><div class="vals"><span class="vfrom">~35%</span><span class="arr">→</span><span class="vto">45%+</span></div><div class="mdesc">Quality-first reduces churn from frustration</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">08 — Implementation Roadmap</div>
+  <h2 class="sec-title">5-phase rollout</h2>
+  <div class="roadmap">
+    <div class="rm"><div class="rmlabel">Phase 1 · Week 1–2</div><div class="rmtitle">Foundation</div><ul><li>Define NQS dimensions and weights</li><li>Build scoring pipeline</li><li>Instrument dwell-time and share tracking</li></ul></div>
+    <div class="rm"><div class="rmlabel">Phase 2 · Week 3–4</div><div class="rmtitle">Notifications</div><ul><li>Implement 3-tier notification system</li><li>Build user notification preference UI</li><li>Separate editorial and ad notification channels</li></ul></div>
+    <div class="rm"><div class="rmlabel">Phase 3 · Week 5–6</div><div class="rmtitle">A/B Test</div><ul><li>Quality-first feed for 10% of users</li><li>Measure retention vs. engagement vs. current feed</li></ul></div>
+    <div class="rm"><div class="rmlabel">Phase 4 · Week 7–8</div><div class="rmtitle">Iterate</div><ul><li>Analyse A/B results</li><li>Iterate on NQS weights</li><li>Roll out to 50% of users</li></ul></div>
+    <div class="rm"><div class="rmlabel">Phase 5 · Week 9–12</div><div class="rmtitle">Full Rollout</div><ul><li>Full rollout with monitoring</li><li>Add granular "Not Interested" feedback flow</li><li>NQS score visible to editors in dashboard</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-num">09 — PM Takeaways</div>
+  <h2 class="sec-title">What this teaches about product</h2>
+  <div class="prose">
+    <h3>Engagement metrics can actively destroy the product they're meant to serve</h3>
+    <p>Optimising for swipe volume is exactly the wrong metric for an app whose value proposition is <em>quality</em> news in 60 words. The metric selection is itself a product decision — and Inshorts made the wrong one. Choosing metrics that align with user outcomes (dwell time, shares, return rate) rather than user activity volume (screens swiped) is the first step to fixing the product.</p>
+    <h3>Notifications are a trust bank account — every bad one is a withdrawal</h3>
+    <p>Blending advertising into the breaking news notification channel is a one-way door. Each branded notification reduces the trust users extend to the next breaking news alert. The 3-tier system is fundamentally about protecting the highest-trust channel (Breaking) from any monetisation pressure.</p>
+    <h3>A quality floor is not the opposite of personalisation — it's the foundation for it</h3>
+    <p>The NQS system doesn't eliminate personalisation; it ensures personalisation operates within a quality envelope. Users still get news they care about — they just don't get clickbait that only looks like news they'd care about.</p>
+  </div>
+</section>
+
+</div>
+<footer>
+  <p>Prepared by <a href="#">Shaurya Agarwal</a> · PM Portfolio · 2026 · shauryagarwal28@gmail.com</p>
+</footer>
+</body>
+</html>
