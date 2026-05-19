@@ -1,0 +1,563 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Supercell Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#c94a1f;--act:#ff8c3c;--acl:#fff4f0;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#0e0800;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 20% 65%,rgba(201,74,31,0.22) 0%,transparent 50%),radial-gradient(circle at 80% 30%,rgba(255,140,60,0.08) 0%,transparent 50%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#ff8c3c;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#ff8c3c;border-radius:50%;animation:pu 2s infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#ff8c3c;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:600px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}
+section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac);margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:var(--ac);}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.prose h3{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin:2rem 0 0.75rem;font-weight:400;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.jstep{display:grid;grid-template-columns:130px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.stag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:var(--acl);color:var(--ac);}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.mlab{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mfr{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.mar{color:var(--muted);}
+.mto{font-family:var(--serif);font-size:1.2rem;color:var(--ac);}
+.mds{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}.bred{background:#fde8e8;color:#b91c1c;}
+.pq{border-left:3px solid var(--ac);padding:1.25rem 1.5rem;background:var(--acl);border-radius:0 10px 10px 0;margin:2rem 0;font-size:14.5px;color:var(--ac);font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:var(--ac);font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.game-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1.5rem 0;}
+.game-card{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;text-align:center;}
+.game-icon{font-size:2rem;margin-bottom:8px;}
+.game-name{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.game-rev{font-size:11px;font-family:var(--mono);color:var(--ac);font-weight:600;}
+.game-year{font-size:11px;color:var(--muted);margin-top:2px;}
+.timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.tlrow{display:grid;grid-template-columns:80px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.tlrow:last-child{border-bottom:none;}
+.tlyear{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ac);}
+.tlc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.tlc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.loop-diagram{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.loop-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;}
+.loop-title::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.loop-steps{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;}
+.loop-node{background:var(--acl);border:1px solid rgba(201,74,31,0.2);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--ac);text-align:center;min-width:120px;}
+.loop-arrow{font-size:16px;color:var(--muted);}
+.kill-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:#fde8e8;color:#b91c1c;font-family:var(--mono);margin-top:6px;}
+.hit-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:#e8f5ee;color:#1a7a4a;font-family:var(--mono);margin-top:6px;}
+footer{background:#0e0800;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#ff8c3c;text-decoration:none;}
+.diagram-wrap{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;margin:1.5rem 0;overflow-x:auto;}
+.diagram-wrap svg{display:block;width:100%;max-width:680px;margin:0 auto;}
+svg text{font-family:'Sora',sans-serif;}
+svg .th{font-size:14px;font-weight:500;fill:var(--ink);}
+svg .ts{font-size:12px;font-weight:400;fill:var(--ink-soft);}
+svg .arr{stroke:var(--border-strong);stroke-width:1.5;fill:none;}
+svg .node{cursor:pointer;}
+svg .c-coral rect,.c-coral circle,.c-coral ellipse{fill:#FAECE7;stroke:#D85A30;}.c-coral .th{fill:#712B13;}.c-coral .ts{fill:#993C1D;}
+svg .c-teal rect,.c-teal circle,.c-teal ellipse{fill:#E1F5EE;stroke:#1D9E75;}.c-teal .th{fill:#085041;}.c-teal .ts{fill:#0F6E56;}
+svg .c-blue rect,.c-blue circle,.c-blue ellipse{fill:#E6F1FB;stroke:#378ADD;}.c-blue .th{fill:#0C447C;}.c-blue .ts{fill:#185FA5;}
+svg .c-amber rect,.c-amber circle,.c-amber ellipse{fill:#FAEEDA;stroke:#BA7517;}.c-amber .th{fill:#633806;}.c-amber .ts{fill:#854F0B;}
+svg .c-gray rect,.c-gray circle,.c-gray ellipse{fill:#F1EFE8;stroke:#888780;}.c-gray .th{fill:#2C2C2A;}.c-gray .ts{fill:#5F5E5A;}
+svg .c-teal-text{fill:#0F6E56;}svg .c-amber-text{fill:#854F0B;}svg .c-blue-text{fill:#185FA5;}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Company Teardown</div>
+<h1>Supercell:<br><em>How you build games<br>people play for years</em></h1>
+<div class="csub">A PM-lens breakdown of how a 300-person company from Helsinki built a $10B+ game empire - through radical small-team culture, relentless killing of games, and the deepest retention loops in mobile gaming</div>
+<div class="cmeta">
+<div><div class="lb">Company</div><div class="vl">Supercell (Tencent-owned)</div></div>
+<div><div class="lb">Founded</div><div class="vl">2010, Helsinki</div></div>
+<div><div class="lb">Type</div><div class="vl">Company + Product Strategy Teardown</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<!-- 01 -->
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">A portfolio company with a single philosophy</h2>
+<p class="si">Supercell is not a traditional game studio. It is a portfolio of independent game teams operating inside a shared culture with one supreme goal: build games people play for years.</p>
+<div class="snaps">
+<div class="snap"><div class="n">200M+</div><div class="l">Monthly active users</div></div>
+<div class="snap"><div class="n">$10B+</div><div class="l">Clash of Clans lifetime revenue</div></div>
+<div class="snap"><div class="n">5</div><div class="l">Hit games from 30+ killed</div></div>
+<div class="snap"><div class="n">~300</div><div class="l">Employees (the smallest per-revenue ratio in gaming)</div></div>
+</div>
+<div class="game-row">
+<div class="game-card"><div class="game-icon">⚔️</div><div class="game-name">Clash of Clans</div><div class="game-rev">$10B+ lifetime</div><div class="game-year">2012</div></div>
+<div class="game-card"><div class="game-icon">🌾</div><div class="game-name">Hay Day</div><div class="game-rev">$2B+ lifetime</div><div class="game-year">2012</div></div>
+<div class="game-card"><div class="game-icon">🏖️</div><div class="game-name">Boom Beach</div><div class="game-rev">$887M+ lifetime</div><div class="game-year">2014</div></div>
+<div class="game-card"><div class="game-icon">🃏</div><div class="game-name">Clash Royale</div><div class="game-rev">$3B+ lifetime</div><div class="game-year">2016</div></div>
+<div class="game-card"><div class="game-icon">⭐</div><div class="game-name">Brawl Stars</div><div class="game-rev">$1B+ lifetime</div><div class="game-year">2018</div></div>
+</div>
+<div class="prose"><p>What's notable is not just the scale but the ratio. Supercell generated $2B+ in annual revenue in its peak years with fewer than 300 employees. That's a revenue-per-employee figure that most SaaS companies would envy. The secret isn't a single product insight. It's a <strong>philosophy about how to build products</strong> - and a willingness to kill games that don't live up to it.</p></div>
+</section>
+
+<!-- 02 -->
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">The problem Supercell was solving - from day one</h2>
+<p class="si">Most mobile games are played for days or weeks. Supercell's founding thesis was that this was a product design failure, not a user preference.</p>
+<div class="pq">"We want to create games that people will play for years - and be remembered forever. That's it. That's our entire strategy."<cite>- Ilkka Paananen, CEO, Supercell</cite></div>
+<div class="prose">
+<p>In 2010, mobile gaming was flooded with games that peaked on the App Store charts for two weeks and vanished. The business model was: spend on UA, monetise the download spike, move on. Supercell looked at this model and identified the real problem: <strong>games were designed for installs, not for players.</strong></p>
+<p>Their thesis was that if you built a game deep enough to play for years, the economics would follow - organic word-of-mouth, lower churn, higher LTV, and compound retention. Clash of Clans proved the thesis: <strong>68% of its players came via word of mouth</strong>, not paid advertising. A game good enough to retain generates its own acquisition.</p>
+<p>The second insight was structural: the traditional game studio model - large teams, top-down creative control, milestone reviews - was actually the reason most games were mediocre. Management optimised for shipping, not for quality. Supercell inverted this.</p>
+</div>
+</section>
+
+<!-- 03 -->
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who Supercell builds for - and who they deliberately ignore</h2>
+<p class="si">Supercell has a clear mental model of their player - and just as importantly, a clear mental model of who they're not building for.</p>
+<div class="pg">
+<div class="pc"><div class="pn">The Core Player</div><div class="pr">Primary - build everything for them</div><div class="pd"><strong>Who:</strong> 18-35, competitive but time-constrained. Plays in short bursts (4 sessions/day, ~15 min each). Deeply invested in progression.</div><div class="pd"><strong>Motivation:</strong> Status, mastery, belonging to a clan/team. Social proof through leaderboards.</div><div class="pd"><strong>Behaviour:</strong> Checks the game multiple times a day for resource collection, attack windows, clan activity.</div><span class="ptag p0">P0 - every design decision serves this player</span></div>
+<div class="pc"><div class="pn">The Casual Drifter</div><div class="pr">Secondary - make onboarding frictionless</div><div class="pd"><strong>Who:</strong> Tries games casually, low commitment, likely to churn in first 7 days.</div><div class="pd"><strong>Motivation:</strong> Entertainment, killing time.</div><div class="pd"><strong>Strategy:</strong> Low-friction first session. Strong early progression to create investment. Convert as many as possible to Core before Day 7.</div><span class="ptag p1">P1 - onboarding and Day 1 retention</span></div>
+<div class="pc"><div class="pn">The Whale</div><div class="pr">Secondary - monetise without breaking the game</div><div class="pd"><strong>Who:</strong> Small % of players who spend heavily. 80/20 rule applies.</div><div class="pd"><strong>Strategy:</strong> Never design for whales first. Design for free players, and let whales pay for convenience and cosmetics. Whales who are socially embedded in clans spend far more and stay far longer.</div><span class="ptag p1">P1 - monetise, never alienate</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>% of playerbase</th><th>Revenue contribution</th><th>Retention driver</th></tr></thead><tbody>
+<tr><td><strong>Core Player</strong></td><td>~20%</td><td>~60%</td><td>Social commitment, progression depth, clan belonging</td></tr>
+<tr><td><strong>Casual Drifter</strong></td><td>~60%</td><td>~10%</td><td>Early hook, difficulty curve</td></tr>
+<tr><td><strong>Whale</strong></td><td>~3-5%</td><td>~30%</td><td>Status symbols, speed of progression, exclusivity</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- 04 -->
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">The Clash of Clans player journey - from download to decade</h2>
+<div class="timeline">
+<div class="tlrow"><div class="tlyear">Day 1</div><div class="tlc"><h5>First session - the tutorial hook</h5><p>Fast-paced tutorial that gives players immediate wins. Build your first building, win your first battle, join a clan. Designed to deliver dopamine before explaining mechanics. Churn risk is highest here - CoC's tutorial completion rate is the most optimised part of the funnel.</p></div></div>
+<div class="tlrow"><div class="tlyear">Day 3-7</div><div class="tlc"><h5>The progression investment window</h5><p>Player has upgraded their base a few times. Buildings take longer. First taste of the core loop: attack to get gold, gold to build, waiting to play again. The "time as resource" mechanic begins. First clan invitation. Social layer activates.</p><span class="em">Investment begins</span></div></div>
+<div class="tlrow"><div class="tlyear">Day 30</div><div class="tlc"><h5>Clan belonging - the retention lock</h5><p>Player is embedded in a clan with social obligations. Clan Wars demand participation. Missing a war attack feels like letting people down. The game has shifted from "I want to play" to "I need to check in." Social accountability is now doing the retention work.</p><span class="em">Habit formed</span></div></div>
+<div class="tlrow"><div class="tlyear">Month 6</div><div class="tlc"><h5>First real money moment</h5><p>Upgrades take 14 days. Player is deeply invested in their base. Impatience + sunk cost + competitive pressure = first gem purchase. Critically: spending players who are in active clans spend 4-6x more than lone players. Social context amplifies monetisation.</p><span class="em">First conversion</span></div></div>
+<div class="tlrow"><div class="tlyear">Year 1+</div><div class="tlc"><h5>Seasonal content and live ops keep the veteran engaged</h5><p>Clan War Leagues, seasonal challenges, limited-time events, builder base meta shifts. Supercell's live ops team continuously adds reasons to return for players who have "finished" the base game. This is the year where most mobile games lose veterans. Clash doesn't.</p><span class="em">Long-term retained</span></div></div>
+</div>
+</section>
+
+<!-- 05 -->
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">What Supercell identified as the real blockers to "games played for years"</h2>
+<p class="si">These are the industry-level pain points Supercell designed around - not just individual UX issues.</p>
+<div class="paing">
+<div class="painc"><div class="ico">📉</div><h5>Games designed for installs, not players</h5><p>The industry optimised for download spikes via UA spend. No one was optimising for year-3 retention. Supercell saw this as a design failure, not a user preference.</p><span class="sev sh">Core problem</span></div>
+<div class="painc"><div class="ico">🏢</div><h5>Management killing creativity</h5><p>Top-down studios produced average games because managers made game decisions. Creatives with the best instincts were overruled by spreadsheets and milestone reviews.</p><span class="sev sh">Structural failure</span></div>
+<div class="painc"><div class="ico">😴</div><h5>No social obligation to return</h5><p>Single-player games have no consequence for quitting. Adding clans and war mechanics creates social accountability - a form of retention no notification can replicate.</p><span class="sev sh">Retention gap</span></div>
+<div class="painc"><div class="ico">💸</div><h5>Monetisation that broke game balance</h5><p>Pay-to-win mechanics made free players feel cheated and drove them out. Without a large free player base, whales had no one to compete against and churned too.</p><span class="sev sm">Balance problem</span></div>
+<div class="painc"><div class="ico">🎭</div><h5>No mid-game content for veterans</h5><p>Most mobile games collapsed at the "endgame" - players maxed out their base and had nothing left to do. Live ops solve this, but most studios shipped and moved on.</p><span class="sev sm">Depth gap</span></div>
+<div class="painc"><div class="ico">🌍</div><h5>Western-centric game design</h5><p>Few mobile games were truly global. Supercell built games that resonated across cultures by keeping mechanics simple, visual, and asynchronous - no language required to understand the core loop.</p><span class="sev sm">Market gap</span></div>
+</div>
+</section>
+
+<!-- 06 -->
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">How Supercell decided what to fix first - in every new game</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Impact on "played for years" goal</th><th>Supercell's solution</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Games designed for installs, not players</strong></td><td>Foundational - without this, everything else fails</td><td>Internal metric: "Would you be devastated if this game shut down?" If not, kill it.</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No social obligation to return</strong></td><td>High - social pressure is the most durable retention mechanic</td><td>Clans, Clan Wars, cooperative mechanics built into every game</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Management killing creativity</strong></td><td>High - structural fix needed before product fix</td><td>Cell structure: teams of 10-17 with full creative autonomy, no greenlight process</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Monetisation breaking balance</strong></td><td>High - pay-to-win destroys the free player base</td><td>Spend on convenience (speed) and cosmetics, never on competitive advantage</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No mid-game depth for veterans</strong></td><td>Medium - live ops became Supercell's competitive moat</td><td>Dedicated live ops teams for each game, seasonal content cadence</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Western-centric design</strong></td><td>Medium - global reach needed for scale</td><td>Soft-launch in single markets, iterate before global rollout</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<!-- 07 -->
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">The four systems Supercell built to win</h2>
+<div class="solg">
+<div class="solc"><h5>The Cell Structure</h5><p>Teams of 10-17 developers operate as independent startups. No greenlight from management. No milestone reviews. Teams decide to kill or ship their own games. Management's job: hire the best people and get out of the way.</p><span class="stag">Goal: best creative output, no bureaucracy</span></div>
+<div class="solc"><h5>Kill Early, Win Big</h5><p>30+ games killed before players ever saw them. Supercell celebrates failures with champagne. The willingness to kill eliminates mediocre games before they can damage the brand or drain resources. Only the best 5% survive.</p><span class="stag">Goal: quality floor, brand protection</span></div>
+<div class="solc"><h5>Soft-Launch in a Single Market</h5><p>Every game launches in Canada first (or another small English-speaking market). Supercell measures real retention data - not internal opinions - before going global. If the Day-30 retention doesn't meet the bar, the game is killed regardless of how far along it is.</p><span class="stag">Goal: data-driven decision, not gut-driven</span></div>
+<div class="solc"><h5>Social Obligation Mechanics</h5><p>Clans, Clan Wars, and cooperative play create social pressure to return. Missing a war attack feels like letting teammates down. This mechanic is built into the core design of every Supercell game - not bolted on as a feature.</p><span class="stag">Goal: habit formation through social accountability</span></div>
+<div class="solc"><h5>Time as the Core Monetisation Mechanic</h5><p>Upgrades take hours, then days, then weeks. Players can wait or pay gems to skip. This mechanic is brilliant: it monetises impatience, not skill. A free player and a paying player end up in the same place - paying players just get there faster.</p><span class="stag">Goal: fair-feeling monetisation that retains free players</span></div>
+<div class="solc"><h5>Live Ops as the Retention Engine</h5><p>Seasonal events, Clan War Leagues, limited-time challenges, and meta updates give veterans a reason to return. Supercell's live ops cadence means there is always something new happening in the game - even one that launched a decade ago.</p><span class="stag">Goal: year 3+ retention for veterans</span></div>
+</div>
+</section>
+
+<!-- 08 -->
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">How Supercell sequences its decisions</h2>
+<div class="prose">
+<p>Supercell doesn't use RICE or formal prioritisation frameworks. Their framework is simpler and more ruthless: <strong>"Would you be devastated if this game shut down tomorrow?"</strong> If the answer from the team is anything less than a clear yes, the game gets killed.</p>
+<p>For features within a live game, the question is equally simple: <strong>"Does this make the game better for the player who has been playing for 3 years?"</strong> Veterans are the hardest to retain and the most valuable to keep. Everything gets evaluated through that lens.</p>
+</div>
+<div class="tw"><table><thead><tr><th>Decision framework</th><th>Question asked</th><th>Outcome if no</th></tr></thead><tbody>
+<tr><td><strong>New game greenlight</strong></td><td>"Would you be devastated if this shut down?"</td><td>Kill it. Celebrate with champagne.</td></tr>
+<tr><td><strong>Soft-launch to global rollout</strong></td><td>"Does Day-30 retention meet our internal bar?"</td><td>Kill it before global launch. (Everdale, Clash Mini, Rush Wars)</td></tr>
+<tr><td><strong>New feature for live game</strong></td><td>"Does this make the game meaningfully better?"</td><td>Don't ship. Wait for a better solution.</td></tr>
+<tr><td><strong>Team structure</strong></td><td>"Is the team small enough to move fast and own everything?"</td><td>Split the team or restructure.</td></tr>
+<tr><td><strong>Monetisation mechanic</strong></td><td>"Does this feel fair to a player who spends zero?"</td><td>Don't ship. Supercell has repeatedly killed revenue features that felt predatory.</td></tr>
+</tbody></table></div>
+<div class="pq">"The less management had to do with the game, the better its chances of success."<cite>- Ilkka Paananen, CEO, Supercell - GDC 2018</cite></div>
+</section>
+
+<!-- 09 -->
+<section>
+<div class="sn">09 - MVP + Core Retention Loops</div>
+<h2 class="st">The three retention loops that make Supercell games last</h2>
+<p class="si">Every Supercell game is built on layered retention loops that activate at different time horizons. Missing any one loop is what kills most mobile games at 30, 90, or 365 days.</p>
+
+<div class="loop-diagram">
+<div class="loop-title">Loop 1 - The Daily Habit (Hours)</div>
+<div class="loop-steps">
+<div class="loop-node">Log in to collect resources</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Spend resources to build / upgrade</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Attack other villages for more resources</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Wait for building timer</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Log in again</div>
+</div>
+</div>
+
+<div class="loop-diagram">
+<div class="loop-title">Loop 2 - The Social Obligation (Weekly)</div>
+<div class="loop-steps">
+<div class="loop-node">Clan invites you to war</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">You commit to attacking</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Social pressure to show up</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">You win or lose as a team</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Post-war debrief, next war</div>
+</div>
+</div>
+
+<div class="loop-diagram">
+<div class="loop-title">Loop 3 - The Progression Milestone (Months)</div>
+<div class="loop-steps">
+<div class="loop-node">Upgrade Town Hall to new level</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Unlock new buildings and troops</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">New strategic layer opens up</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Compete at new trophy tier</div>
+<div class="loop-arrow">→</div>
+<div class="loop-node">Next Town Hall in sight</div>
+</div>
+</div>
+
+<div class="prose" style="margin-top:1.5rem;">
+<p>The loops stack. Each one activates deeper investment. Missing any one loop is what kills most mobile games at 30, 90, or 365 days.</p>
+</div>
+
+<div class="diagram-wrap">
+<svg width="100%" viewBox="0 0 680 680" role="img">
+<title>Supercell's three layered retention loops</title>
+<desc>Three retention loops that keep players engaged: daily habit (hours), social obligation (weekly), and progression milestone (months).</desc>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<text class="th" x="340" y="28" text-anchor="middle">Three retention loops — layered by time horizon</text>
+<text class="ts" x="340" y="46" text-anchor="middle">Remove any one and retention collapses at that stage.</text>
+
+<!-- LOOP 1 header -->
+<g class="c-coral"><rect x="40" y="62" width="600" height="28" rx="6" stroke-width="0.5"/><text class="ts" x="340" y="81" text-anchor="middle">Loop 1 — Daily habit (hours) · avg 4 sessions/day</text></g>
+
+<!-- Loop 1 nodes -->
+<g class="c-coral"><rect x="40" y="104" width="108" height="50" rx="8" stroke-width="0.5"/><text class="th" x="94" y="124" text-anchor="middle">Log in</text><text class="ts" x="94" y="141" text-anchor="middle">Collect resources</text></g>
+<line x1="148" y1="129" x2="166" y2="129" stroke="#D85A30" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-coral"><rect x="166" y="104" width="108" height="50" rx="8" stroke-width="0.5"/><text class="th" x="220" y="124" text-anchor="middle">Build</text><text class="ts" x="220" y="141" text-anchor="middle">Upgrade buildings</text></g>
+<line x1="274" y1="129" x2="292" y2="129" stroke="#D85A30" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-coral"><rect x="292" y="104" width="108" height="50" rx="8" stroke-width="0.5"/><text class="th" x="346" y="124" text-anchor="middle">Attack</text><text class="ts" x="346" y="141" text-anchor="middle">Earn more gold</text></g>
+<line x1="400" y1="129" x2="418" y2="129" stroke="#D85A30" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-coral"><rect x="418" y="104" width="108" height="50" rx="8" stroke-width="0.5"/><text class="th" x="472" y="124" text-anchor="middle">Wait</text><text class="ts" x="472" y="141" text-anchor="middle">Timer runs out</text></g>
+<path d="M526 129 L552 129 L552 166 L50 166 L50 154" fill="none" stroke="#D85A30" stroke-width="1" marker-end="url(#arr)"/>
+<text class="ts" x="340" y="184" text-anchor="middle">Timers force return. Every check-in deepens investment before Day 7.</text>
+
+<!-- LOOP 2 header -->
+<g class="c-teal"><rect x="40" y="202" width="600" height="28" rx="6" stroke-width="0.5"/><text class="ts" x="340" y="221" text-anchor="middle">Loop 2 — Social obligation (weekly) · the retention lock</text></g>
+
+<!-- Loop 2 nodes -->
+<g class="c-teal"><rect x="40" y="242" width="118" height="50" rx="8" stroke-width="0.5"/><text class="th" x="99" y="262" text-anchor="middle">Clan invites</text><text class="ts" x="99" y="279" text-anchor="middle">You join Clan War</text></g>
+<line x1="158" y1="267" x2="176" y2="267" stroke="#1D9E75" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-teal"><rect x="176" y="242" width="118" height="50" rx="8" stroke-width="0.5"/><text class="th" x="235" y="262" text-anchor="middle">Commit</text><text class="ts" x="235" y="279" text-anchor="middle">Social pressure builds</text></g>
+<line x1="294" y1="267" x2="312" y2="267" stroke="#1D9E75" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-teal"><rect x="312" y="242" width="118" height="50" rx="8" stroke-width="0.5"/><text class="th" x="371" y="262" text-anchor="middle">Play as team</text><text class="ts" x="371" y="279" text-anchor="middle">Win or lose together</text></g>
+<line x1="430" y1="267" x2="448" y2="267" stroke="#1D9E75" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-teal"><rect x="448" y="242" width="118" height="50" rx="8" stroke-width="0.5"/><text class="th" x="507" y="262" text-anchor="middle">Debrief</text><text class="ts" x="507" y="279" text-anchor="middle">Next war signed up</text></g>
+<path d="M566 267 L594 267 L594 304 L50 304 L50 292" fill="none" stroke="#1D9E75" stroke-width="1" marker-end="url(#arr)"/>
+<text class="ts" x="340" y="322" text-anchor="middle">Missing a war attack feels like letting teammates down. No push notification replicates this.</text>
+
+<!-- LOOP 3 header -->
+<g class="c-blue"><rect x="40" y="340" width="600" height="28" rx="6" stroke-width="0.5"/><text class="ts" x="340" y="359" text-anchor="middle">Loop 3 — Progression milestone (months) · the veteran hook</text></g>
+
+<!-- Loop 3 nodes -->
+<g class="c-blue"><rect x="40" y="380" width="128" height="50" rx="8" stroke-width="0.5"/><text class="th" x="104" y="400" text-anchor="middle">Upgrade TH</text><text class="ts" x="104" y="417" text-anchor="middle">Major milestone</text></g>
+<line x1="168" y1="405" x2="186" y2="405" stroke="#378ADD" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-blue"><rect x="186" y="380" width="128" height="50" rx="8" stroke-width="0.5"/><text class="th" x="250" y="400" text-anchor="middle">Unlock content</text><text class="ts" x="250" y="417" text-anchor="middle">New buildings, troops</text></g>
+<line x1="314" y1="405" x2="332" y2="405" stroke="#378ADD" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-blue"><rect x="332" y="380" width="128" height="50" rx="8" stroke-width="0.5"/><text class="th" x="396" y="400" text-anchor="middle">New meta opens</text><text class="ts" x="396" y="417" text-anchor="middle">New trophy tier</text></g>
+<line x1="460" y1="405" x2="478" y2="405" stroke="#378ADD" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+<g class="c-blue"><rect x="478" y="380" width="162" height="50" rx="8" stroke-width="0.5"/><text class="th" x="559" y="400" text-anchor="middle">Next TH in sight</text><text class="ts" x="559" y="417" text-anchor="middle">Months away, always</text></g>
+<path d="M640 405 L656 405 L656 442 L50 442 L50 430" fill="none" stroke="#378ADD" stroke-width="1" marker-end="url(#arr)"/>
+<text class="ts" x="340" y="462" text-anchor="middle">Veterans who have finished the base game always have a next horizon to chase.</text>
+
+<!-- Summary -->
+<line x1="40" y1="480" x2="640" y2="480" stroke="rgba(12,12,12,0.10)" stroke-width="0.5"/>
+<text class="th" x="340" y="505" text-anchor="middle">What happens if you remove a loop</text>
+
+<g class="c-gray"><rect x="40" y="520" width="176" height="58" rx="8" stroke-width="0.5"/>
+<text class="th" x="128" y="542" text-anchor="middle">Loop 1 only</text>
+<text class="ts" x="128" y="558" text-anchor="middle">Day 7 churn</text>
+<text class="ts" x="128" y="571" text-anchor="middle">without social hook</text></g>
+
+<g class="c-gray"><rect x="252" y="520" width="176" height="58" rx="8" stroke-width="0.5"/>
+<text class="th" x="340" y="542" text-anchor="middle">Loops 1 + 2</text>
+<text class="ts" x="340" y="558" text-anchor="middle">Day 30 retained</text>
+<text class="ts" x="340" y="571" text-anchor="middle">habit formed</text></g>
+
+<g class="c-teal"><rect x="464" y="520" width="176" height="58" rx="8" stroke-width="0.5"/>
+<text class="th" x="552" y="542" text-anchor="middle">All 3 loops</text>
+<text class="ts" x="552" y="558" text-anchor="middle">Year 1+ retained</text>
+<text class="ts" x="552" y="571" text-anchor="middle">veteran player</text></g>
+
+<text class="ts" x="340" y="618" text-anchor="middle">Supercell's 27% DAU/MAU — best-in-class for mobile — comes from all three loops firing together.</text>
+</svg>
+</div>
+<div class="mg">
+<div class="mc"><div class="mlab">Day 1 retention</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">~40-50%</div><div class="mds">Driven by tutorial hook and first session design</div></div>
+<div class="mc"><div class="mlab">Day 30 retention</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">~15-20%</div><div class="mds">Industry average is 3-5%. Supercell's social loop drives this.</div></div>
+<div class="mc"><div class="mlab">Sessions/day</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">4x daily</div><div class="mds">Short sessions, high frequency. Resource timers force return.</div></div>
+<div class="mc"><div class="mlab">Word of mouth</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">68%</div><div class="mds">Of CoC players came via WoM. Quality retains, quality acquires.</div></div>
+</div>
+</section>
+
+<!-- 10 -->
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How Supercell acquires and retains at scale</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Internal</div><div><h5>Dogfooding and internal soft-launch</h5><p>Every game is first played extensively by Supercell's own employees before any external launch. Hundreds of internal hours played to identify problems. This is not QA - this is product validation. If employees aren't devastated by the idea of the game shutting down, neither will players be.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Single market</div><div><h5>Canada-first soft-launch with real retention data</h5><p>Clash of Clans launched in Canada under the codename "Magic" in July 2012. One month of real retention data. Day-1, Day-7, Day-30 retention measured against Supercell's internal bar. Only when data showed the game was retaining exceptionally did it go global - one month later, in August 2012.</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Organic first</div><div><h5>App store featuring and word of mouth before paid UA</h5><p>Early Supercell invested heavily in being featured by Apple and Google - free placement driven by game quality. 68% of Clash of Clans players came via word of mouth. Supercell only scaled paid UA (including a $9M Super Bowl ad with Liam Neeson) after organic retention proved the model could sustain it.</p></div></div>
+<div class="ph"><div class="phn">Phase 4<br>Paid UA</div><div><h5>Cinematic ads that generate earned media</h5><p>When Supercell went paid, they went big and cinematic. Liam Neeson for Clash of Clans. High-production Clash Royale combat scenes. These ads weren't just acquisition tools - they were cultural moments that generated YouTube views, Reddit threads, and press coverage worth far more than the media buy. A retargeting ad featured a man meeting his future self, a social outcast who quit CoC before "the greatest update ever." Emotional, memorable, effective.</p></div></div>
+<div class="ph"><div class="phn">Phase 5<br>Live ops</div><div><h5>Seasonal events and content drops as re-acquisition</h5><p>Supercell's live ops cadence means lapsed players have a reason to return every 8-10 weeks. A new season, a new meta, a collaboration event. Each content drop is effectively a low-cost re-acquisition campaign targeted at a high-intent audience: players who already love the game but temporarily drifted. Cost-per-returning-player is a fraction of cost-per-new-player.</p></div></div>
+</div>
+<div class="prose" style="margin-top:2rem;">
+<h3>The lesson for every PM</h3>
+<p>Supercell's growth strategy has a circular logic that only works if the product is genuinely great: <strong>retention drives word of mouth, word of mouth drives acquisition, acquisition feeds into a community that deepens retention.</strong> The flywheel only spins if the product is strong enough at the centre.</p>
+<p>Most companies try to acquire their way to retention. Supercell proved you can retain your way to acquisition. The corollary: if you're spending heavily on UA before you've cracked Day-30 retention, you're pouring water into a leaky bucket. Fix the leak first.</p>
+<p>The second PM lesson: <strong>organisational structure is a product decision.</strong> Supercell's small, autonomous cell teams produced better games than large, top-down studios - not despite having fewer resources, but because of it. Constraints force focus. Focus produces quality. Quality produces retention. That chain is the entire business model.</p>
+</div>
+</section>
+
+</div>
+</section>
+
+<!-- 11 -->
+<section>
+<div class="sn">11 - How Supercell Stayed Relevant</div>
+<h2 class="st">Adapting across 15 years without losing the plot</h2>
+<p class="si">Most mobile games peak in year one and decline forever. Clash of Clans launched in 2012 and is still in the top-grossing charts in 2026. This doesn't happen by accident.</p>
+
+<div class="prose"><p>Supercell's longevity story has three distinct eras — each defined by a different strategic challenge and a different response. Understanding the evolution is as instructive as understanding the original product.</p></div>
+
+<div class="timeline">
+<div class="tlrow">
+  <div class="tlyear">Era 1<br>2010-2016</div>
+  <div class="tlc">
+    <h5>The build phase - from zero to $2B/year</h5>
+    <p>Supercell found product-market fit by doing two things simultaneously: running cell teams with total creative autonomy, and killing anything that didn't meet an almost impossibly high bar. From 2010 to 2016 they shipped five games that went to the top of the charts — and killed 14+ others the public never saw. Revenue grew from zero to over €2.1 billion. The philosophy was clear, the execution was sharp, the model was working.</p>
+    <p>Key move: Tencent acquired 84% of Supercell for $8.6 billion in 2016, valuing the company higher than almost any Western game studio — on the basis of just 5 games and fewer than 300 people. The deal validated the cell model as a fundamentally superior way to build games.</p>
+    <span class="em">Philosophy: small teams, kill early, ship rarely</span>
+  </div>
+</div>
+<div class="tlrow">
+  <div class="tlyear">Era 2<br>2016-2022</div>
+  <div class="tlc">
+    <h5>The plateau - six years without a new hit</h5>
+    <p>After Brawl Stars in 2018, Supercell went six years without releasing a new globally successful game. Revenue peaked in 2016 at €2.1B and slowly declined — to €1.77B in 2022, a 6% YoY drop with EBITDA falling 14%. The company killed Clash Quest, Rush Wars, Everdale, and Clash Mini — all games that reached soft-launch but didn't meet the internal bar.</p>
+    <p>The uncomfortable truth Supercell was forced to confront: the same small-team philosophy that was perfect for creating new games was actively hurting the live games. CoC's team was too small to deliver the content cadence players expected. The "small team" constraint had become an obstacle to serving the player base that already existed.</p>
+    <p>CEO Ilkka Paananen publicly asked in a 2022 blog post whether Supercell's best days were behind it — a rare moment of public self-reflection from a company that had seemed unstoppable.</p>
+    <span class="em">Challenge: the model that built the empire was limiting the empire</span>
+  </div>
+</div>
+<div class="tlrow">
+  <div class="tlyear">Era 3<br>2023-present</div>
+  <div class="tlc">
+    <h5>The reinvention - updating the philosophy without abandoning it</h5>
+    <p>In 2023, Supercell restructured into two divisions: <strong>New Games</strong> (keep the cell model, small teams, creative autonomy) and <strong>Live Games</strong> (larger teams, more resources, faster content cadence). The Clash of Clans team doubled in size — its GM admitted the small team constraint had "become an obstacle."</p>
+    <p>The results were immediate. Brawl Stars had its highest revenue week since 2021 in January 2024. Clash of Clans hit 4M+ new downloads in April 2025. Revenue bounced back strongly in 2024. The company hadn't abandoned its philosophy — it had evolved it. Small teams for new games. Larger, still-autonomous teams for live games.</p>
+    <p>Supercell also expanded into creator-driven growth: the <strong>Supercell Make</strong> platform lets fans create content, mods, and mini-games in the Clash universe — turning the player community into a content creation engine. Clash of Clans got a Netflix animated series. Brawl Stars partnered with Chess.com. The Clash IP became a cultural franchise, not just a game.</p>
+    <span class="em">Key insight: philosophy evolves, principles don't</span>
+  </div>
+</div>
+</div>
+
+<div class="prose" style="margin-top:2rem;"><h3>The four things Supercell got consistently right across all three eras</h3></div>
+
+<div class="solg">
+<div class="solc"><h5>1. Never compromise on Day-30 retention</h5><p>Across every era, the bar for shipping a game has been the same: if Day-30 retention doesn't meet the internal threshold, the game is killed. No exception for sunk cost, no exception for public demand. Clash Mini had a fan following and was killed anyway. This consistency is what kept the portfolio's quality floor intact for 15 years.</p><span class="stag">Principle: quality floor is non-negotiable</span></div>
+<div class="solc"><h5>2. Live ops as a product, not a feature</h5><p>Supercell understood before most studios that a mobile game's "launch" is just the beginning of the product lifecycle. Seasons, events, meta updates, and collaborations are what keep a 13-year-old game like Clash of Clans in the top-grossing charts. Live ops is a full product team, not a marketing add-on.</p><span class="stag">Principle: launch is just the start</span></div>
+<div class="solc"><h5>3. Monetisation that respects the free player</h5><p>When Brawl Stars removed loot boxes under player pressure — a decision that cost short-term revenue — Supercell replaced them with Starr Drops, a more transparent and less manipulative mechanic. Revenue recovered and exceeded prior peaks. Respecting player trust is a long-term revenue strategy, not a cost.</p><span class="stag">Principle: player trust > short-term revenue</span></div>
+<div class="solc"><h5>4. Willingness to challenge their own beliefs</h5><p>Paananen publicly called small teams "one of the biggest mistakes of my career" when applied to live games. No public repositioning, no spin — just a direct admission and a structural change. The culture of celebrating failure internally extended to challenging founding beliefs externally. Companies that can't question their own model get disrupted by companies that can.</p><span class="stag">Principle: challenge what made you successful</span></div>
+</div>
+
+<div class="pq">"We noticed that we had been so stuck in some of our old beliefs that in some cases we had not been able to fully deliver for our players."<cite>- Ilkka Paananen, CEO, Supercell - 2023</cite></div>
+
+<div class="prose">
+<h3>The PM takeaway on staying relevant</h3>
+<p>Supercell's 15-year arc contains a lesson every PM should internalise: <strong>the strategy that gets you to the top is not the strategy that keeps you there.</strong> The small-team cell model was perfect for finding product-market fit and shipping hits. It became a liability for operating massive live service games at the content cadence players expected in 2022.</p>
+<p>The companies that stay relevant don't cling to the playbook that made them successful. They hold the <strong>principles</strong> constant (player trust, quality floor, creative autonomy, willingness to kill) while evolving the <strong>execution model</strong> as the context changes. Supercell did exactly this — and the 2024 revenue rebound is the evidence.</p>
+<p>The secondary lesson: <strong>a franchise is more durable than a game.</strong> Clash of Clans at 13 years old is not just a game anymore. It's a Netflix series, a board game, a community of creators, and a cultural reference point for a generation of mobile gamers. When you build something people play for years, eventually you build something they feel about. That feeling is the moat that no competitor can replicate with a better mechanic or a lower CPI.</p>
+</div>
+</section>
+
+<div class="diagram-wrap">
+<svg width="100%" viewBox="0 0 680 590" role="img">
+<title>Supercell's three strategic eras 2010 to 2026</title>
+<desc>Timeline showing Supercell's build phase, plateau, and reinvention eras alongside four constants that never changed.</desc>
+<defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<text class="th" x="340" y="28" text-anchor="middle">How Supercell adapted across 15 years</text>
+<text class="ts" x="340" y="46" text-anchor="middle">Three eras. Three strategic challenges. One consistent philosophy.</text>
+
+<!-- ERA 1 -->
+<g class="c-teal"><rect x="40" y="62" width="184" height="34" rx="8" stroke-width="0.5"/><text class="th" x="132" y="84" text-anchor="middle">Era 1 — Build phase</text></g>
+<text class="ts" x="132" y="110" text-anchor="middle">2010 – 2016</text>
+<g class="c-teal"><rect x="40" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="82" y="142" text-anchor="middle">€2.1B</text><text class="ts" x="82" y="158" text-anchor="middle">peak revenue</text></g>
+<g class="c-teal"><rect x="140" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="182" y="142" text-anchor="middle">5 hits</text><text class="ts" x="182" y="158" text-anchor="middle">14+ killed</text></g>
+<text class="ts" x="48" y="188" text-anchor="start">→ Cell model: teams of 10-17, full autonomy</text>
+<text class="ts" x="48" y="204" text-anchor="start">→ Kill anything that doesn't retain</text>
+<text class="ts" x="48" y="220" text-anchor="start">→ 68% of CoC players via word of mouth</text>
+<text class="ts" x="48" y="236" text-anchor="start">→ Tencent acquires 84% for $8.6B (2016)</text>
+
+<!-- ERA 2 -->
+<g class="c-amber"><rect x="248" y="62" width="184" height="34" rx="8" stroke-width="0.5"/><text class="th" x="340" y="84" text-anchor="middle">Era 2 — The plateau</text></g>
+<text class="ts" x="340" y="110" text-anchor="middle">2016 – 2022</text>
+<g class="c-amber"><rect x="248" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="290" y="142" text-anchor="middle">-6% rev</text><text class="ts" x="290" y="158" text-anchor="middle">YoY by 2022</text></g>
+<g class="c-amber"><rect x="348" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="390" y="142" text-anchor="middle">0 new hits</text><text class="ts" x="390" y="158" text-anchor="middle">6 years</text></g>
+<text class="ts" x="256" y="188" text-anchor="start">→ Brawl Stars (2018) was the last hit</text>
+<text class="ts" x="256" y="204" text-anchor="start">→ 30+ games killed before global launch</text>
+<text class="ts" x="256" y="220" text-anchor="start">→ Small teams: obstacle for live games</text>
+<text class="ts" x="256" y="236" text-anchor="start">→ CEO asks: "are our best days behind us?"</text>
+
+<!-- ERA 3 -->
+<g class="c-blue"><rect x="456" y="62" width="184" height="34" rx="8" stroke-width="0.5"/><text class="th" x="548" y="84" text-anchor="middle">Era 3 — Reinvention</text></g>
+<text class="ts" x="548" y="110" text-anchor="middle">2023 – present</text>
+<g class="c-blue"><rect x="456" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="498" y="142" text-anchor="middle">Revenue</text><text class="ts" x="498" y="158" text-anchor="middle">boom 2024</text></g>
+<g class="c-blue"><rect x="556" y="122" width="84" height="48" rx="8" stroke-width="0.5"/><text class="th" x="598" y="142" text-anchor="middle">4M+</text><text class="ts" x="598" y="158" text-anchor="middle">CoC DLs Apr 25</text></g>
+<text class="ts" x="464" y="188" text-anchor="start">→ Split: New Games vs Live Games</text>
+<text class="ts" x="464" y="204" text-anchor="start">→ CoC team doubled in size</text>
+<text class="ts" x="464" y="220" text-anchor="start">→ Supercell Make: fans create content</text>
+<text class="ts" x="464" y="236" text-anchor="start">→ Clash becomes a Netflix franchise</text>
+
+<!-- Divider -->
+<line x1="40" y1="254" x2="640" y2="254" stroke="rgba(12,12,12,0.10)" stroke-width="0.5"/>
+<text class="th" x="340" y="278" text-anchor="middle">What never changed across all three eras</text>
+
+<!-- Four constants -->
+<g class="c-coral"><rect x="40" y="294" width="140" height="62" rx="8" stroke-width="0.5"/>
+<text class="th" x="110" y="316" text-anchor="middle">Devastation test</text>
+<text class="ts" x="110" y="332" text-anchor="middle">"Would you be</text>
+<text class="ts" x="110" y="346" text-anchor="middle">devastated if it shut?"</text></g>
+
+<g class="c-teal"><rect x="196" y="294" width="140" height="62" rx="8" stroke-width="0.5"/>
+<text class="th" x="266" y="316" text-anchor="middle">Live ops as product</text>
+<text class="ts" x="266" y="332" text-anchor="middle">Seasons, events,</text>
+<text class="ts" x="266" y="346" text-anchor="middle">meta shifts for vets</text></g>
+
+<g class="c-blue"><rect x="352" y="294" width="140" height="62" rx="8" stroke-width="0.5"/>
+<text class="th" x="422" y="316" text-anchor="middle">Player trust first</text>
+<text class="ts" x="422" y="332" text-anchor="middle">Spend on speed,</text>
+<text class="ts" x="422" y="346" text-anchor="middle">never on advantage</text></g>
+
+<g class="c-amber"><rect x="508" y="294" width="140" height="62" rx="8" stroke-width="0.5"/>
+<text class="th" x="578" y="316" text-anchor="middle">Challenge beliefs</text>
+<text class="ts" x="578" y="332" text-anchor="middle">Small teams: great</text>
+<text class="ts" x="578" y="346" text-anchor="middle">for new, not for live</text></g>
+
+<!-- Revenue sparkline -->
+<line x1="40" y1="376" x2="640" y2="376" stroke="rgba(12,12,12,0.10)" stroke-width="0.5"/>
+<text class="ts" x="340" y="398" text-anchor="middle">Revenue trajectory (schematic)</text>
+
+<line x1="60" y1="560" x2="630" y2="560" stroke="rgba(12,12,12,0.15)" stroke-width="0.5"/>
+<text class="ts" x="88" y="574" text-anchor="middle">2012</text>
+<text class="ts" x="200" y="574" text-anchor="middle">2016</text>
+<text class="ts" x="330" y="574" text-anchor="middle">2019</text>
+<text class="ts" x="456" y="574" text-anchor="middle">2022</text>
+<text class="ts" x="582" y="574" text-anchor="middle">2025</text>
+
+<polyline points="88,552 130,534 172,514 200,492 240,500 280,510 330,516 375,522 420,528 456,534 486,518 520,502 554,487 582,480"
+  fill="none" stroke="#378ADD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+<text class="ts" x="148" y="488" text-anchor="middle" class="c-teal-text" fill="#0F6E56">Build phase ↑</text>
+<text class="ts" x="360" y="508" text-anchor="middle" fill="#854F0B">Plateau →</text>
+<text class="ts" x="545" y="472" text-anchor="middle" fill="#185FA5">Rebound ↑</text>
+
+</svg>
+</div>
+
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>

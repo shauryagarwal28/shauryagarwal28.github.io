@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Duolingo Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#28a050;--act:#4ade80;--acl:#e8f5ee;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#0a1f0c;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 30% 60%,rgba(40,160,80,0.2) 0%,transparent 55%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#4ade80;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pu 2s infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#4ade80;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac);margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:var(--ac);}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.jstep{display:grid;grid-template-columns:120px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.stag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:var(--acl);color:var(--ac);}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.mlab{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mfr{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.mar{color:var(--muted);}
+.mto{font-family:var(--serif);font-size:1.2rem;color:var(--ac);}
+.mds{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}
+.pq{border-left:3px solid var(--ac);padding:1.25rem 1.5rem;background:var(--acl);border-radius:0 10px 10px 0;margin:2rem 0;font-size:14.5px;color:var(--ac);font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:var(--ac);font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.wfs{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.wfl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.wfl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.wfsc{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;}
+.wfcol{display:flex;flex-direction:column;align-items:center;gap:8px;width:160px;}
+.wfst{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.wfph{width:150px;border:1.5px solid var(--borderS);border-radius:20px;overflow:hidden;background:var(--bg);}
+.wfbar{height:20px;background:var(--white);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:4px;}
+.wfdot{width:4px;height:4px;border-radius:50%;background:#aaa;}
+.wfb{padding:9px 8px 12px;}
+.wftt{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.wfdiv{height:0.5px;background:var(--border);margin:5px 0;}
+.wfarr{color:var(--muted);font-size:18px;padding-top:40px;}
+.wfnt{font-size:10px;color:var(--soft);text-align:center;max-width:155px;line-height:1.5;}
+footer{background:#0a1f0c;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#4ade80;text-decoration:none;}
+.loop-card{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;margin:1rem 0;}
+.loop-card h4{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.loop-card p{font-size:14px;color:var(--soft);line-height:1.75;}
+.screen-mock{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin:1rem 0;max-width:360px;}
+.mock-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.mock-row:last-child{border-bottom:none;}
+.mock-label{font-size:13px;color:var(--ink);}
+.mock-val{font-size:13px;font-weight:600;color:var(--ac);}
+.streak-bar{height:8px;border-radius:4px;background:#f0eeea;margin:8px 0;overflow:hidden;}
+.streak-fill{height:100%;border-radius:4px;background:var(--ac);}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Product Teardown</div>
+<h1>Duolingo:<br><em>The Streak Economy</em></h1>
+<div class="csub">How habit loops power a $7B EdTech flywheel - and where the model works against itself</div>
+<div class="cmeta">
+<div><div class="lb">Product</div><div class="vl">Duolingo</div></div>
+<div><div class="lb">Category</div><div class="vl">EdTech / Language Learning</div></div>
+<div><div class="lb">Type</div><div class="vl">Engagement + Monetisation Analysis</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">The numbers behind the owl</h2>
+<p class="si">Duolingo is the world's most downloaded language learning app. 574M+ registered users, 40M+ DAU, listed on NASDAQ with a $7B+ market cap. The business model is freemium with a Super subscription tier.</p>
+<div class="snaps">
+<div class="snap"><div class="n">574M+</div><div class="l">Registered users</div></div>
+<div class="snap"><div class="n">40M+</div><div class="l">Daily active users</div></div>
+<div class="snap"><div class="n">27%</div><div class="l">DAU/MAU ratio</div></div>
+<div class="snap"><div class="n">$7B+</div><div class="l">Market cap</div></div>
+</div>
+<div class="prose"><p>Duolingo's product achieves something genuinely rare: <strong>27% DAU/MAU</strong> in a category (language learning) historically characterised by extremely high drop-off. The streak mechanic is the primary driver. But the streak is a commitment device built on loss aversion rather than intrinsic motivation - and that distinction has deep implications for the product's long-term defensibility.</p></div>
+</section>
+
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">The core tension: engagement vs learning</h2>
+<p class="si">Duolingo has built the most engaging language app in the world. It has not necessarily built the most effective one.</p>
+<div class="pq">"I have a 400-day streak and I can't hold a 5-minute conversation in Spanish. But I'll open the app every day to protect the number."<cite>- Duolingo power user, online forum</cite></div>
+<div class="prose"><p>The streak creates daily opens. But daily opens don't create language proficiency if the content difficulty doesn't scale with the learner. The problem: <strong>Duolingo optimises for engagement signals</strong> (streak length, lessons completed, XP earned) rather than <strong>learning outcomes</strong> (conversation fluency, comprehension). As AI-powered alternatives (ChatGPT, Babbel's AI tutor) close the experience gap, Duolingo's engagement-first moat becomes fragile if users start asking "am I actually learning?"</p></div>
+</section>
+
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who uses Duolingo and what they actually want</h2>
+<div class="pg">
+<div class="pc"><div class="pn">Ananya, 23</div><div class="pr">Student, preparing for study abroad</div><div class="pd"><strong>Uses Duolingo:</strong> Daily, 15-20 min sessions, 200+ day streak</div><div class="pd"><strong>Real goal:</strong> Conversational fluency before moving to France</div><div class="pd"><strong>Pain:</strong> Streak is long but French feels hard in practice</div><span class="ptag p0">Outcome-oriented - most valuable cohort</span></div>
+<div class="pc"><div class="pn">Rajan, 45</div><div class="pr">Professional, learning Spanish casually</div><div class="pd"><strong>Uses Duolingo:</strong> 2-3x/week, inconsistent, low streak</div><div class="pd"><strong>Real goal:</strong> Get by on a trip to Mexico</div><div class="pd"><strong>Pain:</strong> Loses streak, feels guilty, opens less frequently</div><span class="ptag p1">Casual learner - high churn risk</span></div>
+<div class="pc"><div class="pn">Priya, 19</div><div class="pr">Student, learning for fun / social</div><div class="pd"><strong>Uses Duolingo:</strong> Daily, competes on leaderboard</div><div class="pd"><strong>Real goal:</strong> Maintain streak, beat friends on XP</div><div class="pd"><strong>Pain:</strong> None - engagement loop works perfectly for her</div><span class="ptag p2">Game-mode user - engaged but low outcome value</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>Retention</th><th>Conversion to Super</th><th>LTV</th><th>Product priority</th></tr></thead><tbody>
+<tr><td><strong>Outcome-seeker (Ananya)</strong></td><td>High while goal is alive</td><td>High - will pay for real progress</td><td>Highest</td><td><span class="badge bg">Serve better</span></td></tr>
+<tr><td><strong>Casual learner (Rajan)</strong></td><td>Low - guilt-churns on streak loss</td><td>Low</td><td>Medium</td><td><span class="badge ba">Reduce streak anxiety</span></td></tr>
+<tr><td><strong>Game-mode user (Priya)</strong></td><td>High - loop is working</td><td>Medium</td><td>Medium</td><td><span class="badge">Maintain current product</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">Ananya's daily Duolingo session</h2>
+<div class="js">
+<div class="jstep"><div class="jstage">Trigger</div><div class="jc"><h5>Duo notification at 8 PM</h5><p>"Your streak is at risk!" She opens the app. The notification worked but the motivation is fear, not excitement.</p><span class="em">Anxious</span></div></div>
+<div class="jstep"><div class="jstage">Lesson</div><div class="jc"><h5>Completes a 5-minute lesson on "Family vocabulary"</h5><p>She already knows most of these words. The lesson is too easy. She flies through it on autopilot to save the streak.</p><span class="em">Bored, but streak protected</span></div></div>
+<div class="jstep"><div class="jstage">Reward</div><div class="jc"><h5>Gets XP, leaderboard rank goes up</h5><p>Dopamine hit. Streak is saved. She closes the app having spent 5 minutes and learned essentially nothing new.</p><span class="em">Brief satisfaction</span></div></div>
+<div class="jstep"><div class="jstage">Reality check</div><div class="jc"><h5>Tries to speak French in a real situation</h5><p>At a French restaurant, she struggles to order. The gap between her Duolingo streak and her actual ability is jarring.</p><span class="em">Frustrated</span></div></div>
+<div class="jstep"><div class="jstage">Decision point</div><div class="jc"><h5>Considers switching to a different learning method</h5><p>Starts a conversation with a native speaker on HelloTalk instead. Still opens Duolingo to protect the streak but the habit's value is weakening.</p><span class="em">Questioning</span></div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">Where the engagement model fails the learner</h2>
+<div class="paing">
+<div class="painc"><div class="ico">😰</div><h5>Streak anxiety drives low-quality sessions</h5><p>Users open the app to protect the streak, not to learn. A 5-minute lesson on easy content "counts" the same as a difficult 20-minute session.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">📉</div><h5>Difficulty doesn't adapt to mastery</h5><p>The curriculum stays the same regardless of actual fluency level. Advanced users repeat beginner content. Boredom compounds with time.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">💔</div><h5>Hearts punish mistakes in an educational product</h5><p>The Hearts system (limited errors per session) creates fear of attempting harder exercises. Pedagogically backward - mistakes are how learning happens.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🤖</div><h5>Leaderboard gaming by bots</h5><p>Diamond league and high leaderboard slots are dominated by automated scripts. Legitimate users lose to bots and stop competing. Social layer degrades.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">📊</div><h5>No proficiency visibility</h5><p>No feature tells the user "here's what you can actually say." Streak length is a poor proxy for learning. Users don't know if they're making real progress.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">🔔</div><h5>Fear-based notifications</h5><p>"Your streak is at risk" is an anxiety trigger, not a learning motivator. Works short-term, erodes relationship with the product long-term.</p><span class="sev sm">Medium severity</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">What matters most for long-term retention</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Frequency</th><th>LTV impact</th><th>Solvability</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Streak drives low-quality sessions</strong></td><td>Every session for streak-holders</td><td>High - outcome-seekers churn</td><td>Medium - proficiency streak redesign</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Difficulty doesn't adapt</strong></td><td>Every session after beginner phase</td><td>High - boredom = churn</td><td>Medium - adaptive curriculum needed</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Hearts punish errors educationally</strong></td><td>Every session with mistakes</td><td>High - drives Super upgrades but hurts learning</td><td>Low - monetisation dependency complicates this</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>No proficiency visibility</strong></td><td>Chronic - users never know progress</td><td>High - losing outcome-seekers to alternatives</td><td>High - CEFR integration feasible</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Leaderboard gaming</strong></td><td>Ongoing - Diamond league compromised</td><td>Medium - social layer trust</td><td>Medium - bot detection</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Fear-based notifications</strong></td><td>Daily</td><td>Medium - relationship degradation</td><td>High - copy/timing change</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">What to build and why</h2>
+<div class="solg">
+<div class="solc"><h5>Proficiency Streak</h5><p>Replace raw day count with a streak that tracks consecutive days above the user's current difficulty floor. Harder to game. Directly correlated with actual learning. More defensible as a value metric.</p><span class="stag">Goal: align streak value with learning outcomes</span></div>
+<div class="solc"><h5>CEFR Progress Dashboard</h5><p>Show users where they fall on the A1-C2 language proficiency scale based on their performance data. "You're now conversational at A2 level" is meaningfully more motivating than a streak number.</p><span class="stag">Goal: retain outcome-seekers, justify Super price</span></div>
+<div class="solc"><h5>Adaptive Difficulty Engine</h5><p>Automatically increase exercise difficulty as users demonstrate mastery of a concept. Prevents boredom for advanced users, prevents discouragement for beginners. Makes content feel personalised.</p><span class="stag">Goal: reduce boredom churn in 60+ day streak cohort</span></div>
+<div class="solc"><h5>Challenge Streak</h5><p>Separate streak track for completing at least one "hard" exercise per day (above current skill floor). Displayed alongside regular streak. Signals real effort, not minimum viable session.</p><span class="stag">Goal: differentiate engaged vs streak-protecting users</span></div>
+<div class="solc"><h5>Motivational Notification Redesign</h5><p>Replace "your streak is at risk" with progress-anchored copy: "3 sessions this week - you're building a real habit." Move from fear to aspiration as the primary notification driver.</p><span class="stag">Goal: reduce notification disable rate, improve relationship</span></div>
+<div class="solc"><h5>Leaderboard Anti-Gaming</h5><p>Introduce "Verified Human" badge based on session quality signals (time per exercise, mistake patterns, typing speed). Bots typically show anomalous patterns detectable at scale.</p><span class="stag">Goal: restore social layer trust in Diamond league</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">What to build first</h2>
+<div class="tw"><table><thead><tr><th>Solution</th><th>Impact on LTV</th><th>Effort</th><th>Risk</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>CEFR progress dashboard</strong></td><td>High - retains outcome-seekers</td><td>4 weeks</td><td>Low - adds without removing</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Proficiency streak</strong></td><td>High - aligns metric with learning</td><td>6 weeks</td><td>Medium - changes core engagement loop</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Adaptive difficulty engine</strong></td><td>High - reduces advanced churn</td><td>8 weeks</td><td>Medium - curriculum rebuild</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Notification redesign</strong></td><td>Medium - DAU/MAU maintenance</td><td>1 week</td><td>Low - copy + timing change</td><td><span class="badge bg">P0 (low effort)</span></td></tr>
+<tr><td><strong>Challenge streak</strong></td><td>Medium - engagement segmentation</td><td>3 weeks</td><td>Low - additive feature</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Leaderboard anti-gaming</strong></td><td>Low-medium - social layer</td><td>5 weeks</td><td>Medium - ML classification</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">09 - MVP Solution with Design</div>
+<h2 class="st">Proficiency Dashboard + Streak Redesign</h2>
+<p class="si">Two screens that shift the app's value proposition from "protect your streak" to "track your real progress."</p>
+<div class="wfs">
+<div class="wfl">Interface concept</div>
+<div class="wfsc">
+
+<div class="wfcol"><div class="wfst">Current state</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Your streak</div>
+<div style="text-align:center;padding:12px 0;">
+<div style="font-size:28px;font-weight:700;color:var(--ink);">🔥 247</div>
+<div style="font-size:9px;color:var(--muted);margin-top:2px;">days in a row</div>
+</div>
+<div style="background:#fef3e2;border-radius:7px;padding:8px;margin-bottom:6px;text-align:center;">
+<div style="font-size:8px;font-weight:600;color:#b86c10;">Today's goal</div>
+<div style="font-size:9px;color:#b86c10;margin-top:2px;">Complete 1 lesson</div>
+</div>
+<div style="font-size:8px;color:var(--muted);text-align:center;">Any lesson counts toward your streak</div>
+</div></div><div class="wfnt">Current: any lesson protects the streak. No signal about learning quality.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Proposed state</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Your progress</div>
+<div style="background:var(--acl);border-radius:7px;padding:8px;margin-bottom:6px;">
+<div style="font-size:8px;font-weight:600;color:var(--ac);margin-bottom:3px;">CEFR Level</div>
+<div style="font-size:14px;font-weight:700;color:var(--ac);">A2 Conversational</div>
+<div style="font-size:7px;color:var(--ac);margin-top:2px;">You can handle basic conversations</div>
+</div>
+<div style="font-size:8px;color:var(--muted);margin-bottom:3px;">Proficiency streak</div>
+<div style="font-size:20px;font-weight:700;color:var(--ink);">🔥 18</div>
+<div style="font-size:7px;color:var(--muted);margin-bottom:6px;">days above your difficulty floor</div>
+<div style="font-size:8px;color:var(--muted);margin-bottom:2px;">Progress to A2+</div>
+<div class="streak-bar"><div class="streak-fill" style="width:62%;"></div></div>
+<div style="font-size:7px;color:var(--muted);">62% - keep up the hard exercises</div>
+</div></div><div class="wfnt">Proposed: CEFR level visible, streak tied to difficulty floor. Meaningful signal.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Weekly summary</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">This week</div>
+<div class="mock-row"><div class="mock-label" style="font-size:9px;">Sessions</div><div class="mock-val" style="font-size:9px;">5 of 7 days</div></div>
+<div class="mock-row"><div class="mock-label" style="font-size:9px;">Hard exercises</div><div class="mock-val" style="font-size:9px;">12 completed</div></div>
+<div class="mock-row"><div class="mock-label" style="font-size:9px;">Accuracy</div><div class="mock-val" style="font-size:9px;">74%</div></div>
+<div class="mock-row"><div class="mock-label" style="font-size:9px;">New vocab</div><div class="mock-val" style="font-size:9px;">23 words</div></div>
+<div style="background:var(--acl);border-radius:6px;padding:6px;margin-top:6px;text-align:center;"><div style="font-size:8px;color:var(--ac);font-weight:600;">You're building a real habit</div><div style="font-size:7px;color:var(--ac);margin-top:1px;">Keep going to reach B1 by April</div></div>
+</div></div><div class="wfnt">Weekly summary focused on learning signals, not streak protection.</div></div>
+
+</div></div>
+<div class="mg">
+<div class="mc"><div class="mlab">North Star</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">Proficiency milestone completions / month</div><div class="mds">Correlated with real learning, not gaming</div></div>
+<div class="mc"><div class="mlab">Outcome-seeker retention</div><div class="mv"><span class="mfr">~40%</span><span class="mar">→</span><span class="mto">55%+</span></div><div class="mds">90-day retention for goal-oriented users</div></div>
+<div class="mc"><div class="mlab">Super conversion</div><div class="mv"><span class="mfr">7%</span><span class="mar">→</span><span class="mto">10%+</span></div><div class="mds">CEFR dashboard as Super exclusive feature</div></div>
+<div class="mc"><div class="mlab">Notif disable rate</div><div class="mv"><span class="mfr">~25%</span><span class="mar">→</span><span class="mto">15%</span></div><div class="mds">Aspiration vs fear-based copy</div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How to shift the product narrative</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Week 1-4</div><div><h5>Launch CEFR dashboard as Super exclusive</h5><p>Add CEFR level assessment and progress dashboard to Super subscribers only. Gives a concrete new reason to upgrade or stay subscribed. Measure impact on Super churn rate before widening. This is additive and carries zero risk of disrupting the core engagement loop.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Week 5-12</div><div><h5>A/B test proficiency streak alongside regular streak</h5><p>Introduce proficiency streak as a secondary metric shown beneath the regular streak (don't remove the streak - too risky). A/B test: does showing both metrics improve 90-day retention for users above day 60? Does it reduce the proportion of minimum-viable sessions (under 3 minutes)?</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Week 13+</div><div><h5>External narrative: "Duolingo streaks that mean something"</h5><p>If A/B tests show proficiency streak correlates with retention, run a marketing campaign reframing what Duolingo streaks mean. Partner with CEFR testing bodies to make Duolingo progress count toward official certification prep. Turn the product's engagement credibility into learning credibility.</p></div></div>
+</div>
+<div class="prose" style="margin-top:1.5rem;"><p><strong>North Star:</strong> Proficiency milestone completions per month. This is harder to game than streak length and more correlated with actual learning outcomes. It also creates a natural upgrade reason: "unlock detailed CEFR breakdown with Super."</p><p><strong>Guardrail:</strong> Overall DAU/MAU must not drop. The streak is the product's primary retention mechanism. Any changes to it must be validated in A/B tests before full rollout. The goal is to add a learning signal, not remove the engagement signal.</p></div>
+</section>
+
+</div>
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>

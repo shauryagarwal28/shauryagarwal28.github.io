@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Blinkit Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#ff4f1f;--acl:#fff4f0;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;--r:10px;--rl:16px;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#1a0800;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 25% 60%,rgba(255,79,31,0.18) 0%,transparent 55%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#ff8c3c;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#ff8c3c;border-radius:50%;animation:p 2s infinite;}
+@keyframes p{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#ff8c3c;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}
+section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#ff6a35;margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:#ff6a35;}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:var(--r);border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;}
+.jstep{display:grid;grid-template-columns:120px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.solg-tag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:#fff4f0;color:#ff6a35;}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:var(--r);padding:1.25rem;}
+.ml{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mf{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.ma{color:var(--muted);}
+.mt{font-family:var(--serif);font-size:1.2rem;color:#ff6a35;}
+.md{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}.br{background:#fde8e8;color:#b91c1c;}
+.pq{border-left:3px solid #ff6a35;padding:1.25rem 1.5rem;background:#fff4f0;border-radius:0 var(--r) var(--r) 0;margin:2rem 0;font-size:14.5px;color:#ff4f1f;font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:#ff6a35;font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.wfs{background:var(--white);border:0.5px solid var(--border);border-radius:var(--rl);padding:2rem;margin:1.5rem 0;}
+.wfl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.wfl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.wfsc{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;}
+.wfcol{display:flex;flex-direction:column;align-items:center;gap:8px;width:152px;}
+.wfst{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.wfph{width:142px;border:1.5px solid var(--borderS);border-radius:20px;overflow:hidden;background:var(--bg);}
+.wfbar{height:20px;background:var(--white);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:4px;}
+.wfdot{width:4px;height:4px;border-radius:50%;background:#aaa;}
+.wfb{padding:9px 8px 11px;}
+.wftt{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.wfrw{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--border);}
+.wfrw:last-of-type{border-bottom:none;}
+.wfrl{display:flex;align-items:center;gap:4px;}
+.wfck{width:10px;height:10px;border-radius:2px;border:1px solid var(--borderS);flex-shrink:0;}
+.wfck.on{background:#ff6a35;border-color:#ff6a35;}
+.wfit{font-size:9px;color:var(--ink);}
+.wfbg{font-size:7px;padding:2px 5px;border-radius:3px;}
+.wbg{background:#e8f5ee;color:#1a7a4a;}.wbr{background:#fef2f2;color:#b91c1c;}.wby{background:#fef3e2;color:#b86c10;}
+.wfprc{display:flex;justify-content:space-between;margin-top:5px;}
+.wfprc span{font-size:8px;color:var(--muted);}
+.wfprc strong{font-size:9px;color:var(--ink);}
+.wfcta{width:100%;margin-top:6px;padding:6px;border-radius:6px;background:#ff6a35;font-size:9px;font-weight:600;color:#fff;text-align:center;}
+.wftabs{display:flex;border-top:0.5px solid var(--border);margin-top:5px;}
+.wftab{flex:1;padding:4px 0;text-align:center;font-size:7px;color:var(--muted);}
+.wftab.on{color:#ff6a35;}
+.wfcard{border:0.5px solid var(--border);border-radius:7px;overflow:hidden;margin-bottom:5px;}
+.wfcimg{height:32px;background:var(--border);display:flex;align-items:center;justify-content:center;}
+.wfcimg span{font-size:8px;color:var(--muted);}
+.wfcbd{padding:4px 6px;}
+.wfct{font-size:9px;font-weight:600;color:var(--ink);}
+.wfcm{font-size:7px;color:var(--muted);}
+.wfblk{background:var(--border);border-radius:6px;height:36px;display:flex;align-items:center;justify-content:center;margin-bottom:5px;}
+.wfblk span{font-size:8px;color:var(--muted);}
+.wfcr{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:0.5px solid var(--border);}
+.wftmb{width:20px;height:20px;border-radius:4px;background:var(--border);flex-shrink:0;}
+.wfci{flex:1;}
+.wfcn{font-size:8px;font-weight:600;color:var(--ink);}
+.wfcp{font-size:7px;color:var(--muted);}
+.wftag{font-size:8px;padding:2px 7px;border-radius:4px;background:#e8f5ee;color:#1a7a4a;margin-bottom:5px;display:inline-block;}
+.wfco{width:100%;margin-top:6px;padding:6px;border-radius:6px;background:#1a4aff;font-size:9px;font-weight:600;color:#fff;text-align:center;}
+.wfarr{color:var(--muted);font-size:20px;padding-top:40px;}
+.wfnt{font-size:10px;color:var(--soft);text-align:center;max-width:148px;line-height:1.5;}
+footer{background:#1a0800;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#ff8c3c;text-decoration:none;}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Product Teardown</div>
+<h1>Blinkit:<br><em>Recipe-to-Cart</em></h1>
+<div class="csub">A 0-to-1 feature bridging the gap between recipe content and grocery delivery</div>
+<div class="cmeta">
+<div><div class="lb">Product</div><div class="vl">Blinkit (Zomato)</div></div>
+<div><div class="lb">Category</div><div class="vl">Q-commerce</div></div>
+<div><div class="lb">Type</div><div class="vl">0-to-1 Feature Design</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">What Blinkit does today</h2>
+<p class="si">Blinkit (formerly Grofers, acquired by Zomato 2022) is India's leading quick-commerce platform, promising 10-minute grocery delivery through a dark store network across 30+ cities.</p>
+<div class="snaps">
+<div class="snap"><div class="n">30+</div><div class="l">Cities served</div></div>
+<div class="snap"><div class="n">5-7</div><div class="l">Avg items/order</div></div>
+<div class="snap"><div class="n">10 min</div><div class="l">Delivery promise</div></div>
+<div class="snap"><div class="n">2B+</div><div class="l">Food views/month on YT India</div></div>
+</div>
+<div class="prose"><p>Blinkit's core use case is the <strong>"forgot an ingredient"</strong> moment - impulse restocking mastered. But an adjacent segment goes unserved: the planned-cooking user who watches a recipe on Instagram or YouTube and manually translates it into 8-12 individual Blinkit searches. The business model depends on increasing AOV - a recipe order naturally delivers 2x the items of a standard order, making this strategically critical.</p></div>
+</section>
+
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">The content-to-commerce gap</h2>
+<p class="si">2 billion food views per month on YouTube India. Zero native integration between recipe content and Indian grocery apps.</p>
+<div class="pq">"I watch the recipe, screenshot the ingredients, switch to Blinkit, search each item one by one, figure out quantities, check stock - it takes 15 minutes just to start cooking."<cite>- Target user, Bangalore</cite></div>
+<div class="prose"><p>Three friction dimensions: <strong>context-switching</strong> between recipe content and a grocery app, <strong>ingredient guesswork</strong> on quantities and brand equivalents, and <strong>8-12 taps per ingredient</strong> when the entire job should be one tap. Planned cooking is a distinct, higher-value intent than panic restocking - and Blinkit has no product for it.</p></div>
+</section>
+
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who we're designing for</h2>
+<div class="pg">
+<div class="pc"><div class="pn">Priya, 27</div><div class="pr">Software Engineer, Bangalore</div><div class="pd"><strong>Cooks:</strong> 3-4x/week, weeknights and weekends</div><div class="pd"><strong>Pain:</strong> 15+ minutes translating a recipe into a cart</div><div class="pd"><strong>Wants:</strong> One tap from recipe to cart, no brand decisions</div><span class="ptag p0">Primary - build for her</span></div>
+<div class="pc"><div class="pn">Arjun, 34</div><div class="pr">Marketing Manager, Mumbai</div><div class="pd"><strong>Cooks:</strong> Weekends only, tries new cuisines</div><div class="pd"><strong>Pain:</strong> Can't find niche ingredients, switches apps</div><div class="pd"><strong>Wants:</strong> Substitution suggestions on stockouts</div><span class="ptag p1">Secondary - design consideration</span></div>
+<div class="pc"><div class="pn">Meera, 45</div><div class="pr">Homemaker, Delhi</div><div class="pd"><strong>Cooks:</strong> Daily, traditional family recipes</div><div class="pd"><strong>Pain:</strong> Needs faster reorder of same items weekly</div><div class="pd"><strong>Wants:</strong> Faster reorder, not recipe discovery</div><span class="ptag p2">Out of scope this sprint</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>Size</th><th>AOV potential</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Recipe-driven young professional</strong></td><td>~15% of DAU</td><td>1.8-2x average</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Weekend explorer</strong></td><td>~8% of DAU</td><td>1.5x average</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Habitual homemaker</strong></td><td>~35% of DAU</td><td>Baseline</td><td><span class="badge">Out of scope</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">How Priya cooks today - without this feature</h2>
+<div class="js">
+<div class="jstep"><div class="jstage">Inspiration</div><div class="jc"><h5>Watches a recipe reel on Instagram</h5><p>Sees a Paneer Butter Masala reel from a food creator. Looks achievable. Saves it.</p><span class="em">Excited</span></div></div>
+<div class="jstep"><div class="jstage">Planning</div><div class="jc"><h5>Screenshots the ingredient list</h5><p>Pauses the video, screenshots what's visible. Quantities aren't clear. Switches to notes app to write them down.</p><span class="em">Unsure</span></div></div>
+<div class="jstep"><div class="jstage">Searching</div><div class="jc"><h5>Opens Blinkit, searches ingredient by ingredient</h5><p>Searches "paneer" - picks one brand. "Tomato" - how many grams? "Fresh cream" - wrong size. 12-15 minutes of this.</p><span class="em">Frustrated</span></div></div>
+<div class="jstep"><div class="jstage">Friction</div><div class="jc"><h5>Item unavailable, starts Googling substitutes</h5><p>Garam masala is out of stock. Opens Google, finds a different recipe, gets confused about quantities, starts over.</p><span class="em">Defeated</span></div></div>
+<div class="jstep"><div class="jstage">Resolution</div><div class="jc"><h5>Simplified order or gives up entirely</h5><p>Places reduced cart with what she found, or exits and orders from Zomato. The recipe stays saved but never gets cooked.</p><span class="em">Disappointed</span></div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">Where the experience breaks</h2>
+<div class="paing">
+<div class="painc"><div class="ico">📱</div><h5>App-switching friction</h5><p>Moving between recipe content and Blinkit breaks cooking intent. Every switch is a drop-off risk.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🧮</div><h5>Quantity guesswork</h5><p>Recipe videos rarely specify grams. Users infer quantities and often get it wrong - wrong items added silently.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🔍</div><h5>Search repetition</h5><p>12-18 individual searches for one recipe. No memory between sessions. Same friction every time.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🚫</div><h5>Out-of-stock dead ends</h5><p>No substitute suggestions when an ingredient is unavailable. Users abandon the cart or the whole idea.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">🏷️</div><h5>Brand decision fatigue</h5><p>Multiple SKUs for "paneer 200g." User evaluates each option - cognitive load that kills cooking momentum.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">💸</div><h5>No upfront cost visibility</h5><p>No sense of total recipe cost until checkout. Price surprise causes abandonment on multi-ingredient recipes.</p><span class="sev sm">Medium severity</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">What to solve first</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Frequency</th><th>Impact on conversion</th><th>Solvability</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>App-switching friction</strong></td><td>Every session</td><td>High - primary drop-off</td><td>High - recipe tab solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Search repetition (8-12 taps)</strong></td><td>Every session</td><td>High - time cost kills intent</td><td>High - one-tap add solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Quantity guesswork</strong></td><td>Every session</td><td>Medium - wrong items added</td><td>High - SKU mapper solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Out-of-stock dead ends</strong></td><td>~30% of sessions</td><td>High - full abandonment</td><td>Medium - substitution logic needed</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Brand decision fatigue</strong></td><td>Every session</td><td>Medium - slows checkout</td><td>Medium - default to top-seller</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>No cost visibility</strong></td><td>Every session</td><td>Low-medium - late drop-off</td><td>High - show estimate before add</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">What to build and why it matters for the business</h2>
+<div class="solg">
+<div class="solc"><h5>Recipe Discovery Tab</h5><p>A Recipes section on the Blinkit home screen with curated recipe cards, categories by cuisine and cook time, and search integration.</p><span class="solg-tag">Goal: new use case, DAU engagement</span></div>
+<div class="solc"><h5>Ingredient-to-SKU Auto-mapping</h5><p>AI model that maps ingredient text to the best-matching Blinkit SKU with real-time stock status from the user's local dark store.</p><span class="solg-tag">Goal: reduce cart-build time from 15 min to 1 tap</span></div>
+<div class="solc"><h5>One-tap Add All to Cart</h5><p>Single button adds all mapped ingredients. Smart deduplication skips items already in cart. Upfront price estimate shown before confirming.</p><span class="solg-tag">Goal: AOV uplift from 5-7 items to 12-18</span></div>
+<div class="solc"><h5>Substitution Engine</h5><p>When an ingredient is unavailable, suggest the closest substitute with a cooking note to reduce full cart abandonment.</p><span class="solg-tag">Goal: reduce abandonment on stockout</span></div>
+<div class="solc"><h5>Paste-a-Recipe</h5><p>User pastes any recipe URL. AI extracts ingredient list and maps to Blinkit SKUs. No dependency on Blinkit hosting the recipe.</p><span class="solg-tag">Goal: power user retention, open ecosystem</span></div>
+<div class="solc"><h5>Creator Partnership Program</h5><p>Partner with food creators on Instagram and YouTube to deep-link their posts to Blinkit recipe pages, with revenue share on attributed orders.</p><span class="solg-tag">Goal: low-CAC user acquisition via content</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">What to build first - RICE</h2>
+<div class="tw"><table><thead><tr><th>Solution</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>One-tap Add All to Cart</strong></td><td>100% of recipe viewers</td><td>3</td><td>90%</td><td>2 weeks</td><td><strong>135</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Ingredient-to-SKU mapper</strong></td><td>100% of recipe users</td><td>3</td><td>75%</td><td>6 weeks</td><td><strong>37.5</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Recipe tab + 200 curated recipes</strong></td><td>30% of DAU</td><td>3</td><td>80%</td><td>4 weeks</td><td><strong>18</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Substitution engine</strong></td><td>30% of sessions</td><td>2</td><td>65%</td><td>4 weeks</td><td><strong>9.75</strong></td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Creator partnerships</strong></td><td>20% of DAU</td><td>2</td><td>70%</td><td>3 weeks</td><td><strong>9.3</strong></td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Paste-a-Recipe</strong></td><td>15% of DAU</td><td>3</td><td>60%</td><td>6 weeks</td><td><strong>4.5</strong></td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">09 - MVP Solution with Design</div>
+<h2 class="st">The 3-screen flow</h2>
+<p class="si">Minimum viable: Recipe tab + auto-mapped ingredients + one-tap add to cart. Everything else is Phase 2.</p>
+<div class="wfs">
+<div class="wfl">User flow wireframe</div>
+<div class="wfsc">
+<div class="wfcol"><div class="wfst">Step 1</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Browse recipes</div>
+<div class="wfblk"><span>Recipe photo</span></div>
+<div class="wfcard"><div class="wfcimg"><span>Dish photo</span></div><div class="wfcbd"><div class="wfct">Paneer Butter Masala</div><div class="wfcm">30 min - Serves 2</div></div></div>
+<div class="wfcard"><div class="wfcimg"><span>Dish photo</span></div><div class="wfcbd"><div class="wfct">Dal Tadka</div><div class="wfcm">20 min - Serves 4</div></div></div>
+<div class="wftabs"><div class="wftab">Home</div><div class="wftab on">Recipes</div><div class="wftab">Orders</div><div class="wftab">Cart</div></div>
+</div></div><div class="wfnt">New Recipes tab. Browse by cuisine or cook time.</div></div>
+<div class="wfarr">→</div>
+<div class="wfcol"><div class="wfst">Step 2</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Ingredients mapped</div>
+<div class="wfrw"><div class="wfrl"><div class="wfck on"></div><div class="wfit">Paneer 200g</div></div><div class="wfbg wbg">In stock</div></div>
+<div class="wfrw"><div class="wfrl"><div class="wfck on"></div><div class="wfit">Tomatoes x3</div></div><div class="wfbg wby">Low stock</div></div>
+<div class="wfrw"><div class="wfrl"><div class="wfck on"></div><div class="wfit">Butter 50g</div></div><div class="wfbg wbg">In stock</div></div>
+<div class="wfrw"><div class="wfrl"><div class="wfck"></div><div class="wfit">Garam masala</div></div><div class="wfbg wbr">Unavailable</div></div>
+<div class="wfrw"><div class="wfrl"><div class="wfck on"></div><div class="wfit">Fresh cream</div></div><div class="wfbg wbg">In stock</div></div>
+<div class="wfprc"><span>11 items</span><strong>~Rs. 340</strong></div>
+<div class="wfcta">Add all to cart</div>
+</div></div><div class="wfnt">Auto-mapped to your local store. Uncheck what you have.</div></div>
+<div class="wfarr">→</div>
+<div class="wfcol"><div class="wfst">Step 3</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Your cart</div>
+<div class="wftag">Paneer Butter Masala</div>
+<div class="wfcr"><div class="wftmb"></div><div class="wfci"><div class="wfcn">Amul Paneer 200g</div><div class="wfcp">Rs. 85</div></div></div>
+<div class="wfcr"><div class="wftmb"></div><div class="wfci"><div class="wfcn">Tomatoes pack</div><div class="wfcp">Rs. 40</div></div></div>
+<div class="wfcr"><div class="wftmb"></div><div class="wfci"><div class="wfcn">Amul Butter 50g</div><div class="wfcp">Rs. 55</div></div></div>
+<div style="font-size:8px;color:var(--muted);padding:4px 0;">+ 8 more items</div>
+<div class="wfprc"><span>11 items - 10 min</span><strong>Rs. 340</strong></div>
+<div class="wfco">Checkout</div>
+</div></div><div class="wfnt">Items grouped by recipe. Standard checkout unchanged.</div></div>
+</div></div>
+<div class="mg">
+<div class="mc"><div class="ml">North Star</div><div style="font-size:13px;font-weight:600;color:#ff6a35;margin-bottom:4px;">Recipe orders / total orders</div><div class="md">Target: 5% within 3 months</div></div>
+<div class="mc"><div class="ml">AOV uplift</div><div class="mv"><span class="mf">1x</span><span class="ma">→</span><span class="mt">1.8x</span></div><div class="md">vs. regular orders</div></div>
+<div class="mc"><div class="ml">Recipe-to-cart</div><div class="mv"><span class="mf">0%</span><span class="ma">→</span><span class="mt">40%+</span></div><div class="md">View to add conversion</div></div>
+<div class="mc"><div class="ml">Items per order</div><div class="mv"><span class="mf">5-7</span><span class="ma">→</span><span class="mt">12+</span></div><div class="md">Recipe-originated orders</div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How we launch and grow</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Week 1-4</div><div><h5>Soft launch with 200 curated recipes</h5><p>Launch Recipe tab to 10% of users in Bangalore and Mumbai. Editorial team curates 200 recipes across 8 Indian cuisines. Measure recipe-to-cart conversion and AOV. Fix mapping errors before wider rollout.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Week 5-8</div><div><h5>Creator partnerships + city-wide rollout</h5><p>Partner with 50 food creators for deep links from their posts to Blinkit recipe pages. Revenue share on attributed orders. Roll out to all cities. 10% discount on first recipe order to drive trial.</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Week 9-12</div><div><h5>Paste-a-Recipe + retention loops</h5><p>Launch URL parser for any recipe on the web. Recipe-driven push notifications ("You saved this - ingredients available now"). Target: 5% of orders being recipe-originated by end of quarter.</p></div></div>
+</div>
+<div class="prose" style="margin-top:1.5rem;"><p><strong>North Star:</strong> Recipe-originated orders as % of total orders - connects AOV (business goal) to engagement (product goal).</p><p><strong>Guardrail metrics:</strong> Overall order conversion rate must not drop. Customer satisfaction scores. Ingredient mapping accuracy target: 95%+ correct SKU selection.</p></div>
+</section>
+
+</div>
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>

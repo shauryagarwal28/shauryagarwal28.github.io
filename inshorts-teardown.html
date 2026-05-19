@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Inshorts Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#1a4aff;--act:#6d9eff;--acl:#eef1ff;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#050d2e;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 25% 60%,rgba(26,74,255,0.2) 0%,transparent 55%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6d9eff;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#6d9eff;border-radius:50%;animation:pu 2s infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#6d9eff;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac);margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:var(--ac);}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.jstep{display:grid;grid-template-columns:120px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.stag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:var(--acl);color:var(--ac);}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.mlab{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mfr{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.mar{color:var(--muted);}
+.mto{font-family:var(--serif);font-size:1.2rem;color:var(--ac);}
+.mds{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}
+.pq{border-left:3px solid var(--ac);padding:1.25rem 1.5rem;background:var(--acl);border-radius:0 10px 10px 0;margin:2rem 0;font-size:14.5px;color:var(--ac);font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:var(--ac);font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.wfs{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.wfl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.wfl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.wfsc{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;}
+.wfcol{display:flex;flex-direction:column;align-items:center;gap:8px;width:155px;}
+.wfst{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.wfph{width:145px;border:1.5px solid var(--borderS);border-radius:20px;overflow:hidden;background:var(--bg);}
+.wfbar{height:20px;background:var(--white);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:4px;}
+.wfdot{width:4px;height:4px;border-radius:50%;background:#aaa;}
+.wfb{padding:9px 8px 11px;}
+.wftt{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.wfdiv{height:0.5px;background:var(--border);margin:5px 0;}
+.wfarr{color:var(--muted);font-size:18px;padding-top:40px;}
+.wfnt{font-size:10px;color:var(--soft);text-align:center;max-width:148px;line-height:1.5;}
+.wfstory{border:0.5px solid var(--border);border-radius:7px;padding:7px;margin-bottom:5px;}
+.wfslot{font-size:7px;padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:4px;}
+.wfmust{background:#eef1ff;color:#1a4aff;}.wfpers{background:#e8f5ee;color:#1a7a4a;}.wfdisco{background:#f0eeea;color:#888;}
+.wfsrc{font-size:7px;color:var(--muted);margin-bottom:2px;}
+.wfhl{font-size:9px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:4px;}
+.wfnqsr{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.wfnlbl{font-size:7px;color:var(--muted);}.wfnsc{font-size:8px;font-weight:600;color:#1a7a4a;}
+.wfnbar{height:3px;border-radius:2px;background:#f0eeea;margin-bottom:2px;overflow:hidden;}
+.wfnfill{height:100%;border-radius:2px;background:#2da25e;}
+.wfsubt{display:flex;gap:6px;}
+.wfsub{font-size:7px;color:var(--muted);}
+.wftier{font-size:8px;padding:2px 7px;border-radius:3px;display:inline-block;margin-bottom:4px;}
+.wft1{background:#fef2f2;color:#b91c1c;}.wft2{background:#eef1ff;color:#1a4aff;}.wft3{background:#f0eeea;color:#888;}
+.wftrow{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--border);}
+.wftrow:last-child{border-bottom:none;}
+.wfti{}.wftit{font-size:9px;font-weight:600;color:var(--ink);}.wftsb{font-size:7px;color:var(--muted);}
+.wftog{width:24px;height:13px;border-radius:7px;position:relative;flex-shrink:0;}
+.wftog.on{background:#2da25e;}.wftog.off{background:#ddd;}
+.wftog::after{content:'';width:9px;height:9px;border-radius:50%;background:#fff;position:absolute;top:2px;}
+.wftog.on::after{left:13px;}.wftog.off::after{left:2px;}
+.wffreq{display:flex;gap:3px;margin:4px 0 5px;}
+.wffc{flex:1;padding:3px;border-radius:4px;font-size:7px;text-align:center;border:0.5px solid var(--border);color:var(--muted);}
+.wffc.on{border-color:var(--ac);color:var(--ac);background:var(--acl);}
+.wfcatrow{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:0.5px solid var(--border);}
+.wfcatrow:last-of-type{border-bottom:none;}
+.wfcatnm{font-size:8px;color:var(--ink);}
+.wfctog{width:22px;height:12px;border-radius:6px;position:relative;flex-shrink:0;}
+.wfctog.on{background:#2da25e;}.wfctog.off{background:#ddd;}
+.wfctog::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff;position:absolute;top:2px;}
+.wfctog.on::after{left:12px;}.wfctog.off::after{left:2px;}
+footer{background:#050d2e;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#6d9eff;text-decoration:none;}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Product Teardown</div>
+<h1>Inshorts:<br><em>Quality-First Feed</em></h1>
+<div class="csub">Replacing engagement-based ranking with a News Quality Score to build a feed users actually trust</div>
+<div class="cmeta">
+<div><div class="lb">Product</div><div class="vl">Inshorts</div></div>
+<div><div class="lb">Category</div><div class="vl">News / Media</div></div>
+<div><div class="lb">Type</div><div class="vl">Recommendation System Redesign</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">What Inshorts does today</h2>
+<p class="si">Inshorts is India's leading short-format news app, condensing every story into 60 words or fewer across English and Hindi. 35M+ downloads, primarily urban 18-35 year olds.</p>
+<div class="snaps">
+<div class="snap"><div class="n">35M+</div><div class="l">Downloads</div></div>
+<div class="snap"><div class="n">42%</div><div class="l">DAU/MAU ratio</div></div>
+<div class="snap"><div class="n">1,000</div><div class="l">Shorts produced/day</div></div>
+<div class="snap"><div class="n">12 min</div><div class="l">Avg daily session</div></div>
+</div>
+<div class="prose"><p>Inshorts earns attention by making news frictionless - 60-word summaries, one-swipe navigation, no paywalls. The core loop: open app, swipe through stories, share the interesting ones. The problem is the loop optimises for <strong>volume of swipes</strong>, not <strong>quality of information</strong>. That distinction matters more as the news ecosystem gets noisier.</p></div>
+</section>
+
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">Where the current system breaks down</h2>
+<p class="si">The feed ranks stories by engagement signals - swipes, shares, time-on-card. Engagement and information quality are not the same thing.</p>
+<div class="pq">"I open Inshorts to stay informed, but half the stories are things I'd never share - clickbait headlines, repeated angles, ads disguised as news."<cite>- Urban professional, 28, Delhi</cite></div>
+<div class="prose">
+<p>Three failure modes of engagement-based ranking: <strong>clickbait amplification</strong> - provocative headlines rank higher than substantive ones even if the underlying story has low factual density. <strong>Echo chambers</strong> - personalisation without diversity collapses the feed into the same 3 topics. <strong>Notification erosion</strong> - blending ads with editorial in Breaking News alerts destroys trust in the notification channel entirely.</p>
+<p>The business consequence: users who feel the feed is low-quality reduce sessions, turn off notifications, and eventually churn - exactly the users Inshorts most needs to retain (informed professionals who share stories and drive organic growth).</p>
+</div>
+</section>
+
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who uses Inshorts and what they need</h2>
+<div class="pg">
+<div class="pc"><div class="pn">Rahul, 26</div><div class="pr">Software Engineer, Bangalore</div><div class="pd"><strong>Uses Inshorts:</strong> Morning commute, evening wind-down</div><div class="pd"><strong>Need:</strong> Trustworthy daily briefing - 10 stories that actually matter</div><div class="pd"><strong>Pain:</strong> Too much noise, can't tell editorial from sponsored</div><span class="ptag p0">Primary - serve this user</span></div>
+<div class="pc"><div class="pn">Aisha, 22</div><div class="pr">College student, Mumbai</div><div class="pd"><strong>Uses Inshorts:</strong> Between classes, random sessions</div><div class="pd"><strong>Need:</strong> Stay broadly aware, shareable content for social</div><div class="pd"><strong>Pain:</strong> Notifications too frequent, not relevant enough</div><span class="ptag p1">Secondary - notification UX matters</span></div>
+<div class="pc"><div class="pn">Vikram, 42</div><div class="pr">Business owner, Pune</div><div class="pd"><strong>Uses Inshorts:</strong> Scanning headlines before meetings</div><div class="pd"><strong>Need:</strong> Business, economy, and industry news - fast</div><div class="pd"><strong>Pain:</strong> Too much entertainment, not enough depth</div><span class="ptag p1">Secondary - category controls matter</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>Session frequency</th><th>Retention risk</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Informed professional (Rahul)</strong></td><td>2x daily</td><td>High - churns when quality drops</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Casual browser (Aisha)</strong></td><td>3-4x weekly</td><td>Medium - tolerates noise but disables notifs</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Topic specialist (Vikram)</strong></td><td>1x daily, short</td><td>Medium - uses alternatives for deep reads</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">Rahul's morning news session today</h2>
+<div class="js">
+<div class="jstep"><div class="jstage">Wake-up</div><div class="jc"><h5>Notification arrives at 7:15 AM</h5><p>A "Breaking News" banner appears on his lock screen. He taps it.</p><span class="em">Curious</span></div></div>
+<div class="jstep"><div class="jstage">Disappointment</div><div class="jc"><h5>Breaking news is a sponsored story</h5><p>The "breaking" story is actually a brand partnership. He feels deceived. Marks the notification as spam.</p><span class="em">Annoyed</span></div></div>
+<div class="jstep"><div class="jstage">Browsing</div><div class="jc"><h5>Opens feed, starts swiping</h5><p>First 3 stories are interesting. Stories 4-6 feel repetitive - same angle on the same event. He swipes faster.</p><span class="em">Bored</span></div></div>
+<div class="jstep"><div class="jstage">Confusion</div><div class="jc"><h5>Can't tell quality from clickbait</h5><p>A provocative headline about a politician. Is this real? Which publication? He exits to Google the source. Doesn't come back.</p><span class="em">Distrustful</span></div></div>
+<div class="jstep"><div class="jstage">Churn signal</div><div class="jc"><h5>Turns off Inshorts notifications</h5><p>Goes to settings, turns off all notifications. Will still open occasionally but the daily habit is broken.</p><span class="em">Disengaged</span></div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">Where the experience fails the quality-seeking user</h2>
+<div class="paing">
+<div class="painc"><div class="ico">📢</div><h5>Clickbait amplification</h5><p>Provocative headlines generate more swipes, so they rank higher. Substantive stories with measured headlines get buried.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🎯</div><h5>Notification trust erosion</h5><p>Ads in Breaking News alerts train users that "breaking" means nothing. Notification disable rate compounds this.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🔁</div><h5>Repetitive angles</h5><p>5 stories on the same event from different publications feel like noise, not journalism. Feed composition has no uniqueness floor.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🫧</div><h5>Echo chamber formation</h5><p>Pure personalisation without serendipity collapses the feed. Users only see what they already believe.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">🏷️</div><h5>Source opacity</h5><p>Stories show "2 hours ago" but not source credibility signals. Users can't assess whether to trust the information.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">🔕</div><h5>All-or-nothing notification control</h5><p>Users can only turn all notifications on or off. No category-level or tier-level control leads to mass opt-outs.</p><span class="sev sm">Medium severity</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">What to fix first</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Frequency</th><th>User impact</th><th>Solvability</th><th>Priority</th></div></thead><tbody>
+<tr><td><strong>Clickbait amplification</strong></td><td>Every session</td><td>High - erodes product trust</td><td>High - NQS replaces engagement rank</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Notification trust erosion</strong></td><td>Multiple daily</td><td>High - drives notification disable</td><td>High - tiered system + no ads in T1</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Repetitive angles</strong></td><td>Every session</td><td>High - boredom, session shortening</td><td>High - uniqueness score in NQS</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Echo chamber formation</strong></td><td>Chronic / gradual</td><td>Medium - long-term churn</td><td>Medium - serendipity slot in feed mix</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Source opacity</strong></td><td>Every session</td><td>Medium - trust deficit</td><td>Medium - credibility badge on card</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>All-or-nothing notification control</strong></td><td>One-time decision</td><td>Medium - once disabled, stays off</td><td>High - category toggles solve it</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">What to build and why</h2>
+<div class="solg">
+<div class="solc"><h5>News Quality Score (NQS)</h5><p>A multi-dimensional ranking signal replacing raw engagement: Source Credibility (25%) + Editorial Rating (25%) + Factual Density (20%) + Uniqueness (15%) + Timeliness (15%).</p><span class="stag">Goal: feed users trust and return to</span></div>
+<div class="solc"><h5>Feed Composition Rules</h5><p>Enforce a quality floor: 40% Must-Know (NQS above 800) + 35% Personalised Quality + 15% Serendipity + 10% Hyperlocal. No slot can run ads without disclosure.</p><span class="stag">Goal: diversity, reduced echo chambers</span></div>
+<div class="solc"><h5>3-Tier Notification System</h5><p>Breaking (NQS above 950, max 2/day, never ads) + Daily Digest (timed to user's best engagement windows) + Weekly Roundup (serendipity re-engagement).</p><span class="stag">Goal: reverse notification disable trend</span></div>
+<div class="solc"><h5>Source Credibility Badge</h5><p>Visible credibility score on each card sourced from Press Council ratings, fact-check history, and editorial standards. Users can tap to see score breakdown.</p><span class="stag">Goal: build source trust, reduce exit-to-Google</span></div>
+<div class="solc"><h5>Category-Level Notification Controls</h5><p>Users set which categories send digests (Politics on, Sports off). Quiet hours stop all notifications 10 PM - 7 AM by default.</p><span class="stag">Goal: reduce notification disable rate</span></div>
+<div class="solc"><h5>Quality Engagement Metrics</h5><p>Replace swipe-volume with Read Time, Share Rate, Return After Story, and Notification Open Rate as the product's internal success metrics.</p><span class="stag">Goal: align product incentives with user value</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">Build sequence and rationale</h2>
+<div class="tw"><table><thead><tr><th>Solution</th><th>Impact on retention</th><th>Effort</th><th>Dependency</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>NQS algorithm (backend)</strong></td><td>High - foundation for everything</td><td>8 weeks</td><td>None - build first</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Feed composition rules</strong></td><td>High - immediate quality lift</td><td>2 weeks</td><td>Needs NQS</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>3-tier notification system</strong></td><td>High - reverses disable trend</td><td>4 weeks</td><td>Needs NQS for T1 threshold</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Category-level notif controls</strong></td><td>Medium - prevents disables</td><td>2 weeks</td><td>None</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Source credibility badge</strong></td><td>Medium - builds trust</td><td>3 weeks</td><td>Needs credibility data partnership</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Quality engagement metrics (internal)</strong></td><td>High long-term - aligns team</td><td>1 week</td><td>None</td><td><span class="badge bg">P0 (internal)</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">09 - MVP Solution with Design</div>
+<h2 class="st">The 3-screen interface</h2>
+<p class="si">Feed card with NQS visible, 3-tier notification settings, and category-level controls.</p>
+<div class="wfs">
+<div class="wfl">User interface wireframe</div>
+<div class="wfsc">
+
+<div class="wfcol"><div class="wfst">Feed card</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">For you</div>
+<div class="wfstory">
+<div class="wfslot wfmust">Must-know</div>
+<div class="wfsrc">The Hindu - 2 hrs ago</div>
+<div class="wfhl">RBI keeps repo rate at 6.5% for fifth consecutive meeting</div>
+<div class="wfnqsr"><div class="wfnlbl">Quality score</div><div class="wfnsc">872</div></div>
+<div class="wfnbar"><div class="wfnfill" style="width:87%;"></div></div>
+<div class="wfsubt"><div class="wfsub">Credibility 94</div><div class="wfsub">Facts 76</div><div class="wfsub">Unique 82</div></div>
+</div>
+<div class="wfstory">
+<div class="wfslot wfpers">For you</div>
+<div class="wfsrc">TechCrunch - 4 hrs ago</div>
+<div class="wfhl">OpenAI launches new reasoning model for developers</div>
+<div class="wfnqsr"><div class="wfnlbl">Quality score</div><div class="wfnsc">741</div></div>
+<div class="wfnbar"><div class="wfnfill" style="width:74%;"></div></div>
+</div>
+<div class="wfstory"><div class="wfslot wfdisco">Discover</div><div class="wfsrc">Down to Earth - 1 hr ago</div><div class="wfhl">Urban heat islands linked to rising night temperatures</div></div>
+</div></div><div class="wfnt">Slot type and NQS visible. Users understand why a story is shown.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Notifications</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Notification settings</div>
+<div class="wftier wft1">Breaking</div>
+<div class="wftrow"><div class="wfti"><div class="wftit">Breaking news</div><div class="wftsb">NQS above 950, max 2/day</div></div><div class="wftog on"></div></div>
+<div style="height:0.5px;background:var(--border);margin:5px 0;"></div>
+<div class="wftier wft2">Daily digest</div>
+<div class="wftrow"><div class="wfti"><div class="wftit">Daily digest</div><div class="wftsb">Top stories from your interests</div></div><div class="wftog on"></div></div>
+<div class="wffreq"><div class="wffc">1x</div><div class="wffc on">2x</div><div class="wffc">3x</div></div>
+<div class="wftier wft3">Weekly roundup</div>
+<div class="wftrow"><div class="wfti"><div class="wftit">Sunday roundup</div><div class="wftsb">Stories you missed</div></div><div class="wftog on"></div></div>
+</div></div><div class="wfnt">3 tiers independently controlled. Frequency user's choice.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Categories</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Notify me for</div>
+<div style="font-size:8px;color:var(--muted);margin-bottom:5px;">Pick which topics send you digests</div>
+<div class="wfcatrow"><div class="wfcatnm">Politics</div><div class="wfctog on"></div></div>
+<div class="wfcatrow"><div class="wfcatnm">Technology</div><div class="wfctog on"></div></div>
+<div class="wfcatrow"><div class="wfcatnm">Business</div><div class="wfctog on"></div></div>
+<div class="wfcatrow"><div class="wfcatnm">Sports</div><div class="wfctog off"></div></div>
+<div class="wfcatrow"><div class="wfcatnm">Entertainment</div><div class="wfctog off"></div></div>
+<div class="wfcatrow"><div class="wfcatnm">Science</div><div class="wfctog on"></div></div>
+<div style="height:0.5px;background:var(--border);margin:5px 0;"></div>
+<div style="font-size:8px;color:var(--muted);margin-bottom:3px;">Quiet hours</div>
+<div style="display:flex;gap:5px;align-items:center;"><div style="flex:1;height:19px;border-radius:4px;border:0.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ink);">10 PM</div><div style="font-size:8px;color:var(--muted);">to</div><div style="flex:1;height:19px;border-radius:4px;border:0.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ink);">7 AM</div></div>
+</div></div><div class="wfnt">Category-level opt-in. Quiet hours prevent off-hours pings.</div></div>
+
+</div></div>
+<div class="mg">
+<div class="mc"><div class="mlab">North Star</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">DAU/MAU ratio</div><div class="mds">Target: 42% to 48%+ in 6 months</div></div>
+<div class="mc"><div class="mlab">Notif open rate</div><div class="mv"><span class="mfr">8-12%</span><span class="mar">→</span><span class="mto">18%+</span></div><div class="mds">Tiering + relevance improvement</div></div>
+<div class="mc"><div class="mlab">Share rate</div><div class="mv"><span class="mfr">2%</span><span class="mar">→</span><span class="mto">5%+</span></div><div class="mds">Quality stories shared more</div></div>
+<div class="mc"><div class="mlab">30-day retention</div><div class="mv"><span class="mfr">35%</span><span class="mar">→</span><span class="mto">45%+</span></div><div class="mds">Quality feed reduces churn</div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How we roll out the quality system</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Week 1-8</div><div><h5>Build NQS quietly - no user-visible change</h5><p>Engineering builds the NQS algorithm and starts scoring all stories in the background. A/B test NQS-ranked feed vs current feed with 5% of users. Measure DAU/MAU, session length, and notification interaction rates. No UI changes until we have data.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Week 9-12</div><div><h5>Launch 3-tier notification system</h5><p>Roll out tiered notifications to all users. Make Breaking News a strict editorial signal - no ads, NQS above 950, max 2 per day. Add category-level controls and quiet hours. Measure notification opt-out rate before and after. This is the fastest trust-builder with the least risk.</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Week 13-16</div><div><h5>Ship NQS feed + source credibility badges</h5><p>Roll out NQS-ranked feed to 100% of users. Show quality score on cards for power users (optional toggle). Add source credibility badges. Announce publicly: "Inshorts Quality First" - marketing moment that differentiates from social media feeds.</p></div></div>
+</div>
+<div class="prose" style="margin-top:1.5rem;"><p><strong>North Star:</strong> DAU/MAU ratio. A quality feed drives habitual usage. Target: 42% to 48%+ within 6 months.</p><p><strong>Guardrail:</strong> Revenue per session must not drop. Quality-ranked ads in non-Breaking slots should maintain or improve CPMs through higher engagement rates on the ads that do run.</p></div>
+</section>
+
+</div>
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Playo Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#1a7a4a;--act:#4cff7e;--acl:#e8f5ee;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#0a1a0c;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 30% 60%,rgba(26,122,74,0.2) 0%,transparent 55%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#4cff7e;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#4cff7e;border-radius:50%;animation:pu 2s infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#4cff7e;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac);margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:var(--ac);}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.jstep{display:grid;grid-template-columns:120px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.stag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:var(--acl);color:var(--ac);}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.mlab{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mfr{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.mar{color:var(--muted);}
+.mto{font-family:var(--serif);font-size:1.2rem;color:var(--ac);}
+.mds{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}
+.pq{border-left:3px solid var(--ac);padding:1.25rem 1.5rem;background:var(--acl);border-radius:0 10px 10px 0;margin:2rem 0;font-size:14.5px;color:var(--ac);font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:var(--ac);font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.wfs{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.wfl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.wfl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.wfsc{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:center;}
+.wfcol{display:flex;flex-direction:column;align-items:center;gap:8px;width:148px;}
+.wfst{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.wfph{width:138px;border:1.5px solid var(--borderS);border-radius:20px;overflow:hidden;background:var(--bg);}
+.wfbar{height:20px;background:var(--white);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:4px;}
+.wfdot{width:4px;height:4px;border-radius:50%;background:#aaa;}
+.wfb{padding:9px 8px 11px;}
+.wftt{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.wfdiv{height:0.5px;background:var(--border);margin:5px 0;}
+.wfarr{color:var(--muted);font-size:18px;padding-top:40px;}
+.wfnt{font-size:10px;color:var(--soft);text-align:center;max-width:142px;line-height:1.5;}
+.wffi{height:19px;border-radius:4px;border:0.5px solid var(--border);background:var(--white);margin-bottom:5px;display:flex;align-items:center;padding:0 6px;}
+.wffi span{font-size:8px;color:var(--muted);}
+.wflbl{font-size:8px;color:var(--soft);margin-bottom:2px;}
+.wfchips{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px;}
+.wfchip{font-size:7px;padding:2px 6px;border-radius:3px;border:0.5px solid var(--border);color:var(--muted);}
+.wfchip.on{background:var(--acl);color:var(--ac);border-color:var(--ac);}
+.wfcta-g{width:100%;padding:6px;border-radius:6px;background:#1a7a4a;font-size:9px;font-weight:600;color:#fff;text-align:center;margin-top:4px;}
+.wfcta-b{width:100%;padding:6px;border-radius:6px;background:rgba(26,74,255,0.08);font-size:9px;font-weight:500;color:#1a4aff;text-align:center;margin-top:4px;border:0.5px solid rgba(26,74,255,0.3);}
+.wfinvite{border:1px dashed var(--borderS);border-radius:6px;padding:6px;text-align:center;margin-top:5px;}
+.wfcode{font-size:13px;font-weight:500;color:var(--ink);font-family:var(--mono);letter-spacing:0.12em;margin:2px 0;}
+.wfcs{font-size:7px;color:var(--muted);}
+.wflbl2{font-size:8px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:5px 0 3px;}
+.wfav{width:17px;height:17px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:500;color:#1e40af;}
+.wfav2{background:#f3f4f6;color:#6b7280;}
+.wfmem{display:flex;align-items:center;justify-content:space-between;padding:3px 0;}
+.wfml{display:flex;align-items:center;gap:4px;}
+.wfmn{font-size:8px;color:var(--ink);}
+.wfrel{font-size:7px;padding:1px 5px;border-radius:3px;}
+.wrh{background:#e8f5ee;color:#1a7a4a;}.wrm{background:#fef3e2;color:#b86c10;}
+.wfntf{border:0.5px solid var(--border);border-radius:7px;padding:6px;margin-bottom:5px;}
+.wfntfw{border-color:#f5c97a;}
+.wfnh{font-size:8px;font-weight:600;color:var(--ink);margin-bottom:2px;display:flex;justify-content:space-between;}
+.wfnhw{color:#b86c10;}
+.wfnt2{font-weight:400;color:var(--muted);font-size:7px;}
+.wfnb{font-size:8px;color:var(--soft);line-height:1.4;margin-bottom:5px;}
+.wfbtns{display:flex;gap:3px;}
+.wfbtn{flex:1;padding:4px;border-radius:4px;font-size:8px;font-weight:500;text-align:center;}
+.wbin{background:#e8f5ee;color:#1a7a4a;}.wbout{background:#fef2f2;color:#b91c1c;}.wbjoin{background:#fef3e2;color:#b86c10;}.wbskip{background:#f0eeea;color:#888;}
+.wfstat{display:flex;align-items:center;justify-content:space-between;padding:3px 0;}
+.wfsn{font-size:8px;color:var(--ink);}
+.wfsi{color:#1a7a4a;font-size:8px;}.wfso{color:#b91c1c;font-size:8px;}.wfsp{color:var(--muted);font-size:8px;}
+.wfalert{padding:4px 6px;border-radius:4px;background:#fef3e2;font-size:7px;color:#b86c10;margin-top:4px;}
+.wfkm{padding:5px 6px;border-radius:5px;background:var(--bg);font-size:8px;color:var(--ink);margin-top:5px;display:flex;align-items:center;gap:4px;}
+.wflabs{font-size:8px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:5px 0 3px;}
+footer{background:#0a1a0c;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#4cff7e;text-decoration:none;}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Product Teardown</div>
+<h1>Playo:<br><em>Squad Mode</em></h1>
+<div class="csub">Solving Playo's biggest retention gap - no one consistent to play with</div>
+<div class="cmeta">
+<div><div class="lb">Product</div><div class="vl">Playo</div></div>
+<div><div class="lb">Category</div><div class="vl">Sports Community</div></div>
+<div><div class="lb">Type</div><div class="vl">0-to-1 Feature Addition</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">What Playo does today</h2>
+<p class="si">Playo is India's largest sports community platform - venue discovery, slot booking, and matchmaking for 30+ sports across 1,000+ venues in 15 cities.</p>
+<div class="snaps">
+<div class="snap"><div class="n">15</div><div class="l">Cities active</div></div>
+<div class="snap"><div class="n">1,000+</div><div class="l">Partner venues</div></div>
+<div class="snap"><div class="n">800K+</div><div class="l">Estimated MAU</div></div>
+<div class="snap"><div class="n">~4</div><div class="l">Sessions/user/month</div></div>
+</div>
+<div class="prose"><p>Playo's core loop is transactional: discover a venue, book a slot, play. The matchmaking feature helps users find opponents or teammates for single sessions. What's missing is a <strong>persistent social layer</strong> - a way for users who want to play regularly with the same group of trusted people to form and manage that group within Playo. Today this coordination happens entirely on WhatsApp, outside the app.</p></div>
+</section>
+
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">The consistency gap</h2>
+<p class="si">The biggest friction for regular sports players isn't finding a venue. It's finding consistent people to play with.</p>
+<div class="pq">"I love Playo for booking courts but every session I'm on WhatsApp for an hour trying to confirm who's coming, who dropped out, and whether we need a fill-in. Playo has nothing for this."<cite>- Badminton player, 29, Bangalore</cite></div>
+<div class="prose"><p>Users who play 3+ times per week have the highest LTV potential but also the highest churn risk - their engagement with Playo is limited to the booking step. The group formation and coordination loop (which is where the real habit lives) happens on WhatsApp. This means Playo doesn't own the retention habit. It only owns the transaction.</p></div>
+</section>
+
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who plays and what they need</h2>
+<div class="pg">
+<div class="pc"><div class="pn">Arjun, 28</div><div class="pr">Software Engineer, Bangalore</div><div class="pd"><strong>Sport:</strong> Badminton, 3x/week with same 5 friends</div><div class="pd"><strong>Pain:</strong> WhatsApp group for confirmation is chaotic - last-minute dropouts with no replacement</div><div class="pd"><strong>Wants:</strong> Structured group, automatic fill-ins, no coordination overhead</div><span class="ptag p0">Primary - build for this user</span></div>
+<div class="pc"><div class="pn">Meera, 32</div><div class="pr">Marketing Manager, Hyderabad</div><div class="pd"><strong>Sport:</strong> Tennis, 1x/week, inconsistent group</div><div class="pd"><strong>Pain:</strong> Hard to find reliable hitting partners at her level</div><div class="pd"><strong>Wants:</strong> A bench of reliable fill-ins she can trust skill-wise</div><span class="ptag p1">Secondary - bench feature matters</span></div>
+<div class="pc"><div class="pn">Rohan, 22</div><div class="pr">College student, Pune</div><div class="pd"><strong>Sport:</strong> Football, plays with whoever's available</div><div class="pd"><strong>Pain:</strong> Can't find teams to join, plays alone or misses sessions</div><div class="pd"><strong>Wants:</strong> Discover squads to join as a bench player</div><span class="ptag p1">Secondary - bench discovery</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>Session frequency</th><th>LTV potential</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Regular group player (Arjun)</strong></td><td>3x/week</td><td>Highest - pays, books, refers</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Inconsistent professional (Meera)</strong></td><td>1-2x/week</td><td>Medium - needs reliability to increase frequency</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Social joiner (Rohan)</strong></td><td>Variable</td><td>Medium - bench player supply side</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">How Arjun organises his weekly badminton session today</h2>
+<div class="js">
+<div class="jstep"><div class="jstage">Planning</div><div class="jc"><h5>Thursday afternoon - needs to confirm the weekend session</h5><p>Opens the Playo WhatsApp group. Sends "Saturday 7 PM guys?" Waits for 6 people to respond individually across the next 4 hours.</p><span class="em">Anxious</span></div></div>
+<div class="jstep"><div class="jstage">Confirmation chaos</div><div class="jc"><h5>3 confirmations, 2 maybes, 1 no-show</h5><p>Two people are "maybe." One person confirms but the reply gets buried under memes. The group has 30 unread messages by evening.</p><span class="em">Frustrated</span></div></div>
+<div class="jstep"><div class="jstage">Last-minute dropout</div><div class="jc"><h5>Saturday 5 PM - one person pulls out</h5><p>"Sorry guys, something came up." Now they need a fill-in with 2 hours' notice. Arjun starts messaging people individually outside the group.</p><span class="em">Stressed</span></div></div>
+<div class="jstep"><div class="jstage">Fill-in scramble</div><div class="jc"><h5>No replacement found, plays 3v3 instead of 4v4</h5><p>The session is fine but not ideal. Arjun considers whether it's worth this coordination effort every single week.</p><span class="em">Exhausted</span></div></div>
+<div class="jstep"><div class="jstage">Repeat</div><div class="jc"><h5>Playo was used exactly once - to book the court</h5><p>All coordination happened on WhatsApp. Playo owns the transaction, not the habit.</p><span class="em">Habit lives outside Playo</span></div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">Where the current experience breaks</h2>
+<div class="paing">
+<div class="painc"><div class="ico">👥</div><h5>No persistent group formation</h5><p>No native mechanism to form a named, recurring group of players. Every session is a fresh matchmaking event.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">📱</div><h5>WhatsApp dependency</h5><p>All coordination, confirmation, and fill-in management happens outside Playo. The app owns the booking, not the relationship.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🚨</div><h5>No fill-in mechanism</h5><p>When someone drops out last-minute, there's no in-app way to find a replacement. Users scramble manually via contacts.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">📅</div><h5>No recurring booking</h5><p>Users who play every Wednesday at 7 PM must rebook the same slot manually every week. No repeat booking or advance hold.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">⭐</div><h5>No reliability tracking</h5><p>No visibility into who cancels often. Users keep inviting unreliable players because there's no history or social signal.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">💬</div><h5>Weak in-app communication</h5><p>Playo has no group chat or session-specific communication. All coordination exports to WhatsApp by default.</p><span class="sev sm">Medium severity</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">What to solve first</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Frequency</th><th>Impact on retention</th><th>Solvability</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>No persistent group formation</strong></td><td>Every session</td><td>High - WhatsApp owns the habit</td><td>High - squad feature solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No fill-in mechanism</strong></td><td>~30% of sessions</td><td>High - session failure without fill-in</td><td>High - bench pool solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No RSVP system</strong></td><td>Every session</td><td>High - confirmation chaos is weekly</td><td>High - one-tap RSVP solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No reliability tracking</strong></td><td>Chronic / gradual</td><td>Medium - wrong people get invited</td><td>High - attendance score solves it</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>No recurring booking</strong></td><td>Every week</td><td>Medium - friction, not churn</td><td>Medium - recurring slot hold needed</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Weak in-app communication</strong></td><td>Every session</td><td>Low - WhatsApp is good enough</td><td>Low - hard to displace WhatsApp</td><td><span class="badge">P2</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">What to build and why</h2>
+<div class="solg">
+<div class="solc"><h5>Squad Creation</h5><p>Named group of 3-8 core members with sport, skill level, preferred day and time, and preferred venue. Created in 3 taps. Invite via code or deep link.</p><span class="stag">Goal: bring coordination inside Playo</span></div>
+<div class="solc"><h5>Weekly RSVP</h5><p>Automatic notification 3 days before each session: "Are you in?" One tap to confirm or decline. Session status visible to all members in real-time.</p><span class="stag">Goal: replace WhatsApp confirmation chaos</span></div>
+<div class="solc"><h5>Smart Bench</h5><p>4-person on-call pool per squad. When a core member taps "Out," bench is instantly notified with full session details. First to accept fills the spot.</p><span class="stag">Goal: eliminate last-minute dropout risk</span></div>
+<div class="solc"><h5>Attendance Reliability Score</h5><p>Visible score per member based on confirmed-vs-attended ratio. Displayed next to name in squad view. High scorers eligible for Squad Karma multiplier.</p><span class="stag">Goal: social accountability, reduce dropouts</span></div>
+<div class="solc"><h5>Recurring Slot Booking</h5><p>Squad admin sets a recurring slot (every Wednesday 7 PM). Playo auto-holds the slot and sends a 3-day advance RSVP. Reduces weekly rebooking friction.</p><span class="stag">Goal: increase booking frequency, GMV</span></div>
+<div class="solc"><h5>Squad Karma System</h5><p>Points for showing up, filling in for bench slots (1.5x multiplier), and high attendance streaks. Unlocks perks: priority booking, discount on 10th session.</p><span class="stag">Goal: retention and habit reinforcement</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">Build sequence - RICE</h2>
+<div class="tw"><table><thead><tr><th>Solution</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Squad creation + weekly RSVP</strong></td><td>40% of regular users</td><td>3</td><td>85%</td><td>6 weeks</td><td><strong>17</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Smart bench fill-in</strong></td><td>30% of squads</td><td>3</td><td>80%</td><td>3 weeks</td><td><strong>24</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Attendance reliability score</strong></td><td>100% of squad members</td><td>2</td><td>75%</td><td>2 weeks</td><td><strong>75</strong></td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Recurring slot booking</strong></td><td>60% of squads</td><td>2</td><td>70%</td><td>4 weeks</td><td><strong>21</strong></td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Squad Karma system</strong></td><td>100% of squad users</td><td>2</td><td>65%</td><td>4 weeks</td><td><strong>32.5</strong></td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">09 - MVP Solution with Design</div>
+<h2 class="st">The 4-screen Squad Mode flow</h2>
+<p class="si">Create squad, manage members, RSVP, and fill bench spots - all inside Playo.</p>
+<div class="wfs">
+<div class="wfl">User flow wireframe</div>
+<div class="wfsc">
+
+<div class="wfcol"><div class="wfst">Create</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">New squad</div>
+<div class="wflbl">Squad name</div>
+<div class="wffi"><span>Wed Badminton Crew</span></div>
+<div class="wflbl">Sport</div>
+<div class="wfchips"><div class="wfchip on">Badminton</div><div class="wfchip">Football</div><div class="wfchip">Cricket</div></div>
+<div class="wflbl">Skill level</div>
+<div class="wfchips"><div class="wfchip">Beginner</div><div class="wfchip on">Intermediate</div></div>
+<div class="wflbl">When</div>
+<div class="wffi"><span>Wed, 7:00 PM</span></div>
+<div class="wfcta-g">Create squad</div>
+<div class="wfinvite"><div class="wfcs">Invite code</div><div class="wfcode">WBC482</div></div>
+</div></div><div class="wfnt">3 taps to create. Share code with your crew.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Your squad</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Wed Badminton</div>
+<div class="wfdiv"></div>
+<div class="wflabs">Members (5/8)</div>
+<div class="wfmem"><div class="wfml"><div class="wfav">SA</div><div class="wfmn">Shaurya</div></div><div class="wfrel wrh">100%</div></div>
+<div class="wfmem"><div class="wfml"><div class="wfav">RK</div><div class="wfmn">Rahul K.</div></div><div class="wfrel wrh">92%</div></div>
+<div class="wfmem"><div class="wfml"><div class="wfav">PM</div><div class="wfmn">Priya M.</div></div><div class="wfrel wrm">67%</div></div>
+<div class="wfdiv"></div>
+<div class="wflabs">Bench (2/4)</div>
+<div class="wfmem"><div class="wfml"><div class="wfav wfav2">AJ</div><div class="wfmn">Arjun J.</div></div><div style="font-size:7px;color:var(--muted);">On-call</div></div>
+<div class="wfmem"><div class="wfml"><div class="wfav wfav2">NS</div><div class="wfmn">Neha S.</div></div><div style="font-size:7px;color:var(--muted);">On-call</div></div>
+<div class="wfcta-b">+ Add bench player</div>
+</div></div><div class="wfnt">Reliability score next to each name. Bench is the on-call pool.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">RSVP</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Are you in?</div>
+<div class="wfntf">
+<div class="wfnh">Wed Badminton <span class="wfnt2">3 days before</span></div>
+<div class="wfnb">Wed 13 Aug, 7 PM at DLF Sports. Your squad needs to know!</div>
+<div class="wfbtns"><div class="wfbtn wbin">I'm in</div><div class="wfbtn wbout">Can't make it</div></div>
+</div>
+<div class="wflabs" style="margin-top:4px;">Session so far</div>
+<div class="wfstat"><div class="wfsn">Shaurya</div><div class="wfsi">In</div></div>
+<div class="wfstat"><div class="wfsn">Rahul K.</div><div class="wfsi">In</div></div>
+<div class="wfstat"><div class="wfsn">Priya M.</div><div class="wfso">Out</div></div>
+<div class="wfstat"><div class="wfsn">Vikram T.</div><div class="wfsp">Pending</div></div>
+<div class="wfalert">1 spot open - alerting bench</div>
+</div></div><div class="wfnt">One tap RSVP. Bench auto-alerted when someone drops out.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Bench alert</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Spot available</div>
+<div class="wfntf wfntfw">
+<div class="wfnh wfnhw">Squad bench alert</div>
+<div class="wfnb">Wed Badminton - 1 open spot. Wed 13 Aug, 7 PM. Intermediate. DLF Sports.</div>
+<div class="wfbtns"><div class="wfbtn wbjoin">Join session</div><div class="wfbtn wbskip">Skip</div></div>
+</div>
+<div class="wfkm"><span style="font-size:13px;">⭐</span><div><div style="font-size:8px;font-weight:600;">1.5x Karma for filling in</div><div style="font-size:7px;color:var(--muted);">3 fill-ins - become core member</div></div></div>
+</div></div><div class="wfnt">Bench gets instant ping. Karma rewards showing up.</div></div>
+
+</div></div>
+<div class="mg">
+<div class="mc"><div class="mlab">North Star</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">Sessions/user/month</div><div class="mds">Target: ~4 to 7+ for squad users</div></div>
+<div class="mc"><div class="mlab">30-day retention</div><div class="mv"><span class="mfr">38%</span><span class="mar">→</span><span class="mto">58%+</span></div><div class="mds">Squad vs non-squad cohort</div></div>
+<div class="mc"><div class="mlab">WhatsApp usage</div><div class="mv"><span class="mfr">100%</span><span class="mar">→</span><span class="mto">~40%</span></div><div class="mds">For coordination (squad users)</div></div>
+<div class="mc"><div class="mlab">Squad adoption</div><div class="mv"><span class="mfr">0%</span><span class="mar">→</span><span class="mto">25%+</span></div><div class="mds">Of regular users in 6 months</div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How we launch and grow</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Week 1-4</div><div><h5>Closed beta with power users</h5><p>Recruit 500 power users (5+ sessions/month) in Bangalore and Hyderabad. Give them early access to Squad Mode. Collect qualitative feedback on RSVP friction, bench flow, and reliability scores. Fix core UX issues before public launch.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Week 5-8</div><div><h5>Public launch with social proof</h5><p>Roll out to all cities. Feature "Squad Stories" in the app - squads that have been playing together for 3+ months. Create a referral mechanic: forming a squad earns the creator 1 free court booking. Target: 10,000 squads formed in first month.</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Week 9-16</div><div><h5>Squad tournaments and Karma perks</h5><p>Launch squad-vs-squad casual tournaments for badminton and football - structured competition that drives session frequency. Introduce Karma perk: squads with 90%+ average reliability get priority booking access for premium weekend slots.</p></div></div>
+</div>
+<div class="prose" style="margin-top:1.5rem;"><p><strong>North Star:</strong> Sessions per active user per month. Squad users target 7+ vs 4 for non-squad. This drives both GMV (more bookings) and retention (social accountability).</p><p><strong>Guardrail:</strong> Fill-in acceptance rate must stay above 60%. If bench players regularly decline, the trust signal breaks and the feature loses its value proposition.</p></div>
+</section>
+
+</div>
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>

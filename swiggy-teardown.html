@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Swiggy Instamart Teardown - Shaurya Agarwal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#0c0c0c;--soft:#4a4a4a;--muted:#888;--bg:#f9f8f5;--white:#fff;--ac:#c77b17;--act:#f5b942;--acl:#fef3e2;--border:rgba(12,12,12,0.10);--borderS:rgba(12,12,12,0.20);--serif:'DM Serif Display',Georgia,serif;--sans:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;}
+html{scroll-behavior:smooth;}body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,248,245,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--soft);text-decoration:none;}.nb{font-size:12px;font-weight:600;color:var(--ac);text-decoration:none;}
+.cover{min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 3rem 4rem;background:#1c0f00;position:relative;overflow:hidden;}
+.glow{position:absolute;inset:0;background:radial-gradient(circle at 30% 60%,rgba(199,123,23,0.2) 0%,transparent 55%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.ctag{font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#f5b942;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.ctag::before{content:'';width:6px;height:6px;background:#f5b942;border-radius:50%;animation:pu 2s infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.cover h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);color:#fff;line-height:1.08;margin-bottom:1rem;font-weight:400;max-width:780px;}
+.cover h1 em{font-style:italic;color:#f5b942;}
+.csub{font-size:1rem;color:rgba(255,255,255,0.5);max-width:580px;margin-bottom:3rem;font-weight:300;}
+.cmeta{display:flex;gap:2.5rem;flex-wrap:wrap;padding-top:2rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.cmeta .lb{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);font-weight:500;}
+.cmeta .vl{font-size:14px;color:rgba(255,255,255,0.75);font-weight:500;margin-top:2px;}
+.page{max-width:860px;margin:0 auto;padding:0 2rem;}
+section{padding:4rem 0;border-bottom:0.5px solid var(--border);}section:last-child{border-bottom:none;}
+.sn{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ac);margin-bottom:0.5rem;}
+.st{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.4rem);color:var(--ink);margin-bottom:1rem;font-weight:400;line-height:1.2;}
+.si{font-size:15px;color:var(--soft);margin-bottom:2rem;max-width:640px;line-height:1.8;}
+.snaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:2rem;}
+.snap{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.snap .n{font-family:var(--serif);font-size:1.9rem;line-height:1;margin-bottom:6px;color:var(--ac);}
+.snap .l{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);}
+.prose p{font-size:15px;color:var(--soft);margin-bottom:1rem;line-height:1.8;}
+.prose strong{color:var(--ink);font-weight:600;}
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:10px;border:0.5px solid var(--border);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;}
+th{background:#f0eeea;text-align:left;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono);border-bottom:0.5px solid var(--border);}
+td{padding:10px 14px;border-bottom:0.5px solid var(--border);color:var(--soft);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}td strong{color:var(--ink);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0;}
+.pc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;}
+.pn{font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:4px;font-weight:400;}
+.pr{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.pd{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:4px;}
+.ptag{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);margin-top:8px;}
+.p0{background:#fde8e8;color:#b91c1c;}.p1{background:#fef3e2;color:#b86c10;}.p2{background:#f0eeea;color:#888;}
+.js{display:flex;flex-direction:column;margin:1.5rem 0;background:var(--white);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.jstep{display:grid;grid-template-columns:120px 1fr;border-bottom:0.5px solid var(--border);padding:1.25rem;}
+.jstep:last-child{border-bottom:none;}
+.jstage{font-size:11px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);padding-right:1rem;}
+.jc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.jc p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:6px;}
+.em{font-size:11px;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:var(--bg);border:0.5px solid var(--border);}
+.paing{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.painc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.painc .ico{font-size:1.3rem;margin-bottom:8px;}
+.painc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.painc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.sev{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:8px;font-family:var(--mono);}
+.sh{background:#fde8e8;color:#b91c1c;}.sm{background:#fef3e2;color:#b86c10;}.sl{background:#f0eeea;color:#888;}
+.solg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin:1.5rem 0;}
+.solc{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.25rem;}
+.solc h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.solc p{font-size:13px;color:var(--soft);line-height:1.6;}
+.stag{font-size:11px;font-family:var(--mono);margin-top:8px;padding:3px 8px;border-radius:4px;display:inline-block;background:var(--acl);color:var(--ac);}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:1.5rem 0;}
+.mc{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;}
+.mlab{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--mono);margin-bottom:8px;}
+.mv{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.mfr{font-family:var(--serif);font-size:1.2rem;color:var(--muted);}
+.mar{color:var(--muted);}
+.mto{font-family:var(--serif);font-size:1.2rem;color:var(--ac);}
+.mds{font-size:11px;color:var(--muted);}
+.phases{display:grid;gap:1rem;margin:1.5rem 0;}
+.ph{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:1.5rem;display:grid;grid-template-columns:110px 1fr;gap:1rem;align-items:start;}
+.phn{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);}
+.ph h5{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.ph p{font-size:13px;color:var(--soft);line-height:1.65;}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:var(--mono);}
+.bg{background:#e8f5ee;color:#1a7a4a;}.ba{background:#fef3e2;color:#b86c10;}
+.pq{border-left:3px solid var(--ac);padding:1.25rem 1.5rem;background:var(--acl);border-radius:0 10px 10px 0;margin:2rem 0;font-size:14.5px;color:var(--ac);font-style:italic;line-height:1.7;}
+.pq cite{display:block;margin-top:8px;font-size:12px;color:var(--ac);font-style:normal;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;opacity:0.7;}
+.wfs{background:var(--white);border:0.5px solid var(--border);border-radius:16px;padding:2rem;margin:1.5rem 0;}
+.wfl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.wfl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--muted);}
+.wfsc{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;}
+.wfcol{display:flex;flex-direction:column;align-items:center;gap:8px;width:155px;}
+.wfst{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.wfph{width:145px;border:1.5px solid var(--borderS);border-radius:20px;overflow:hidden;background:var(--bg);}
+.wfbar{height:20px;background:var(--white);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;gap:4px;}
+.wfdot{width:4px;height:4px;border-radius:50%;background:#aaa;}
+.wfb{padding:9px 8px 11px;}
+.wftt{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.wfdiv{height:0.5px;background:var(--border);margin:5px 0;}
+.wfarr{color:var(--muted);font-size:18px;padding-top:40px;}
+.wfnt{font-size:10px;color:var(--soft);text-align:center;max-width:148px;line-height:1.5;}
+.wfntf{border:0.5px solid #f5c97a;border-radius:8px;padding:7px;margin-bottom:5px;}
+.wfntfg{border-color:var(--border);}
+.wfnh{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.wfntit{font-size:9px;font-weight:600;color:var(--ink);}
+.wfntit2{font-size:9px;font-weight:600;color:var(--muted);}
+.wftime{font-size:7px;color:var(--muted);}
+.wfnbody{font-size:8px;color:var(--soft);line-height:1.4;margin-bottom:5px;}
+.wfbtns{display:flex;gap:4px;}
+.wfbtn{flex:1;padding:4px;border-radius:4px;font-size:8px;font-weight:500;text-align:center;}
+.wborange{background:#fef3e2;color:#b86c10;}.wbgray{background:#f0eeea;color:#888;}
+.wfprow{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:0.5px solid var(--border);}
+.wfprow:last-of-type{border-bottom:none;}
+.wfpthumb{width:24px;height:24px;border-radius:5px;background:#f0eeea;flex-shrink:0;}
+.wfpinfo{flex:1;}
+.wfpname{font-size:8px;font-weight:600;color:var(--ink);}
+.wfpbar{height:3px;border-radius:2px;background:#f0eeea;margin:3px 0 2px;overflow:hidden;}
+.wfpfill{height:100%;border-radius:2px;}
+.wflow{background:#e24b4a;}.wfmed{background:#c77b17;}.wfok{background:#2da25e;}
+.wfpstat{font-size:7px;}
+.wfplow{color:#b91c1c;}.wfpmed{color:#b86c10;}.wfpok{color:#1a7a4a;}
+.wfpadd{font-size:8px;color:#1a4aff;}
+.wfrhd{background:#fef3e2;border-radius:7px;padding:7px;margin-bottom:7px;}
+.wfrt{font-size:9px;font-weight:600;color:#b86c10;}
+.wfrts{font-size:7px;color:#b86c10;opacity:0.8;}
+.wfcrrow{display:flex;align-items:center;gap:5px;padding:5px 0;border-bottom:0.5px solid var(--border);}
+.wfcrt{width:22px;height:22px;border-radius:4px;background:#f0eeea;flex-shrink:0;}
+.wfcri{flex:1;}
+.wfcrn{font-size:8px;font-weight:600;color:var(--ink);}
+.wfcrs{font-size:7px;color:var(--muted);}
+.wfqty{display:flex;align-items:center;gap:3px;}
+.wfqb{width:15px;height:15px;border-radius:3px;border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--ink);}
+.wfqn{font-size:8px;font-weight:500;min-width:10px;text-align:center;}
+.wftot{display:flex;justify-content:space-between;margin:5px 0 3px;}
+.wftl{font-size:8px;color:var(--muted);}.wftv{font-size:9px;font-weight:600;color:var(--ink);}
+.wfcta{width:100%;padding:7px;border-radius:7px;font-size:9px;font-weight:600;text-align:center;background:var(--ac);color:#fff;}
+footer{background:#1c0f00;padding:2.5rem 2rem;text-align:center;}
+footer p{font-size:12px;font-family:var(--mono);color:rgba(255,255,255,0.3);}
+footer a{color:#f5b942;text-decoration:none;}
+</style></head><body>
+<nav><a href="shaurya-pm-portfolio.html" class="nl">SA.pm</a><a href="shaurya-pm-portfolio.html" class="nb">← Portfolio</a></nav>
+
+<div class="cover"><div class="glow"></div><div class="grid-bg"></div>
+<div class="ctag">Product Teardown</div>
+<h1>Swiggy Instamart:<br><em>Pantry Intelligence</em></h1>
+<div class="csub">Building grocery-first habits through proactive reorder and subscription retention mechanics</div>
+<div class="cmeta">
+<div><div class="lb">Product</div><div class="vl">Swiggy Instamart</div></div>
+<div><div class="lb">Category</div><div class="vl">Q-commerce</div></div>
+<div><div class="lb">Type</div><div class="vl">Retention Feature + Competitive Analysis</div></div>
+<div><div class="lb">Author</div><div class="vl">Shaurya Agarwal</div></div>
+</div></div>
+
+<div class="page">
+
+<section>
+<div class="sn">01 - About the Product</div>
+<h2 class="st">What Swiggy Instamart does today</h2>
+<p class="si">Swiggy Instamart is India's second-largest q-commerce player, promising 10-minute grocery delivery across 30+ cities, bundled with Swiggy One subscription alongside food delivery.</p>
+<div class="snaps">
+<div class="snap"><div class="n">30+</div><div class="l">Cities active</div></div>
+<div class="snap"><div class="n">10 min</div><div class="l">Delivery promise</div></div>
+<div class="snap"><div class="n">Swiggy One</div><div class="l">Bundled subscription</div></div>
+<div class="snap"><div class="n">3-way</div><div class="l">Competition: Blinkit, Zepto</div></div>
+</div>
+<div class="prose"><p>Instamart's structural advantage is the <strong>Swiggy One bundle</strong> - a combined food + grocery subscription that Blinkit and Zepto can't easily replicate. The challenge is converting that structural advantage into a grocery-first habit. Currently, most Instamart orders are reactive (ran out of something) rather than planned. The habitual weekly grocery shopper who anchors their routine to Instamart is the user worth winning - and they're currently switching between all three platforms based on offer availability.</p></div>
+</section>
+
+<section>
+<div class="sn">02 - Problem Statement</div>
+<h2 class="st">The habit-formation gap in q-commerce</h2>
+<p class="si">In a market where Blinkit, Instamart, and Zepto all deliver in 10 minutes, retention comes from switching costs - not product speed.</p>
+<div class="pq">"I have Swiggy One but I still open Blinkit when I need groceries because they show me a better offer. The subscription doesn't actually make me loyal."<cite>- Swiggy One subscriber, 31, Mumbai</cite></div>
+<div class="prose"><p>The core problem: Swiggy One creates a financial commitment but not a behavioural habit. The subscription reduces the cost of each order but doesn't change <strong>when</strong> or <strong>why</strong> the user orders. Without predicting the user's need before they feel it, Instamart is always competing on the moment of intent - when all three apps are equally available and equally fast. The window to win is <strong>before</strong> the need is felt.</p></div>
+</section>
+
+<section>
+<div class="sn">03 - User Personas and Prioritization</div>
+<h2 class="st">Who shops on Instamart and what they need</h2>
+<div class="pg">
+<div class="pc"><div class="pn">Sunita, 36</div><div class="pr">Homemaker, Pune</div><div class="pd"><strong>Shops:</strong> 2-3x/week, family of 4, manages household staples</div><div class="pd"><strong>Pain:</strong> Forgets to reorder oil/atta/dal until she's out - then opens whichever app loads first</div><div class="pd"><strong>Wants:</strong> Know when to reorder before she runs out</div><span class="ptag p0">Primary - highest LTV, build for her</span></div>
+<div class="pc"><div class="pn">Karan, 29</div><div class="pr">Working professional, Bangalore</div><div class="pd"><strong>Shops:</strong> 1-2x/week, split household with flatmates</div><div class="pd"><strong>Pain:</strong> Coordination with flatmates about who buys what is chaotic</div><div class="pd"><strong>Wants:</strong> Shared list that all flatmates can add to, one checkout</div><span class="ptag p1">Secondary - household coordination feature</span></div>
+<div class="pc"><div class="pn">Aarav, 24</div><div class="pr">Student, Delhi</div><div class="pd"><strong>Shops:</strong> Impulse only - snacks, instant noodles late night</div><div class="pd"><strong>Pain:</strong> Not brand loyal, goes wherever has the best offer</div><div class="pd"><strong>Wants:</strong> Good deals and fast delivery, nothing more</div><span class="ptag p2">Offer-driven, low loyalty upside</span></div>
+</div>
+<div class="tw"><table><thead><tr><th>Persona</th><th>Order frequency</th><th>LTV</th><th>Retention lever</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Household manager (Sunita)</strong></td><td>2-3x/week</td><td>Highest</td><td>Pantry prediction - reach before the need</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Working professional (Karan)</strong></td><td>1-2x/week</td><td>Medium</td><td>Shared household list</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Offer-driven student (Aarav)</strong></td><td>Low, sporadic</td><td>Low</td><td>Discounts only - not worth anchoring product to</td><td><span class="badge">Out of scope</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">04 - User Journey Map</div>
+<h2 class="st">Sunita's grocery experience today</h2>
+<div class="js">
+<div class="jstep"><div class="jstage">Realization</div><div class="jc"><h5>Wednesday morning - she's out of cooking oil</h5><p>Reaches for the oil, finds an empty bottle. Needs to order before cooking dinner. Opens her phone.</p><span class="em">Mildly stressed</span></div></div>
+<div class="jstep"><div class="jstage">App selection</div><div class="jc"><h5>Opens Blinkit because of last week's habit</h5><p>Doesn't open Swiggy - opens Blinkit because that's what she opened last time. Platform loyalty is non-existent at this moment of reactive need.</p><span class="em">Automatic, no loyalty signal</span></div></div>
+<div class="jstep"><div class="jstage">Shopping</div><div class="jc"><h5>Orders oil + a few other things she noticed while in the kitchen</h5><p>Adds atta and dal too - items she was running low on. Doesn't think systematically about the whole pantry.</p><span class="em">Satisficed, not optimised</span></div></div>
+<div class="jstep"><div class="jstage">Recurrence</div><div class="jc"><h5>Same thing happens with atta 2 weeks later</h5><p>Runs out of atta. Same reactive loop. Still doesn't open Swiggy by default. Swiggy One subscription sits idle.</p><span class="em">Pattern repeats</span></div></div>
+<div class="jstep"><div class="jstage">Churn risk</div><div class="jc"><h5>Considers not renewing Swiggy One</h5><p>"I pay for this but I don't really use it for groceries." Subscription fails to convert into a grocery-first habit.</p><span class="em">Questioning value</span></div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">05 - Pain Points</div>
+<h2 class="st">Where Instamart loses the habitual shopper</h2>
+<div class="paing">
+<div class="painc"><div class="ico">🔮</div><h5>No predictive awareness</h5><p>Instamart doesn't know Sunita is about to run out of oil. It only knows when she orders. Missing the window to reach her 3 days early.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🏃</div><h5>Reactive-only engagement</h5><p>Every Instamart session is triggered by a realized need. Proactive engagement (before the need) would capture the moment competitors can't.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">🏠</div><h5>No household list coordination</h5><p>Multi-person households coordinate grocery needs on WhatsApp, not Instamart. The shared list feature is the kirana shopkeeper's memory digitised.</p><span class="sev sh">High severity</span></div>
+<div class="painc"><div class="ico">💳</div><h5>Subscription doesn't change behaviour</h5><p>Swiggy One reduces per-order cost but doesn't anchor grocery shopping to Instamart. No habit loop is created by the subscription itself.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">📅</div><h5>No recurring order</h5><p>Users who buy the same 15 items every week must rebuild the cart manually each time. No "repeat last order" or "restock my staples" capability.</p><span class="sev sm">Medium severity</span></div>
+<div class="painc"><div class="ico">🔔</div><h5>Generic push notifications</h5><p>Notifications are offer-based ("20% off this weekend") not behaviour-based ("your atta is probably running low"). Low relevance = low open rate.</p><span class="sev sm">Medium severity</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">06 - Prioritizing Pain Points</div>
+<h2 class="st">What to solve first</h2>
+<div class="tw"><table><thead><tr><th>Pain point</th><th>Frequency</th><th>Retention impact</th><th>Solvability</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>No predictive awareness</strong></td><td>Chronic - every reorder cycle</td><td>High - loses moment before need</td><td>High - depletion model from order history</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Reactive-only engagement</strong></td><td>Every session</td><td>High - platform undifferentiated</td><td>High - proactive notification solves it</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>No household coordination</strong></td><td>2-3x/week for multi-person HH</td><td>High - drives WhatsApp dependency</td><td>Medium - shared list feature</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Subscription doesn't change behaviour</strong></td><td>Structural / chronic</td><td>High - subscription churn</td><td>Low - needs product + comms solution</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>No recurring order</strong></td><td>Weekly for regular shoppers</td><td>Medium - friction reducer</td><td>High - recurring basket feature</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Generic notifications</strong></td><td>Daily (sent but ignored)</td><td>Medium - disables notification channel</td><td>High - personalised triggers</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">07 - Solutions Aligned with Business Goals</div>
+<h2 class="st">What to build and why</h2>
+<div class="solg">
+<div class="solc"><h5>Pantry Depletion Model</h5><p>Backend system that infers consumption rates from order history. Predicts when each frequently-ordered item is ~3 days from depletion and surfaces a proactive reorder prompt.</p><span class="stag">Goal: reach user before they open a competitor</span></div>
+<div class="solc"><h5>Proactive Reorder Notification</h5><p>"Your cooking oil might be running low - you usually reorder every 3 weeks." One-tap to open a pre-filled restock cart. Timed to 3 days before predicted depletion.</p><span class="stag">Goal: convert reactive to proactive habit</span></div>
+<div class="solc"><h5>Shared Household List</h5><p>Multiple household members add to the same Instamart list in real-time. One member checks out for everything. WhatsApp-native sharing generates a link anyone can add items to.</p><span class="stag">Goal: replace WhatsApp coordination, build stickiness</span></div>
+<div class="solc"><h5>Pantry View</h5><p>Visual dashboard showing estimated stock levels for frequently-bought items. Depletion bars inferred from order history. Low items surface a one-tap reorder. Gets smarter with more orders.</p><span class="stag">Goal: make Instamart the household's pantry manager</span></div>
+<div class="solc"><h5>Recurring Staples Basket</h5><p>Household sets a "Staples List" - items that auto-populate a new cart every Monday. One-tap to confirm and order. Replaces the kirana shopkeeper's memory of what your household always needs.</p><span class="stag">Goal: habit formation, weekly GMV anchor</span></div>
+<div class="solc"><h5>Swiggy One Grocery Perks</h5><p>Exclusive Instamart perks for Swiggy One subscribers: priority dark store allocation at peak times, exclusive weekly bundle price, free delivery on all grocery orders regardless of cart value.</p><span class="stag">Goal: make subscription tangibly valuable for grocery</span></div>
+</div>
+</section>
+
+<section>
+<div class="sn">08 - Prioritizing the Solutions</div>
+<h2 class="st">Build sequence</h2>
+<div class="tw"><table><thead><tr><th>Solution</th><th>Impact on retention</th><th>Effort</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Pantry depletion model (backend)</strong></td><td>High - foundation for proactive features</td><td>4-6 weeks</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Proactive reorder notification</strong></td><td>High - directly reduces competitor switching</td><td>2 weeks (uses depletion model)</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Shared household list</strong></td><td>High - addresses coordination gap</td><td>3-4 weeks</td><td><span class="badge bg">P0</span></td></tr>
+<tr><td><strong>Pantry view dashboard</strong></td><td>Medium - visibility, not urgency</td><td>3 weeks</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Recurring staples basket</strong></td><td>High - drives weekly habit</td><td>3 weeks</td><td><span class="badge ba">P1</span></td></tr>
+<tr><td><strong>Swiggy One grocery perks</strong></td><td>Medium - subscription stickiness</td><td>2 weeks (policy + UI)</td><td><span class="badge ba">P1</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<div class="sn">09 - MVP Solution with Design</div>
+<h2 class="st">Pantry Intelligence - 3 screens</h2>
+<p class="si">Proactive notification before depletion, pantry view for stock visibility, one-tap restock cart.</p>
+<div class="wfs">
+<div class="wfl">User flow wireframe</div>
+<div class="wfsc">
+
+<div class="wfcol"><div class="wfst">Notification</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb">
+<div style="font-size:8px;color:var(--muted);margin-bottom:5px;text-align:center;">Lock screen</div>
+<div class="wfntf">
+<div class="wfnh"><div class="wfntit">Instamart</div><div class="wftime">Now</div></div>
+<div class="wfnbody">Your cooking oil might be running low. You usually reorder every 3 weeks. Restock?</div>
+<div class="wfbtns"><div class="wfbtn wborange">Restock now</div><div class="wfbtn wbgray">Not yet</div></div>
+</div>
+<div class="wfntf wfntfg" style="margin-top:4px;">
+<div class="wfnh"><div class="wfntit2">Instamart</div><div class="wftime">2 days ago</div></div>
+<div class="wfnbody">Atta 5kg delivered. Next restock predicted in ~18 days.</div>
+</div>
+</div></div><div class="wfnt">Sent 3 days before predicted depletion. Based on your order pattern.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Pantry view</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb"><div class="wftt">Your pantry</div>
+<div style="font-size:7px;color:var(--muted);margin-bottom:5px;">Estimated from your orders</div>
+<div class="wfprow">
+<div class="wfpthumb"></div>
+<div class="wfpinfo"><div class="wfpname">Cooking oil 1L</div><div class="wfpbar"><div class="wfpfill wflow" style="width:15%;"></div></div><div class="wfpstat wfplow">Running low</div></div>
+<div class="wfpadd">+ Add</div>
+</div>
+<div class="wfprow">
+<div class="wfpthumb"></div>
+<div class="wfpinfo"><div class="wfpname">Tata Salt 1kg</div><div class="wfpbar"><div class="wfpfill wfmed" style="width:40%;"></div></div><div class="wfpstat wfpmed">~10 days left</div></div>
+<div class="wfpadd">+ Add</div>
+</div>
+<div class="wfprow">
+<div class="wfpthumb"></div>
+<div class="wfpinfo"><div class="wfpname">Atta 5kg</div><div class="wfpbar"><div class="wfpfill wfok" style="width:75%;"></div></div><div class="wfpstat wfpok">~18 days left</div></div>
+</div>
+<div class="wfprow">
+<div class="wfpthumb"></div>
+<div class="wfpinfo"><div class="wfpname">Coffee 200g</div><div class="wfpbar"><div class="wfpfill wfok" style="width:60%;"></div></div><div class="wfpstat wfpok">~12 days left</div></div>
+</div>
+</div></div><div class="wfnt">Depletion inferred from orders. Gets smarter over time.</div></div>
+
+<div class="wfarr">→</div>
+
+<div class="wfcol"><div class="wfst">Restock cart</div>
+<div class="wfph"><div class="wfbar"><div class="wfdot"></div><div class="wfdot"></div><div class="wfdot"></div></div>
+<div class="wfb">
+<div class="wfrhd"><div class="wfrt">Restock essentials</div><div class="wfrts">Items running low</div></div>
+<div class="wfcrrow">
+<div class="wfcrt"></div>
+<div class="wfcri"><div class="wfcrn">Fortune Oil 1L</div><div class="wfcrs">Running out in ~3 days</div></div>
+<div class="wfqty"><div class="wfqb">-</div><div class="wfqn">1</div><div class="wfqb">+</div></div>
+</div>
+<div class="wfcrrow">
+<div class="wfcrt"></div>
+<div class="wfcri"><div class="wfcrn">Tata Salt 1kg</div><div class="wfcrs">~10 days left</div></div>
+<div class="wfqty"><div class="wfqb">-</div><div class="wfqn">1</div><div class="wfqb">+</div></div>
+</div>
+<div class="wfdiv"></div>
+<div class="wftot"><div class="wftl">2 items</div><div class="wftv">Rs. 185</div></div>
+<div style="font-size:7px;color:var(--muted);margin-bottom:5px;">Free delivery with Swiggy One</div>
+<div class="wfcta">Place restock order</div>
+<div style="text-align:center;margin-top:4px;font-size:7px;color:var(--muted);">or add to your next order</div>
+</div></div><div class="wfnt">Pre-filled with low items. One tap to order.</div></div>
+
+</div></div>
+<div class="mg">
+<div class="mc"><div class="mlab">North Star</div><div style="font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;">Weekly active orderers / Swiggy One subs</div><div class="mds">Measures grocery-first habit formation</div></div>
+<div class="mc"><div class="mlab">Proactive open rate</div><div class="mv"><span class="mfr">8%</span><span class="mar">→</span><span class="mto">25%+</span></div><div class="mds">Depletion notif vs generic promo</div></div>
+<div class="mc"><div class="mlab">Order frequency</div><div class="mv"><span class="mfr">1.8x</span><span class="mar">→</span><span class="mto">2.5x</span></div><div class="mds">Weekly orders per active user</div></div>
+<div class="mc"><div class="mlab">Competitor switching</div><div class="mv"><span class="mfr">~50%</span><span class="mar">→</span><span class="mto">25%</span></div><div class="mds">Of grocery orders going to Blinkit/Zepto</div></div>
+</div>
+</section>
+
+<section>
+<div class="sn">10 - Go-to-Market Strategy</div>
+<h2 class="st">How we launch Pantry Intelligence</h2>
+<div class="phases">
+<div class="ph"><div class="phn">Phase 1<br>Week 1-6</div><div><h5>Build depletion model silently</h5><p>Data science team trains depletion prediction model using 12 months of order history. No user-visible changes. Validate model accuracy internally - target 80%+ precision on predicted reorder date. Only launch notifications when model is confident enough to avoid false predictions.</p></div></div>
+<div class="ph"><div class="phn">Phase 2<br>Week 7-10</div><div><h5>Launch proactive notifications to Swiggy One subscribers</h5><p>Start with Swiggy One users only - they're the highest LTV cohort and the subscription makes the "we know your patterns" framing feel earned rather than creepy. A/B test notification copy: predictive ("running low") vs factual ("you last ordered oil 18 days ago"). Measure open rate and conversion to order.</p></div></div>
+<div class="ph"><div class="phn">Phase 3<br>Week 11-16</div><div><h5>Pantry view + household list + rollout</h5><p>Launch pantry view and shared household list together - they reinforce each other. Roll out pantry intelligence to all users (not just Swiggy One). Use pantry adoption as a Swiggy One upgrade driver: "Unlock recurring smart restocks with Swiggy One."</p></div></div>
+</div>
+<div class="prose" style="margin-top:1.5rem;"><p><strong>North Star:</strong> Weekly active orderers as % of Swiggy One subscribers. Measures whether the subscription is building grocery-first habits, not just one-off convenience orders.</p><p><strong>Guardrail:</strong> Notification disable rate must not increase. If proactive notifications feel intrusive, users disable the channel entirely - worse than before. Precision over recall: fewer, more accurate predictions beat frequent guesses.</p></div>
+</section>
+
+</div>
+<footer><p>Shaurya Agarwal - PM Portfolio · <a href="shaurya-pm-portfolio.html">Back to portfolio</a></p></footer>
+</body></html>
