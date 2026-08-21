@@ -42,6 +42,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - [x] 2026-08-21 - Updated Experience section (role titles + bullets) in all 3 variants to match the CV
 - [x] 2026-08-21 - Removed all em dashes (11 total across the 3 files) per content tone rule
 - [x] 2026-08-21 - Committed and pushed to GitHub (`25cdb03`), live site rebuilding
+- [x] 2026-08-21 - Fixed wrong LinkedIn URL (was `linkedin.com/in/shauryaagarwal`, now `https://www.linkedin.com/in/shauryaagarwal28/`) - hrefs and display text, across all 3 variants + README + content-strategy.md. Pushed (`82d3c66`), verified live.
 
 ---
 
