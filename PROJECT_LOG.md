@@ -30,10 +30,10 @@ This file is the single source of truth for what's been done, what's open, and h
 ## Task List
 
 ### Open
-- [ ] Decide: sync Hero/About copy across all 3 variants to the CV's positioning line ("aspiring Product Manager...") - currently only `portfolio type 3.html` uses it, other two still say "product-minded professional"
-- [ ] Decide: update Skills section to match CV (adds SAP FICO/TRM/ABAP, GCP, Node.js, React, more analytics tools). Note: Skills chips in all 3 variants list "React Native" - Chalo is Flutter-only, worth checking if that chip is accurate for anything else or should go
+- [ ] CV rewrite (starting soon, per user): positioning line should use 2 designations, not 3 - confirmed as **Product Manager + Business Analyst** (dropping "Product Analyst" as the third). Once the CV is updated, sync the portfolio's Hero/About copy to match (currently `index.html`/`portfolio type 2.html` still say "product-minded professional", only `portfolio type 3.html` uses "aspiring Product Manager")
 - [ ] Missing case study pages for Playo, Swiggy Instamart, Duolingo (teardowns exist, case studies referenced in README don't)
 - [ ] Chalo: real highway PTT test and physical-device verification still pending (tracked in the app's own repo, not this one)
+- [ ] Recruiter-lens review flagged: BA/Product Analyst roles have no visual proof artifact on the site (e.g. a dashboard screenshot) - user confirmed the actual dashboard can't be shown (company property), so this stays open with no clear fix for now
 
 ### Completed
 - [x] 2026-08-21 - Found and cloned the real live repo (`shauryagarwal28/shauryagarwal28.github.io`); corrected a wrong URL in the KB docs (`shauryaagarwal.github.io` doesn't exist)
@@ -54,6 +54,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - [x] 2026-08-21 - Fixed Chalo's card in `index.html` looking empty on the live site: it was missing the `<button class="td-toggle">` element every other teardown card has, so its Problem/Solution content (hidden by default, accordion-style) had no way to open. The other 2 variants already had this right. Pushed (`599e180`), verified live.
 - [x] 2026-08-21 - Moved Chalo to first position in the Work/Case Studies list in all 3 variants (was last, after the 7 teardowns). Updated `agents/product/content-strategy.md`'s documented card order to match. Also fixed a related bug found in `portfolio type 3.html`: Chalo was tagged `data-cat="personal"`, which has no matching filter tab (only All/0-to-1 Feature/Strategy/Company exist) - it would vanish under the "0-to-1 Feature" filter, the one it actually belongs to. Retagged to `data-cat="feature"`.
 - [x] 2026-08-21 - Added a small GitHub icon link next to "View full case study" on Chalo's card in all 3 variants, linking to `chalo-app-public` directly - reuses the same GitHub SVG already used in the Contact section. Pushed (`62c1c1e`).
+- [x] 2026-08-21 - Ran a recruiter-lens review of the live site vs the CV (asked for explicitly by user, acting as a PM/BA/Product Analyst recruiter). Findings acted on: fixed "React Native" skill chip (was unsupported by any project, didn't match CV's plain "React") and added JavaScript/Node.js/HTML/CSS/Amazon S3 to Technical skills to match the CV, without removing anything. Pushed (`4f34678`), verified live. Findings deferred: Hero/About positioning copy (waiting on CV rewrite first), no visual BA/analyst artifact on site (company-confidential, no fix available), missing case study pages for Playo/Swiggy/Duolingo.
 
 ---
 
