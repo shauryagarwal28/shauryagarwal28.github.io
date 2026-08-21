@@ -53,6 +53,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - [x] 2026-08-21 - Rewrote `chalo-app-public`'s README - it was the leftover from the private repo, pointing to `docs/`/`.claude/` folders that don't exist in the public snapshot and calling the backend "not yet started." New README is self-contained: problem, what's built, the two modes, link to the case study. Pushed (`73723a1`).
 - [x] 2026-08-21 - Fixed Chalo's card in `index.html` looking empty on the live site: it was missing the `<button class="td-toggle">` element every other teardown card has, so its Problem/Solution content (hidden by default, accordion-style) had no way to open. The other 2 variants already had this right. Pushed (`599e180`), verified live.
 - [x] 2026-08-21 - Moved Chalo to first position in the Work/Case Studies list in all 3 variants (was last, after the 7 teardowns). Updated `agents/product/content-strategy.md`'s documented card order to match. Also fixed a related bug found in `portfolio type 3.html`: Chalo was tagged `data-cat="personal"`, which has no matching filter tab (only All/0-to-1 Feature/Strategy/Company exist) - it would vanish under the "0-to-1 Feature" filter, the one it actually belongs to. Retagged to `data-cat="feature"`.
+- [x] 2026-08-21 - Added a small GitHub icon link next to "View full case study" on Chalo's card in all 3 variants, linking to `chalo-app-public` directly - reuses the same GitHub SVG already used in the Contact section. Pushed (`62c1c1e`).
 
 ---
 
