@@ -69,4 +69,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - Removed all em dashes (11 total) across the 3 variants per the content tone rule.
 - Fixed the LinkedIn URL (hrefs + display text) across all 3 variants, README, and content-strategy.md.
 - Fixed a git identity issue that was hiding today's commits from the GitHub contribution graph; rewrote affected commits and force-pushed.
-- All changes pushed to GitHub and verified live at each step (final commit as of this entry: `b56d274`).
+- Built a full Chalo case study page with real simulator screenshots, synced the `chalo-app-public` GitHub repo (code + README) to current state, and fixed a string of real bugs on Chalo's Work-section card across all 3 variants: broken CSS classes, a missing accordion toggle button, wrong platform/status text, and 5 site-wide broken "case study" links unrelated to Chalo that a live user report caught.
+- Moved Chalo to the front of the Work list, added a GitHub icon shortcut next to its case-study link, simplified the Signify job title to "Business Analyst," and ran a recruiter-lens review of the live site against the CV - acted on the skills-accuracy findings (React Native to React, added missing Technical skills from the CV) and queued the positioning-copy fix for after the CV rewrite.
+- All changes pushed to GitHub and verified live at each step. Final commit as of this entry: `f47843e`. Working tree is clean, nothing uncommitted.
+- **Next session: CV rewrite** (2 designations - Product Manager + Business Analyst - confirmed), then sync portfolio Hero/About copy to match. See Task List above for full open items.
