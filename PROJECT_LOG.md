@@ -31,9 +31,9 @@ This file is the single source of truth for what's been done, what's open, and h
 
 ### Open
 - [ ] Decide: sync Hero/About copy across all 3 variants to the CV's positioning line ("aspiring Product Manager...") - currently only `portfolio type 3.html` uses it, other two still say "product-minded professional"
-- [ ] Decide: update Skills section to match CV (adds SAP FICO/TRM/ABAP, GCP, Node.js, React, more analytics tools)
-- [ ] Decide: add CV's newer projects (Group Riding Companion App / Chalo, Secondary TAT dashboard) to the portfolio
+- [ ] Decide: update Skills section to match CV (adds SAP FICO/TRM/ABAP, GCP, Node.js, React, more analytics tools). Note: Skills chips in all 3 variants list "React Native" - Chalo is Flutter-only, worth checking if that chip is accurate for anything else or should go
 - [ ] Missing case study pages for Playo, Swiggy Instamart, Duolingo (teardowns exist, case studies referenced in README don't)
+- [ ] Chalo: real highway PTT test and physical-device verification still pending (tracked in the app's own repo, not this one)
 
 ### Completed
 - [x] 2026-08-21 - Found and cloned the real live repo (`shauryagarwal28/shauryagarwal28.github.io`); corrected a wrong URL in the KB docs (`shauryaagarwal.github.io` doesn't exist)
@@ -44,6 +44,9 @@ This file is the single source of truth for what's been done, what's open, and h
 - [x] 2026-08-21 - Committed and pushed to GitHub (`25cdb03`), live site rebuilding
 - [x] 2026-08-21 - Fixed wrong LinkedIn URL (was `linkedin.com/in/shauryaagarwal`, now `https://www.linkedin.com/in/shauryaagarwal28/`) - hrefs and display text, across all 3 variants + README + content-strategy.md. Pushed (`82d3c66`), verified live.
 - [x] 2026-08-21 - Fixed missing GitHub contributions: today's commits had an unverified local email (`shaurya@Shauryas-MacBook-Air.local`) not linked to the GitHub account, so they weren't counting on the profile graph. Set correct repo git config (`52820402+shauryagarwal28@users.noreply.github.com`), rewrote the affected commits' author info, force-pushed. Verified via GitHub API that all commits now show `author_login: shauryagarwal28`.
+- [x] 2026-08-21 - Built `chalo-case-study.html`, a dedicated case study page for Chalo (previously squeezed into a one-card summary). Sections: problem, product decisions, what's actually built (honest status table), a real engineering problem solved (Android/Agora namespace collision, explained in plain language), current status and what's next, link to code. Includes 3 real screenshots captured live from the iOS simulator (splash, home, live ride map + PTT), resized/compressed to ~164KB total.
+- [x] 2026-08-21 - Synced `chalo-app-public` GitHub repo (was a month stale) to current app state via a clean single-commit snapshot (code only, no internal docs/history exposed, no secrets - verified via `git archive` on tracked files only). `chalo-app` (private) untouched.
+- [x] 2026-08-21 - Fixed the Chalo Work-section card in all 3 variants: it was using CSS classes that don't exist in each file's stylesheet (broken rendering, worst in `index.html` - no card border, no tag colour, unstyled labels). Rebuilt using each variant's real, working card pattern (verified class-by-class against the other 7 teardown cards). Also fixed: stale "Pre-Development"/"Full PRD, moving into UI design" status text (now "27/27 screens built"), wrong "React Native / Flutter" platform text (app is Flutter-only), added "(working title)" framing since the name isn't final, added a link to the new case study page. `portfolio type 2.html`'s Chalo card was also sitting structurally outside its grid/section entirely - moved inside.
 
 ---
 
