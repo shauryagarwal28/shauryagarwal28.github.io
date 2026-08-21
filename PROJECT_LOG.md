@@ -34,13 +34,14 @@ This file is the single source of truth for what's been done, what's open, and h
 - [ ] Decide: update Skills section to match CV (adds SAP FICO/TRM/ABAP, GCP, Node.js, React, more analytics tools)
 - [ ] Decide: add CV's newer projects (Group Riding Companion App / Chalo, Secondary TAT dashboard) to the portfolio
 - [ ] Missing case study pages for Playo, Swiggy Instamart, Duolingo (teardowns exist, case studies referenced in README don't)
-- [ ] Push current uncommitted changes to GitHub (resume swap + experience section update) once confirmed
 
 ### Completed
 - [x] 2026-08-21 - Found and cloned the real live repo (`shauryagarwal28/shauryagarwal28.github.io`); corrected a wrong URL in the KB docs (`shauryaagarwal.github.io` doesn't exist)
 - [x] 2026-08-21 - Reconciled scattered Downloads copies: pulled the latest unpushed edits of all 3 variants into `~/portfolio`, archived older versions into `~/Downloads/portfolio drafts/`
 - [x] 2026-08-21 - Replaced the downloadable resume (was silently serving a stale 5.9KB stub) with `Shaurya_Agarwal_CV.pdf` content, across all 3 variants + the repo's own `Shaurya_Agarwal_Resume.pdf`; deleted the stale `Shaurya_Agarwal_OLD_Resume.pdf`
 - [x] 2026-08-21 - Updated Experience section (role titles + bullets) in all 3 variants to match the CV
+- [x] 2026-08-21 - Removed all em dashes (11 total across the 3 files) per content tone rule
+- [x] 2026-08-21 - Committed and pushed to GitHub (`25cdb03`), live site rebuilding
 
 ---
 
