@@ -55,3 +55,4 @@ This file is the single source of truth for what's been done, what's open, and h
 - Updated Experience section text (role titles, bullet wording) in all 3 variants to match the CV instead of the older resume wording.
 - Established 5 standing working rules (see top of this file) and this log itself, per user request.
 - **Not yet pushed to GitHub** - changes are local only as of end of session.
+- [x] 2026-08-21 - Fixed missing GitHub contributions: today's 4 commits had an unverified local email (`shaurya@Shauryas-MacBook-Air.local`) not linked to the GitHub account, so they weren't counting on the profile graph. Set correct repo git config (`52820402+shauryagarwal28@users.noreply.github.com`), rewrote the 4 commits' author info, force-pushed. Verified via GitHub API that all commits now show `author_login: shauryagarwal28`.
