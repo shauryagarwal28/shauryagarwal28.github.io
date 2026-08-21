@@ -68,4 +68,4 @@ No build step. No dependencies. Open any `.html` file in a browser and it works.
 ## Contact
 
 **Shaurya Agarwal**
-[shauryagarwal28@gmail.com](mailto:shauryagarwal28@gmail.com) · [LinkedIn](https://linkedin.com/in/shauryaagarwal) · [+91 9711749897](tel:+919711749897)
+[shauryagarwal28@gmail.com](mailto:shauryagarwal28@gmail.com) · [LinkedIn](https://www.linkedin.com/in/shauryaagarwal28/) · [+91 9711749897](tel:+919711749897)

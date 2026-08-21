@@ -91,7 +91,7 @@ This order was confirmed and must be maintained:
 
 - **Email:** shauryagarwal28@gmail.com
 - **Phone:** +91 9711749897
-- **LinkedIn:** linkedin.com/in/shauryaagarwal
+- **LinkedIn:** www.linkedin.com/in/shauryaagarwal28/
 - **GitHub:** github.com/shauryagarwal28
 - **Location:** Delhi, India
 - **Live URL:** shauryaagarwal.github.io
