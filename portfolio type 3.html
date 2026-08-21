@@ -524,6 +524,34 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
           <button class="filter-btn" onclick="filterCases('company',this)">Company</button>
         </div>
         <div class="cases-grid fade-in">
+          <div class="case-card fade-in" data-cat="feature">
+<div class="case-header">
+<div class="case-logo" style="background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#e07b39;font-family:var(--serif);font-style:italic;letter-spacing:-0.02em;">Ch</div>
+<div class="case-meta">
+  <span class="case-tag tag-orange">Personal App · 0-to-1</span>
+  <div class="case-title">Chalo (working title) - Group Riding Companion</div>
+  <div class="case-sub">Safety-first connectivity for India's biking community · iOS &amp; Android (Flutter)</div>
+</div>
+</div>
+<button class="case-toggle" onclick="toggleCase(this)"><span class="case-arrow">▼</span> Read case study</button>
+<div class="case-body">
+<h4>Problem</h4>
+<p>India has 10M+ registered motorcycles. Group rides - weekend trips, highway runs, club events - are a cultural ritual. But coordination breaks down the moment you leave the city: WhatsApp calls at highway speeds are illegal under the Motor Vehicles Act and genuinely dangerous. Riders either ride blind or risk accidents taking calls.</p>
+<h4>Discovery</h4>
+<p>Conducted 12 user interviews across biking communities in Delhi, Pune and Bangalore. Three patterns emerged: (1) Every group has a WhatsApp call story that ended badly. (2) Existing apps (Mytra, Riding Verse) solve discovery, not in-ride coordination. (3) A "one-button" interaction is the only UX that's safe at speed - riders won't look down.</p>
+<h4>Solution</h4>
+<p><strong>Active Ride Mode</strong> - real-time group map, one-button push-to-talk (no screen unlock needed), and automatic emergency detection: if a rider's GPS shows sudden stop + no PTT for 35 seconds, all group members get an alert. <strong>Community Mode</strong> - KYC-verified ride discovery with mutual rating system to solve the trust gap in unknown groups.</p>
+<h4>What's actually built</h4>
+<p>Not just a plan: all 27 screens are built and wired in Flutter, for both iOS and Android. Google Maps is fully working on both platforms, and push-to-talk (Agora) is really integrated into the live ride screen. The remaining gaps are honest ones: PTT audio needs a real phone to verify, and Community Mode's screens exist but aren't wired live yet, on purpose, until Active Ride Mode is fully proven.</p>
+<div class="metrics-row">
+  <div class="metric-pill"><div class="ml">North Star</div><div class="mv">Rides completed without safety incident</div></div>
+  <div class="metric-pill"><div class="ml">Stage</div><div class="mv">27/27 screens built · real-device testing next</div></div>
+  <div class="metric-pill"><div class="ml">Platform</div><div class="mv">iOS &amp; Android · Flutter</div></div>
+</div>
+<p style="margin-top:0.75rem;font-size:12px;color:var(--text3);">Full PRD covers: problem statement · 3 user personas · competitive analysis · P0/P1/P2 feature specs · user flows · notification strategy · 6-month success metrics.</p>
+<a href="chalo-case-study.html" target="_blank" class="case-study-link">View full case study →</a>
+</div>
+</div>
 
           <div class="case-card" data-cat="feature">
             <div class="case-header">
@@ -621,35 +649,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
           </div>
 
         </div>
-
-<div class="case-card fade-in" data-cat="personal">
-<div class="case-header">
-<div class="case-logo" style="background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#e07b39;font-family:var(--serif);font-style:italic;letter-spacing:-0.02em;">Ch</div>
-<div class="case-meta">
-  <span class="case-tag tag-orange">Personal App · 0-to-1</span>
-  <div class="case-title">Chalo (working title) - Group Riding Companion</div>
-  <div class="case-sub">Safety-first connectivity for India's biking community · iOS &amp; Android (Flutter)</div>
-</div>
-</div>
-<button class="case-toggle" onclick="toggleCase(this)"><span class="case-arrow">▼</span> Read case study</button>
-<div class="case-body">
-<h4>Problem</h4>
-<p>India has 10M+ registered motorcycles. Group rides - weekend trips, highway runs, club events - are a cultural ritual. But coordination breaks down the moment you leave the city: WhatsApp calls at highway speeds are illegal under the Motor Vehicles Act and genuinely dangerous. Riders either ride blind or risk accidents taking calls.</p>
-<h4>Discovery</h4>
-<p>Conducted 12 user interviews across biking communities in Delhi, Pune and Bangalore. Three patterns emerged: (1) Every group has a WhatsApp call story that ended badly. (2) Existing apps (Mytra, Riding Verse) solve discovery, not in-ride coordination. (3) A "one-button" interaction is the only UX that's safe at speed - riders won't look down.</p>
-<h4>Solution</h4>
-<p><strong>Active Ride Mode</strong> - real-time group map, one-button push-to-talk (no screen unlock needed), and automatic emergency detection: if a rider's GPS shows sudden stop + no PTT for 35 seconds, all group members get an alert. <strong>Community Mode</strong> - KYC-verified ride discovery with mutual rating system to solve the trust gap in unknown groups.</p>
-<h4>What's actually built</h4>
-<p>Not just a plan: all 27 screens are built and wired in Flutter, for both iOS and Android. Google Maps is fully working on both platforms, and push-to-talk (Agora) is really integrated into the live ride screen. The remaining gaps are honest ones: PTT audio needs a real phone to verify, and Community Mode's screens exist but aren't wired live yet, on purpose, until Active Ride Mode is fully proven.</p>
-<div class="metrics-row">
-  <div class="metric-pill"><div class="ml">North Star</div><div class="mv">Rides completed without safety incident</div></div>
-  <div class="metric-pill"><div class="ml">Stage</div><div class="mv">27/27 screens built · real-device testing next</div></div>
-  <div class="metric-pill"><div class="ml">Platform</div><div class="mv">iOS &amp; Android · Flutter</div></div>
-</div>
-<p style="margin-top:0.75rem;font-size:12px;color:var(--text3);">Full PRD covers: problem statement · 3 user personas · competitive analysis · P0/P1/P2 feature specs · user flows · notification strategy · 6-month success metrics.</p>
-<a href="chalo-case-study.html" target="_blank" class="case-study-link">View full case study →</a>
-</div>
-</div>
 
       </section>
 

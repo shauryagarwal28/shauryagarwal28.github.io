@@ -75,15 +75,16 @@ Same content structure as warm portfolio, different visual treatment.
 
 ## Teardown Card Order (all portfolios)
 
-This order was confirmed and must be maintained:
+Updated 2026-08-21: Chalo now leads the list (personal 0-to-1 app build, strongest proof of shipping ability). The 7 teardowns keep their prior relative order after it.
 
-1. **Blinkit** — Recipe-to-Cart (0-to-1 Feature Design)
-2. **Inshorts** — Quality-First Feed (Recommendation System)
-3. **Khan Academy** — Closing the Engagement Gap (Growth & AI Strategy)
-4. **Supercell** — Games People Play for Years (Company Teardown) ← above Playo
-5. **Playo** — Squad Mode (0-to-1 Feature Addition)
-6. **Swiggy Instamart** — Pantry Intelligence (Retention Mechanics)
-7. **Duolingo** — The Streak Economy (Engagement & Monetisation)
+0. **Chalo** (working title) - Group Riding Companion (Personal 0-to-1 App Build)
+1. **Blinkit** - Recipe-to-Cart (0-to-1 Feature Design)
+2. **Inshorts** - Quality-First Feed (Recommendation System)
+3. **Khan Academy** - Closing the Engagement Gap (Growth & AI Strategy)
+4. **Supercell** - Games People Play for Years (Company Teardown) - above Playo
+5. **Playo** - Squad Mode (0-to-1 Feature Addition)
+6. **Swiggy Instamart** - Pantry Intelligence (Retention Mechanics)
+7. **Duolingo** - The Streak Economy (Engagement & Monetisation)
 
 ---
 
