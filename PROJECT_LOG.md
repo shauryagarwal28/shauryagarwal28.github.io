@@ -43,6 +43,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - [x] 2026-08-21 - Removed all em dashes (11 total across the 3 files) per content tone rule
 - [x] 2026-08-21 - Committed and pushed to GitHub (`25cdb03`), live site rebuilding
 - [x] 2026-08-21 - Fixed wrong LinkedIn URL (was `linkedin.com/in/shauryaagarwal`, now `https://www.linkedin.com/in/shauryaagarwal28/`) - hrefs and display text, across all 3 variants + README + content-strategy.md. Pushed (`82d3c66`), verified live.
+- [x] 2026-08-21 - Fixed missing GitHub contributions: today's commits had an unverified local email (`shaurya@Shauryas-MacBook-Air.local`) not linked to the GitHub account, so they weren't counting on the profile graph. Set correct repo git config (`52820402+shauryagarwal28@users.noreply.github.com`), rewrote the affected commits' author info, force-pushed. Verified via GitHub API that all commits now show `author_login: shauryagarwal28`.
 
 ---
 
@@ -54,5 +55,7 @@ This file is the single source of truth for what's been done, what's open, and h
 - Fixed resume: portfolio download button was serving an old 5.9KB resume, not the current CV. Now serves `Shaurya_Agarwal_CV.pdf` content everywhere (embedded downloads + repo file).
 - Updated Experience section text (role titles, bullet wording) in all 3 variants to match the CV instead of the older resume wording.
 - Established 5 standing working rules (see top of this file) and this log itself, per user request.
-- **Not yet pushed to GitHub** - changes are local only as of end of session.
-- [x] 2026-08-21 - Fixed missing GitHub contributions: today's 4 commits had an unverified local email (`shaurya@Shauryas-MacBook-Air.local`) not linked to the GitHub account, so they weren't counting on the profile graph. Set correct repo git config (`52820402+shauryagarwal28@users.noreply.github.com`), rewrote the 4 commits' author info, force-pushed. Verified via GitHub API that all commits now show `author_login: shauryagarwal28`.
+- Removed all em dashes (11 total) across the 3 variants per the content tone rule.
+- Fixed the LinkedIn URL (hrefs + display text) across all 3 variants, README, and content-strategy.md.
+- Fixed a git identity issue that was hiding today's commits from the GitHub contribution graph; rewrote affected commits and force-pushed.
+- All changes pushed to GitHub and verified live at each step (final commit as of this entry: `b56d274`).
