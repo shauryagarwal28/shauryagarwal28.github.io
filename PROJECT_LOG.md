@@ -30,8 +30,8 @@ This file is the single source of truth for what's been done, what's open, and h
 ## Task List
 
 ### Open
-- [ ] CV rewrite (starting soon, per user): positioning line should use 2 designations, not 3 - confirmed as **Product Manager + Business Analyst** (dropping "Product Analyst" as the third). Once the CV is updated, sync the portfolio's Hero/About copy to match (currently `index.html`/`portfolio type 2.html` still say "product-minded professional", only `portfolio type 3.html` uses "aspiring Product Manager")
 - [ ] Missing case study pages for Playo, Swiggy Instamart, Duolingo (teardowns exist, case studies referenced in README don't)
+- [ ] User asked where the Chalo "demo link and demo video link" are in the public repo - checked full git history of both `chalo-app-public` and the private `chalo-app`, no demo link or video file has ever existed in either. Open question for user: were they thinking of a different tool/session, or do they want an actual demo (recording/video) added as new work? Unresolved as of this entry.
 - [ ] Chalo: real highway PTT test and physical-device verification still pending (tracked in the app's own repo, not this one)
 - [ ] Recruiter-lens review flagged: BA/Product Analyst roles have no visual proof artifact on the site (e.g. a dashboard screenshot) - user confirmed the actual dashboard can't be shown (company property), so this stays open with no clear fix for now
 
@@ -73,3 +73,14 @@ This file is the single source of truth for what's been done, what's open, and h
 - Moved Chalo to the front of the Work list, added a GitHub icon shortcut next to its case-study link, simplified the Signify job title to "Business Analyst," and ran a recruiter-lens review of the live site against the CV - acted on the skills-accuracy findings (React Native to React, added missing Technical skills from the CV) and queued the positioning-copy fix for after the CV rewrite.
 - All changes pushed to GitHub and verified live at each step. Final commit as of this entry: `f47843e`. Working tree is clean, nothing uncommitted.
 - **Next session: CV rewrite** (2 designations - Product Manager + Business Analyst - confirmed), then sync portfolio Hero/About copy to match. See Task List above for full open items.
+
+### 2026-08-26
+- Found a CV rewrite (`Shaurya_Agarwal_Resume.html`/`.tex`/`.pdf`) already sitting in the repo, uncommitted and unlogged, dated 2026-08-25 - a prior session did the work but never committed or updated this log. Confirmed with user: Signify end date of Dec 2025 is correct (user has left), and confirmed en dashes in date ranges should become plain hyphens site-wide.
+- Fixed en dashes to hyphens in the CV HTML and TeX source, regenerated the PDF from the fixed HTML (via headless Chrome print-to-pdf, since no LaTeX toolchain is installed locally), and swapped the corrected PDF's base64 into the embedded download link in all 3 portfolio variants (`index.html`, `portfolio type 2.html`, `portfolio type 3.html`).
+- Synced Hero/About positioning copy in all 3 variants to the CV's confirmed 2-designation framing ("aspiring Product Manager and Business Analyst," 3 years experience) - `index.html` and `portfolio type 2.html` previously said "product-minded professional, 2.5 years"; `portfolio type 3.html` said "aspiring Product Manager" only, missing "Business Analyst," and still said 2.5 years.
+- Confirmed Experience section dates (`Jul 2023 - Dec 2025`) were already correct in all 3 variants - no change needed there.
+- Kept the CV `.html`/`.tex` sources committed in the repo so the PDF can be regenerated without depending on external tools going forward.
+- Pushed to GitHub (`466c776`). Working tree clean.
+- User asked for the CV as a copy-paste LaTeX block for Overleaf (separately from what's in the repo) - provided inline in chat, since Overleaf isn't reachable from here.
+- Noted for next time: this resume is ~2 pages with a sparse page 2 (pre-existing, not caused by today's edit) - flagged to user as optional cleanup, not yet acted on.
+- **Open/unresolved:** user asked where the Chalo "demo link and demo video link" are in the public repo. Checked full commit history of both `chalo-app-public` (2 commits total) and the private `chalo-app` - no demo link or video file has ever existed in either. Waiting on user to clarify what they're remembering or whether they want a demo added as new work.
