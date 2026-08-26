@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shaurya Agarwal - Resume</title>
+<style>
+  @page { size: Letter; margin: 0.45in 0.7in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #111;
+    font-size: 9.8pt;
+    line-height: 1.22;
+    margin: 0;
+    padding: 0;
+  }
+  .name {
+    text-align: center;
+    font-size: 20pt;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    margin: 0 0 2px 0;
+    font-weight: normal;
+  }
+  .contact {
+    text-align: center;
+    font-size: 9pt;
+    margin: 0 0 6px 0;
+  }
+  .contact a { color: #111; text-decoration: none; }
+  h2 {
+    font-variant: small-caps;
+    font-size: 11.5pt;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #111;
+    margin: 7px 0 3px 0;
+    padding-bottom: 1px;
+  }
+  .entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 2px;
+  }
+  .entry-title { font-weight: bold; }
+  .entry-org { font-style: italic; }
+  .entry-date { font-size: 9.3pt; white-space: nowrap; }
+  .entry-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-style: italic;
+    font-size: 9.3pt;
+  }
+  ul { margin: 1px 0 3px 0; padding-left: 16px; }
+  li { margin-bottom: 0px; text-align: justify; }
+  .profile-text { text-align: justify; margin: 1px 0 0 0; }
+  .skills-row { margin-bottom: 2px; }
+  .skills-row b { font-weight: bold; }
+  .interests-text { text-align: justify; }
+</style>
+</head>
+<body>
+
+  <p class="name">Shaurya Agarwal</p>
+  <p class="contact">shauryagarwal28@gmail.com | +91 9711749897 | <a href="https://www.linkedin.com/in/shauryaagarwal28/">LinkedIn</a> | <a href="https://shauryagarwal28.github.io/">Portfolio</a> | Bangalore, India</p>
+
+  <h2>Profile</h2>
+  <p class="profile-text">An aspiring Product Manager and Business Analyst with 3 years of experience at Signify (formerly
+  Philips Lighting) spanning data engineering, SAP consulting, and finance operations. Proven ability to take ownership of
+  product initiatives end-to-end, align cross-functional stakeholders, build data pipelines, and define KPI frameworks that
+  drive decisions. Complemented by formal PM training through the Nextleap Fellowship, published product teardowns, and a
+  personal app project currently in active development. Looking to bring structured product thinking and a data-first
+  approach to a PM or BA role.</p>
+
+  <h2>Professional Experience</h2>
+  <div class="entry-sub">
+    <span>Signify (formerly Philips Lighting) &middot; Bangalore</span>
+  </div>
+  <div class="entry-head">
+    <span class="entry-title">Business Analyst</span>
+    <span class="entry-date">Jul 2023 - Dec 2025</span>
+  </div>
+  <ul>
+    <li>Took ownership of the <b>Corporate Card product</b> (SAP ABAP), working with <b>200+ employees</b> to gather requirements,
+    shape the roadmap, and integrate expense reporting with treasury operations, cutting manual workflows by <b>30%</b>.</li>
+    <li>Worked alongside the <b>Philips Hue PM team</b> on go-to-market execution for a <b>50,000+ user base</b>, aligning fiscal,
+    warehouse, and marketing stakeholders while delivering user behavior analytics that fed directly into feature prioritization.</li>
+    <li>Built an end-to-end data pipeline ingesting operational data from Signify's <b>global street light network</b> via APIs,
+    processed it using Python, loaded into Snowflake, and delivered region-specific Power BI dashboards for worldwide field
+    performance monitoring.</li>
+    <li>Managed TRM and cash management operations handling <b>500+ monthly payments</b> while designing a <b>KPI tracking
+    framework</b> across 25+ monthly financial reports, surfacing insights that gave leadership faster, clearer decision-making.</li>
+    <li>Spotted recurring patterns in daily EOD job failures through root cause analysis, cutting errors by <b>90%</b>, while
+    directing <b>10+ ICS audits</b> annually to sustain 100% regulatory compliance.</li>
+  </ul>
+
+  <div class="entry-head">
+    <span class="entry-title">SAP Finance Operations Intern</span>
+    <span class="entry-date">Jan 2023 - Jul 2023</span>
+  </div>
+  <ul>
+    <li>Resolved ServiceNow incidents for Concur expense workflows by digging into business requirements and updating audit
+    rules, bringing ticket resolution time down by <b>25%</b>.</li>
+    <li>Supported SAP Finance Treasury operations and got hands-on with cash management workflows and cross-team payment
+    processing.</li>
+  </ul>
+
+  <h2>Product Management Training</h2>
+  <div class="entry-head">
+    <span class="entry-title">Product Manager Fellow | <span class="entry-org">Nextleap</span></span>
+    <span class="entry-date">2025</span>
+  </div>
+  <ul>
+    <li>Completed an 8-week intensive covering the full PM lifecycle: discovery, problem framing, user research,
+    wireframing, prototyping, and success metrics definition.</li>
+    <li><b>Capstone PRD:</b> Delivered a complete B2C Product Requirements Document including user personas, competitive
+    analysis, a RICE-prioritized feature backlog, wireframes, and North Star metrics with measurable KPIs.</li>
+    <li>Covered frameworks including RICE prioritization, Jobs-to-be-Done, user story mapping, OKR setting, and
+    go-to-market planning across 8 structured modules.</li>
+  </ul>
+
+  <h2>Projects</h2>
+  <div class="entry-head">
+    <span class="entry-title">Group Riding Companion App (Working Title) (Personal Project, In Development)</span>
+    <span class="entry-date">2026</span>
+  </div>
+  <ul>
+    <li>Identified a real gap in the Indian biking community: group rides fall apart mid-route because riders have no safe
+    way to stay connected while moving at highway speeds. WhatsApp calls while riding are illegal under the Motor Vehicles
+    Act and genuinely dangerous.</li>
+    <li>Designed a two-mode app: <b>Active Ride Mode</b> with real-time group tracking, a one-button push-to-talk system, and
+    automatic emergency detection (triggers alert to all party members within 35 seconds of a sudden stop); and
+    <b>Community Mode</b> with KYC-verified ride discovery and a mutual rating system.</li>
+    <li>Completed a full PRD covering problem statement, 3 detailed user personas (with interviews from Delhi, Pune, and
+    Bangalore biking communities), competitive analysis (Mytra, Riding Verse, WhatsApp, Google Maps), feature specifications
+    with P0/P1/P2 prioritization, user flows, notification strategy, and 6-month success metrics.</li>
+    <li>Completed UI design for all core screens (27/27 built), now in active development. Built in Flutter, targeting
+    Android and iOS.</li>
+  </ul>
+
+  <div class="entry-title">Inshorts Product Teardown: Recommendation and Notification Strategy</div>
+  <ul>
+    <li>Proposed a News Quality Score to shift away from pure engagement-based ranking toward source credibility, factual
+    density, and uniqueness, targeting 40% editorially curated content per feed.</li>
+    <li>Redesigned the notification system into three tiers (Breaking, Daily Digest, Weekly Roundup) with category-level
+    opt-in to improve retention without increasing opt-outs.</li>
+  </ul>
+
+  <div class="entry-title">Khan Academy Teardown: Growth, Engagement and AI Strategy</div>
+  <ul>
+    <li>Identified that only 11% of 945K licensed students were activating the product. Proposed a streak-based engagement
+    overhaul to grow DAU/MAU from 15% to 25% and proactive Khanmigo AI nudges to lift interaction from 5% to 30%.</li>
+    <li>Recommended international B2B expansion via a KAD Lite offering and repositioning against Duolingo on depth versus
+    breadth of learning.</li>
+  </ul>
+
+  <div class="entry-title">Secondary TAT: Supply Chain Analytics Dashboard</div>
+  <ul>
+    <li>Built a post-invoice delivery KPI framework with automated Paginated Report alerts to keep regional managers ahead
+    of shipment delays. Stack: Python, SQL, Snowflake, Amazon S3, Power BI.</li>
+  </ul>
+
+  <h2>Education</h2>
+  <div class="entry-head">
+    <span class="entry-title">B.Tech in Computer Science | <span class="entry-org">SRM Institute of Science and Technology</span></span>
+    <span class="entry-date">Jul 2019 - May 2023</span>
+  </div>
+  <div class="entry-sub"><span>CGPA: 8.7 | Bangalore</span></div>
+
+  <h2>Skills</h2>
+  <p class="skills-row"><b>Product and Strategy:</b> Roadmap Development, Feature Prioritization (RICE), PRD/BRD Writing,
+  Requirements Gathering, User Research, User Personas, Competitive Analysis, Product Discovery, Go-to-Market Strategy,
+  A/B Testing, KPI/OKR Tracking, Agile/Scrum, Sprint Planning, Backlog Management, Stakeholder Alignment</p>
+  <p class="skills-row"><b>Analytics and Data:</b> SQL, Python, Power BI, Tableau, Snowflake, Google Analytics, CleverTap,
+  Qlik Sense, Process Mapping, Data-Driven Decision Making</p>
+  <p class="skills-row"><b>Technical:</b> SAP (FICO, TRM, ABAP), JavaScript, React, Node.js, HTML/CSS, REST APIs, GCP,
+  Git/GitHub, Amazon S3</p>
+  <p class="skills-row"><b>Design and Tools:</b> Figma, Miro, Wireframing, JIRA, Confluence, Notion, Trello, ClickUp, Excel,
+  ServiceNow, Concur</p>
+
+  <h2>Interests</h2>
+  <p class="interests-text">Biking and building Chalo, a community riding app currently in active development | Running |
+  Music | Sports enthusiast following basketball, football, cricket, F1, UFC, and tennis, including fantasy football and
+  performance analytics</p>
+
+</body>
+</html>

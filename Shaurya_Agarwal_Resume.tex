@@ -1,0 +1,145 @@
+\documentclass[10pt]{article}
+
+\usepackage[letterpaper,margin=0.75in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+
+\pagestyle{empty}
+\raggedbottom
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=black,
+  linkcolor=black
+}
+
+\titleformat{\section}{\large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+
+\newcommand{\heading}[4]{
+  \textbf{#1} \hfill #2 \\
+  \textit{#3} \hfill \textit{#4} \\[-4pt]
+}
+
+\newcommand{\subheading}[2]{
+  \textbf{#1} \hfill #2 \\[-4pt]
+}
+
+\setlist[itemize]{leftmargin=18pt, itemsep=1pt, topsep=2pt, parsep=0pt}
+
+\begin{document}
+
+\begin{center}
+  {\Large \scshape Shaurya Agarwal} \\[2pt]
+  \small
+  shauryagarwal28@gmail.com \ $|$ \ +91 9711749897 \ $|$ \
+  \href{https://www.linkedin.com/in/shauryaagarwal28/}{LinkedIn} \ $|$ \
+  \href{https://shauryagarwal28.github.io/}{Portfolio} \ $|$ \ Bangalore, India
+\end{center}
+
+\section*{Profile}
+An aspiring Product Manager and Business Analyst with 3 years of experience at Signify (formerly
+Philips Lighting) spanning data engineering, SAP consulting, and finance operations. Proven ability to take ownership
+of product initiatives end-to-end, align cross-functional stakeholders, build data pipelines, and define KPI
+frameworks that drive decisions. Complemented by formal PM training through the Nextleap Fellowship, published
+product teardowns, and a personal app project currently in active development. Looking to bring structured product
+thinking and a data-first approach to a PM or BA role.
+
+\section*{Professional Experience}
+\textit{Signify (formerly Philips Lighting) $\cdot$ Bangalore} \\[2pt]
+\heading{Business Analyst}{Jul 2023 - Dec 2025}{}{}
+\vspace{-14pt}
+\begin{itemize}
+  \item Took ownership of the \textbf{Corporate Card product} (SAP ABAP), working with \textbf{200+ employees} to gather
+  requirements, shape the roadmap, and integrate expense reporting with treasury operations, cutting manual workflows by \textbf{30\%}.
+  \item Worked alongside the \textbf{Philips Hue PM team} on go-to-market execution for a \textbf{50,000+ user base}, aligning
+  fiscal, warehouse, and marketing stakeholders while delivering user behavior analytics that fed directly into feature prioritization.
+  \item Built an end-to-end data pipeline ingesting operational data from Signify's \textbf{global street light network} via APIs,
+  processed it using Python, loaded into Snowflake, and delivered region-specific Power BI dashboards for worldwide field performance
+  monitoring.
+  \item Managed TRM and cash management operations handling \textbf{500+ monthly payments} while designing a \textbf{KPI tracking
+  framework} across 25+ monthly financial reports, surfacing insights that gave leadership faster, clearer decision-making.
+  \item Spotted recurring patterns in daily EOD job failures through root cause analysis, cutting errors by \textbf{90\%}, while directing
+  \textbf{10+ ICS audits} annually to sustain 100\% regulatory compliance.
+\end{itemize}
+
+\subheading{SAP Finance Operations Intern}{Jan 2023 - Jul 2023}
+\vspace{-14pt}
+\begin{itemize}
+  \item Resolved ServiceNow incidents for Concur expense workflows by digging into business requirements and updating audit rules,
+  bringing ticket resolution time down by \textbf{25\%}.
+  \item Supported SAP Finance Treasury operations and got hands-on with cash management workflows and cross-team payment
+  processing.
+\end{itemize}
+
+\section*{Product Management Training}
+\textbf{Product Manager Fellow $|$ \textit{Nextleap}} \hfill 2025 \\[-4pt]
+\begin{itemize}
+  \item Completed an 8-week intensive covering the full PM lifecycle: discovery, problem framing, user research, wireframing,
+  prototyping, and success metrics definition.
+  \item \textbf{Capstone PRD:} Delivered a complete B2C Product Requirements Document including user personas, competitive analysis, a
+  RICE-prioritized feature backlog, wireframes, and North Star metrics with measurable KPIs.
+  \item Covered frameworks including RICE prioritization, Jobs-to-be-Done, user story mapping, OKR setting, and go-to-market
+  planning across 8 structured modules.
+\end{itemize}
+
+\section*{Projects}
+\textbf{Group Riding Companion App (Working Title) (Personal Project, In Development)} \hfill 2026 \\[-4pt]
+\begin{itemize}
+  \item Identified a real gap in the Indian biking community: group rides fall apart mid-route because riders have no safe way to stay
+  connected while moving at highway speeds. WhatsApp calls while riding are illegal under the Motor Vehicles Act and genuinely
+  dangerous.
+  \item Designed a two-mode app: \textbf{Active Ride Mode} with real-time group tracking, a one-button push-to-talk system, and
+  automatic emergency detection (triggers alert to all party members within 35 seconds of a sudden stop); and \textbf{Community
+  Mode} with KYC-verified ride discovery and a mutual rating system.
+  \item Completed a full PRD covering problem statement, 3 detailed user personas (with interviews from Delhi, Pune, and Bangalore
+  biking communities), competitive analysis (Mytra, Riding Verse, WhatsApp, Google Maps), feature specifications with P0/P1/P2
+  prioritization, user flows, notification strategy, and 6-month success metrics.
+  \item Completed UI design for all core screens (27/27 built), now in active development. Built in Flutter, targeting Android and
+  iOS.
+\end{itemize}
+
+\textbf{Inshorts Product Teardown: Recommendation and Notification Strategy} \\[-4pt]
+\begin{itemize}
+  \item Proposed a News Quality Score to shift away from pure engagement-based ranking toward source credibility, factual density,
+  and uniqueness, targeting 40\% editorially curated content per feed.
+  \item Redesigned the notification system into three tiers (Breaking, Daily Digest, Weekly Roundup) with category-level opt-in to
+  improve retention without increasing opt-outs.
+\end{itemize}
+
+\textbf{Khan Academy Teardown: Growth, Engagement and AI Strategy} \\[-4pt]
+\begin{itemize}
+  \item Identified that only 11\% of 945K licensed students were activating the product. Proposed a streak-based engagement overhaul
+  to grow DAU/MAU from 15\% to 25\% and proactive Khanmigo AI nudges to lift interaction from 5\% to 30\%.
+  \item Recommended international B2B expansion via a KAD Lite offering and repositioning against Duolingo on depth versus
+  breadth of learning.
+\end{itemize}
+
+\textbf{Secondary TAT: Supply Chain Analytics Dashboard} \\[-4pt]
+\begin{itemize}
+  \item Built a post-invoice delivery KPI framework with automated Paginated Report alerts to keep regional managers ahead of
+  shipment delays. Stack: Python, SQL, Snowflake, Amazon S3, Power BI.
+\end{itemize}
+
+\section*{Education}
+\textbf{B.Tech in Computer Science $|$ \textit{SRM Institute of Science and Technology}} \hfill Jul 2019 - May 2023 \\
+\textit{CGPA: 8.7 $|$ Bangalore}
+
+\section*{Skills}
+\textbf{Product and Strategy:} Roadmap Development, Feature Prioritization (RICE), PRD/BRD Writing, Requirements Gathering, User
+Research, User Personas, Competitive Analysis, Product Discovery, Go-to-Market Strategy, A/B Testing, KPI/OKR Tracking,
+Agile/Scrum, Sprint Planning, Backlog Management, Stakeholder Alignment \\[4pt]
+\textbf{Analytics and Data:} SQL, Python, Power BI, Tableau, Snowflake, Google Analytics, CleverTap, Qlik Sense, Process Mapping,
+Data-Driven Decision Making \\[4pt]
+\textbf{Technical:} SAP (FICO, TRM, ABAP), JavaScript, React, Node.js, HTML/CSS, REST APIs, GCP, Git/GitHub, Amazon S3 \\[4pt]
+\textbf{Design and Tools:} Figma, Miro, Wireframing, JIRA, Confluence, Notion, Trello, ClickUp, Excel, ServiceNow, Concur
+
+\section*{Interests}
+Biking and building Chalo, a community riding app currently in active development $|$ Running $|$ Music $|$ Sports enthusiast
+following basketball, football, cricket, F1, UFC, and tennis, including fantasy football and performance analytics
+
+\end{document}
