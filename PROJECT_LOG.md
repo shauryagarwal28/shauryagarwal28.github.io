@@ -30,9 +30,9 @@ This file is the single source of truth for what's been done, what's open, and h
 ## Task List
 
 ### Open
-- [ ] User asked where the Chalo "demo link and demo video link" are in the public repo - checked full git history of both `chalo-app-public` and the private `chalo-app`, no demo link or video file has ever existed in either. Open question for user: were they thinking of a different tool/session, or do they want an actual demo (recording/video) added as new work? Unresolved as of this entry.
 - [ ] Chalo: real highway PTT test and physical-device verification still pending (tracked in the app's own repo, not this one)
 - [ ] Recruiter-lens review flagged: BA/Product Analyst roles have no visual proof artifact on the site (e.g. a dashboard screenshot) - user confirmed the actual dashboard can't be shown (company property), so this stays open with no clear fix for now
+- [ ] TradeFlow case study page - explicitly deferred by user (2026-09-21), app still rolling out and touches real firm trade/investment data. Would need mocked/blurred data if built later.
 
 ### Completed
 - [x] 2026-08-21 - Found and cloned the real live repo (`shauryagarwal28/shauryagarwal28.github.io`); corrected a wrong URL in the KB docs (`shauryaagarwal.github.io` doesn't exist)
@@ -58,6 +58,16 @@ This file is the single source of truth for what's been done, what's open, and h
 ---
 
 ## Update Log
+
+### 2026-09-21
+- User is now a Product Manager at their family's company, Midas Global Securities Pvt Ltd, since Jan 2026 - leading TradeFlow (an internal app to track the firm's own trades and investments, built by the user's cousin Sanyam, now personally extended by the user) and the firm's F&O trading operations. Not client-facing, no clients. TradeFlow is still rolling out, not fully live yet.
+- Added a new top-of-list Experience entry (Product Manager, Jan 2026 - Present) across all 3 portfolio variants and the CV (`.tex` + `.html` sources), above the Signify entry.
+- User removed "aspiring" from the CV Profile themselves in Overleaf, and asked for a recalculated years-of-experience figure - computed 3 years 8 months (Jan 2023 to Sep 2026), rounded to "3.5+ years" (deliberately not "4 years" - would overclaim by ~4 months; revisit once past Jan 2027).
+- Synced the portfolio's Hero, About, and Contact-section copy in all 3 variants to match: dropped "aspiring," updated "3 years" to "3.5+ years," and rewrote the closing About line (previously "building the case for why I belong in the PM seat," no longer true) to state the actual Midas PM role and TradeFlow/F&O work.
+- User compiled the updated CV in Overleaf (`Shaurya_CV.pdf` in Downloads), reviewed page by page against the `.tex` changes, swapped it into `Shaurya_Agarwal_Resume.pdf`. Note: user's own Overleaf edit added "New Delhi" as the Midas location and kept the original "Looking to bring... to a PM or BA role" closing sentence in the Profile (I'd suggested cutting it) - left as-is, their call.
+- No case study page for TradeFlow yet - user explicitly said not to build one now, since the app touches real firm trade/investment data and is still rolling out. Revisit if user asks later; would need mocked/blurred data, not real numbers.
+- Pushed to GitHub (`59a996c`). Working tree clean.
+- **TradeFlow / Khaata cross-reference:** this is the same app tracked in memory as [[project_tradeflow]] (repo `bucc-sanyam/tradeflow`, built with cousin Sanyam) - that memory describes it as being built for an unnamed "Indian stock broker"; Midas Global Securities is that broker/firm. Worth reconciling the two memory notes.
 
 ### 2026-08-21
 - Set up `~/portfolio` as the working directory, cloned from GitHub.
