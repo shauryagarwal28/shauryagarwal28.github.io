@@ -59,6 +59,19 @@ This file is the single source of truth for what's been done, what's open, and h
 
 ## Update Log
 
+### 2026-09-29
+- User rebuilt the resume from scratch in Google Docs (`~/Downloads/Shaurya_Agarwal_PM.pdf`), replacing the old `.tex` / Overleaf flow. Reviewed it before syncing. Flagged 3 invisible leftover hyperlinks in the PDF (to gonuclei.com, galleri5.com, accenture.com, sitting next to the company names) - user removed them and re-exported. Also flagged: "B2C investment products" in the Midas summary line (conflicts with Midas having no outside clients), "Bachelors" -> "Bachelor", and a few repeated skills. User chose to keep the resume as-is and asked to sync the portfolio to it.
+- Swapped the new PDF into `Shaurya_Agarwal_Resume.pdf` (same filename, so no link changes needed).
+- Synced all 3 variants to the new resume:
+  - Midas role title is now **Associate Product Manager** (Experience entry + About line). Page titles, hero label and footer still say "Product Manager" since that's the target-role positioning, not a job title claim.
+  - Midas bullets now use the resume's numbers (₹50Cr+ tracked in TradeFlow, 30+ users, ₹10 Lakh+ daily trading, 100+ transactions/day). Added "New Delhi" location.
+  - Signify BA and intern bullets rewritten to match the resume. Location spelled "Bengaluru" to match. The Secondary TAT bullet is now the resume's "Supply Chain Analytics" dashboard wording.
+  - The resume's summary lines under each job title (where the B2C claim lives) were NOT added to the portfolio - there's no slot for them in the layout.
+  - Education: B.Tech now shows "First Class with Distinction"; Nextleap card lists the frameworks covered (RICE, JTBD, story mapping, OKRs, GTM) and the Oct - Dec 2025 dates. Class 12 card kept even though the resume dropped it.
+  - Skills: added the resume's tools that were missing (QlikView, Excel, Process Mapping, Balsamiq, Whimsical, Wireframing, ClickUp, Trello, ServiceNow, Concur, C++, Lovable.dev). Nothing removed.
+- **Open:** `Shaurya_Agarwal_Resume.tex` / `.html` are now stale (resume lives in Google Docs). The `.tex` also has an old uncommitted bullet-tightening edit from an earlier session. Proposed deleting both source files - waiting on user.
+- **Open:** B2C wording in the resume's Midas summary line - flagged twice, user's call.
+
 ### 2026-09-21
 - User is now a Product Manager at their family's company, Midas Global Securities Pvt Ltd, since Jan 2026 - leading TradeFlow (an internal app to track the firm's own trades and investments, built by the user's cousin Sanyam, now personally extended by the user) and the firm's F&O trading operations. Not client-facing, no clients. TradeFlow is still rolling out, not fully live yet.
 - Added a new top-of-list Experience entry (Product Manager, Jan 2026 - Present) across all 3 portfolio variants and the CV (`.tex` + `.html` sources), above the Signify entry.
