@@ -69,7 +69,7 @@ This file is the single source of truth for what's been done, what's open, and h
   - The resume's summary lines under each job title (where the B2C claim lives) were NOT added to the portfolio - there's no slot for them in the layout.
   - Education: B.Tech now shows "First Class with Distinction"; Nextleap card lists the frameworks covered (RICE, JTBD, story mapping, OKRs, GTM) and the Oct - Dec 2025 dates. Class 12 card kept even though the resume dropped it.
   - Skills: added the resume's tools that were missing (QlikView, Excel, Process Mapping, Balsamiq, Whimsical, Wireframing, ClickUp, Trello, ServiceNow, Concur, C++, Lovable.dev). Nothing removed.
-- **Open:** `Shaurya_Agarwal_Resume.tex` / `.html` are now stale (resume lives in Google Docs). The `.tex` also has an old uncommitted bullet-tightening edit from an earlier session. Proposed deleting both source files - waiting on user.
+- Deleted the now-stale `Shaurya_Agarwal_Resume.tex` / `.html` (user's call, after archiving was attempted first). Both are still recoverable from git history (last version before commit `633964a`) if ever needed. The `.tex`'s old uncommitted bullet-tightening edit was discarded with it. **Resume workflow from now on:** edit in Google Docs, export PDF, replace `Shaurya_Agarwal_Resume.pdf`, then sync portfolio text if content changed.
 - **Open:** B2C wording in the resume's Midas summary line - flagged twice, user's call.
 
 ### 2026-09-21
