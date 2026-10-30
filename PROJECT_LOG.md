@@ -75,6 +75,14 @@ This file is the single source of truth for what's been done, what's open, and h
   - Signify: 5 bullets with mixed ownership verbs, B2B/B2C summary line kept; a more human summary-line wording was offered, user's pick not recorded.
   - Chalo (5 bullets): keywords grounded in the repo's docs (PRD, personas, P0/P1/P2, success metrics, competitive analysis, trade-off decisions). Competitor names left off the resume by user's choice. Bullet 4 says "built a working app ... web demo live" and **"designed"** the unproven features (PTT, emergency detection, KYC, ratings), because the PRD says PTT has never been validated on real devices and emergency detection is not built.
   - **Follow-up:** after the real-phone PTT test passes (Chalo repo), change "designed" to "built" for push-to-talk on the resume. Success metrics are targets, not measured results, so keep the verb "defined".
+- **Final sync of everything decided today (one commit):**
+  - New resume PDF swapped into the repo (`fe58f9d`): one page, 4 Signify bullets (KPI-frameworks bullet dropped), 3 Midas bullets, 4 Chalo bullets, user kept the Supply Chain Analytics project and "Bachelors" as is. Verified live (223,023 bytes).
+  - Site Experience cards in all 3 variants synced to the PDF: Midas now has the settlement-rules bullet between TradeFlow and F&O; Signify has the new Corporate Card ("Drove", Agile/Scrum, PRDs, user stories, acceptance criteria), Hue ("go-to-market"), EOD root-cause, and data platform bullets, plus the existing Supply Chain Analytics bullet. The resume summary lines (B2B/B2C etc.) have no slot on the site, so they are resume-only.
+  - Type 3's About bio and heading now match index ("I figure things out, then make them simple" + the personal intro).
+  - README About blurb rewritten (was "aspiring ... 3 years ... led end-to-end").
+  - `agents/content/bio-copy.md` and `experience-bullets.md` now start with a CURRENT COPY block; the old drafts below it are marked historical.
+  - Chalo card on the site and the case study were NOT changed today (nothing decided).
+  - **Still open:** "How I think" block for the Kraftshala, Nuclei and Alcovia assignments (company names OK, home-page section linking to one page each); teardown line on the resume (undecided); when real-phone PTT passes, change "designed" to "built" on the resume; `flutter_bootstrap.js` phone-frame edit is lost on the next Flutter web build.
   - Supply Chain Analytics Dashboard entry dropped from Projects (it is Signify work, covered by Signify bullet 5). Teardown line optional, undecided.
 
 ### 2026-09-29

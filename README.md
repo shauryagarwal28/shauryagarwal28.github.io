@@ -8,7 +8,7 @@
 
 ## About
 
-I'm an aspiring Product Manager and Business Analyst with 3 years of experience at Signify (Philips Lighting), where I led the Corporate Card product end-to-end, from user discovery across 200+ employees to engineering coordination and launch. This portfolio is how I demonstrate PM thinking: structured teardowns, 0-to-1 feature designs, go-to-market strategies for products I use and care about, and Chalo, a personal app project I'm building end to end.
+I'm an Associate Product Manager at Midas Global Securities, with a background in business analysis at Signify (Philips Lighting). I like figuring things out and then making them simple. This portfolio is how I show my PM thinking: structured teardowns, 0-to-1 feature designs, go-to-market strategies for products I use, and Chalo, a group riding app I'm building end to end.
 
 ---
 

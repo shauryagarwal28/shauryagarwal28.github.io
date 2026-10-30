@@ -1,5 +1,16 @@
 # Bio Copy
 
+> **CURRENT COPY (updated 2026-10-30). Everything below this block is historical drafts from earlier versions and is out of date ("aspiring", "2.5 years", "led Corporate Card end-to-end"). Do not reuse it.**
+>
+> **Hero (index, type 2):** I'm an Associate Product Manager who makes complicated things simple. I find what's actually broken, work out the simplest fix, and build it, from corporate card workflows at Signify to a trading app at Midas. (No numbers, by choice. Hero label stays "Product Manager" as target-role positioning.)
+>
+> **About heading:** I figure things out, then make them simple.
+>
+> **About body (index, type 3):** personal intro, not a list of achievements. Order: likes figuring things out; follows basketball, football, cricket, F1, UFC and tennis (the why and the how), bike and running; Signify business analysis; Associate PM at Midas building a bookkeeping app for client trades; Chalo started from problems noticed while riding; happiest helping people solve problems. Facts to keep true: no fantasy football (user only follows sports), TradeFlow has no users and is in-house.
+>
+> **Rules:** no em dashes; plain human tone; ownership wording kept honest (Signify is a mix of Drove / Partnered / Identified / Built, not "Owned/Led everything").
+
+
 ## Approved Full Bio
 
 The following is the confirmed, approved bio. Do not alter without explicit user approval.

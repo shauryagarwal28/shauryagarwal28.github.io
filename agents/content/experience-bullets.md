@@ -1,5 +1,14 @@
 # Experience Bullets
 
+> **CURRENT BULLETS (updated 2026-10-30, match `Shaurya_Agarwal_Resume.pdf`). Everything below is historical and out of date.**
+>
+> **Midas (Associate PM, Jan 2026 - Present):** (1) Own product strategy and execution for TradeFlow, an in-house bookkeeping app built to record Rs 50Cr+ in trades across 30+ clients and track funding, interest, commission and profit share through to a settlement statement. (2) Defined the settlement rules with a trader, validated with 100+ automated tests and end-to-end scenarios, fixing data issues found along the way. (3) Lead product workflows for F&O trading and equity investments across 100+ transactions per day and Rs 10 Lakh+ in daily trading activity. TradeFlow has no users (the firm uses it) and is still in testing: say "built to record", never "rollout", "users" or "proprietary trades".
+>
+> **Signify BA (Jul 2023 - Dec 2025):** (1) Drove requirements for the Corporate Card product in an Agile/Scrum team (PRDs, user stories, acceptance criteria, roadmap), 200+ employees, 30% fewer manual workflows. (2) Partnered with the Philips Hue product team on go-to-market for a 50K+ user base. (3) Identified recurring EOD job failures through root-cause analysis and implemented fixes, errors down 90%, supported 10+ ICS audits a year. (4) Built an end-to-end data platform for the global street-light network (APIs, Python, Snowflake, Power BI), iterating around regional data gaps. Site card also keeps the Supply Chain Analytics dashboard bullet. The KPI-frameworks bullet was dropped from the resume.
+>
+> **Chalo (resume project):** end-to-end product, discovery and personas, PRD with user stories and acceptance criteria, P0/P1/P2, success metrics (targets, not measured), "built a working Flutter app" for what runs and "designed" for PTT, emergency detection, KYC and ratings until the real-phone PTT test passes.
+
+
 ## Source: Shaurya_Agarwal_Resume.pdf
 
 All bullets below are sourced from the resume and appear verbatim (or near-verbatim) across all three portfolio variants.
